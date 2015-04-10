@@ -7,6 +7,12 @@ var AnguishDonationPage = new function AnguishDonationPage()
 	
 	this.selectedItems = {};
 	
+	this.cachedJSON = {};
+	
+	this.productCost = { };
+	
+	this.currentPoints = 0;
+	
 	var instance = this;
 		
 	AnguishDonationPage.getInstance = function()
@@ -17,29 +23,79 @@ var AnguishDonationPage = new function AnguishDonationPage()
 	/**
 	 * Init handling
 	 */
-	this.init = function(){
+	this.init = function(points){
+		this.currentPoints = points;
 		this._createTabs();
 		var $this = this;
-		this._getDonationJSON('0', function(obj) {  $this._renderPage(obj) });
+		this._getDonationJSON('0', function(obj) {  $this.cachedJSON['0'] = obj; $this._renderPage(obj) });
 	}
 	
+	
+	this.purchaseItems = function(){
+		
+		//TODO: SEND REQUEST TO API.PHP THAT CONTAINS AN ARRAY OF PRODUCTIDS
+		
+	//var toBeSent = JSON.Stringfy(this.selectedItems);
+		
+		
+		
+	}
+
+	this.updateCurrentAvailablePoints = function(cost, type){
+		
+		
+		if(type == 'add')
+			this.currentPoints = this.addToTotalCost(cost);
+		else
+			this.currentPoints = this.removeFromTotal(cost);
+		
+		console.log(this.currentPoints);	
+			
+		$(".apoint").empty().html(this.currentPoints);
+	}
 	/*
 	 * Select Radios already selected 
 	 */
 	this.selectRadio = function(e){
 		var targ = $(e.currentTarget);
 		var $this = this;
-		var itemId = targ.attr("itemId");
+		var productId = targ.attr("productId");
+		var productCost = parseInt($this.productCost[productId]);
 		
+		var type = 'add';
 		/** We are unselecting **/
-		if($this.selectedItems[itemId]){
-			delete $this.selectedItems[itemId];
+		if($this.selectedItems[productId]){
+			type = 'remove';
+			delete $this.selectedItems[productId];
 			targ.prop("checked", false);
 		} else {
-			$this.selectedItems[itemId] = true;
-			targ.prop("checked", true);
+			/** We can buy this product **/
+			if($this.canBuyThisItem(productCost)){
+				$this.selectedItems[productId] = true;
+				targ.prop("checked", true);
+			} else {
+				alert("You need "+ -(this.currentPoints - productCost)  +" more donator points to purchase this item!");
+				targ.prop("checked", false);
+				return;
+			}			
 		}
+		
+		$this.updateCurrentAvailablePoints(productCost, type);
+}
+	
+	
+	this.addToTotalCost = function(productCost){
+		return parseInt(this.currentPoints - productCost);
 	}
+	
+	this.removeFromTotal = function(productCost){
+		return parseInt(this.currentPoints + productCost);
+	}
+	
+	this.canBuyThisItem = function(productCost){
+		return (productCost <= this.currentPoints);
+	}
+	
 	
 	/** Reselect radio buttons upon rending **/
 	this._reSelectRadios = function(){
@@ -49,7 +105,7 @@ var AnguishDonationPage = new function AnguishDonationPage()
 		for (var key in data) {
 	  	if (data.hasOwnProperty(key)) {
 	  		
-	    	var item = $('.donationTable').find(".radio[itemId='"+key+"']");
+	    	var item = $('.donationTable').find(".radio[productId='"+key+"']");
 	   	
 	   		if(item)
 	   			item.prop("checked", true);
@@ -71,15 +127,18 @@ var AnguishDonationPage = new function AnguishDonationPage()
 		
 		var row = create("tr").addClass("row");
 		
-			var itemId = obj.itemId;
+			var productId = obj.productId;
+			var productCost = obj.cost;
 			
-		  var radioButton = create("input").addClass("radio").attr("type", "radio").attr("itemId", itemId).click(function(e) { $this.selectRadio(e);  });
+			$this.productCost[productId] = productCost;
+			
+		  var radioButton = create("input").addClass("radio").attr("type", "radio").attr("productId", productId).click(function(e) { $this.selectRadio(e);  });
 		  
 		  //$("#radio_1").prop("checked", true)
 			row.append(create("td").addClass("buy").append(radioButton));
 			row.append(create("td").addClass("image").append(create("img").attr("src", obj.picture)));
 			row.append(create("td").addClass("name").append(obj.name));
-			row.append(create("td").addClass("cost").append(obj.cost));
+			row.append(create("td").addClass("cost").append(productCost));
 
 			table.append(row);
 		});
@@ -101,7 +160,7 @@ var AnguishDonationPage = new function AnguishDonationPage()
 		target.addClass("active");
 
 
-		this._getDonationJSON(type, function(obj) {  $this._renderPage(obj) });
+		this._getDonationJSON(type, function(obj) { $this.cachedJSON[type] = obj; $this._renderPage(obj) });
 
 	};
 	
@@ -132,7 +191,11 @@ var AnguishDonationPage = new function AnguishDonationPage()
 
 		var url = "/website/api.php?action=getItems&category="+type
 		
-		$.get(url, callback);
+		if(!this.cachedJSON[type]){
+				$.get(url, callback);
+		} else { // call the cached json 
+			callback(this.cachedJSON[type]);
+		}
 	};
 	
 	/**

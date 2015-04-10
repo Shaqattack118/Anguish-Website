@@ -18,11 +18,14 @@ $header->append('</head>
 	<div class="logo-inner"></div>
 	</div>
 	<nav class="navigation">');
+	
 for($i = 0; $i < count($navigation); $i++)
-{
-	if($i != 2) $header->append('<a href="'.$navigation[$i][1].'" class="navigation-item">'.$navigation[$i][0].'</a>');
-	else $header->append('<a href="'.$navigation[$i][1].'" class="navigation-item play">'.$navigation[$i][0].'</a>')
-
+{ 
+	if($i != 2){
+		$header->append('<a href="'.$navigation[$i][1].'" class="navigation-item">'.$navigation[$i][0].'</a>');
+	}else{
+		$header->append('<a href="'.$navigation[$i][1].'" class="navigation-item play">'.$navigation[$i][0].'</a>');
+	}
 }
 $header->append('</nav>
 	</header>');

@@ -11,10 +11,10 @@
 	 /** POSt routes **/
 		if(isset($_POST) && !empty($_POST)) {
     
- 	  	$action = $_POST['Action'];
+ 	  	$action = $_POST['action'];
    
 		   switch($action) {
-		       // case 'getItems': getItems(stripslashes($_POST['JSON'])); break;
+		      case 'buyItems': getItems(stripslashes($_GET['category'])); break;
 				}
 		}
 		
@@ -32,6 +32,11 @@
 		
 		
 		
+		function buyItems($json){
+			//TODO: L
+			
+		}
+		
 		/**
 		 * Get donation items
 		 */
@@ -46,7 +51,7 @@
 				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 				
 			
-				$select = "SELECT itemId, picture, name, cost, amount FROM donation_items WHERE category = :category";
+				$select = "SELECT productId, itemId, picture, name, cost, amount FROM donation_items WHERE category = :category";
 				
 				$stmt = $conn->prepare($select);
 				$stmt->execute(array(':category' => $json));

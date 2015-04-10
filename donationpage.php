@@ -3,18 +3,17 @@ ini_set('display_errors',1);
 ini_set('display_startup_errors',1);
 error_reporting(-1);
 
-const TO_ROOT = "./";
-const ASSETS = TO_ROOT . "bin/php/";
+define("TO_ROOT", "./");
+define("ASSETS", TO_ROOT . "bin/php/");
 
 require_once(ASSETS . 'data.php');
 require_once(ASSETS . 'StringBuilder.php');
 
 require_once(ASSETS . 'header.php');
 require_once(ASSETS . 'footer.php');
-require_once('ipbwi/ipbwi.inc.php');
+require_once(TO_ROOT . 'ipbwi/ipbwi.inc.php');
 
-$header->getString();
-
+$header->displayString();
 
 $isLoggedIn = $ipbwi->member->isLoggedIn();
 $userInfo = $ipbwi->member->info();
@@ -45,34 +44,22 @@ $userInfo = $ipbwi->member->info();
 			<aside class="right-container">
                 <div class="box">
                     <header>
-                        <h2 class= "storePanel">Logged in as </h2>
+					<?php
+					if($isLoggedIn){  
+						echo "<h2 class= \"storePanel\">Logged in as ".$userInfo['name']."</h2>";
+					} else {
+						echo "<h2 class= \"storePanel\">Logged in as Guest </h2>";
+					}
+					?>
                     </header>
 						<ul class = "pointUL">  
 						<?php 
 							if($isLoggedIn){
-								try {
-										$conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-										$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-										$select = "SELECT memberId, points FROM donation_users WHERE memberId = :memberId";
-										$stmt = $conn->prepare($select);
-										$stmt->execute(array(':memberId' => $userInfo['member_id']));
-
-										$rows = $stmt->fetchAll();
-										$num_rows = count($rows);
-													
-										if($num_rows > 0){
-											foreach ($rows as $r) {
-												echo "<li>Total: 0 </li>";
-												echo "<li>Available Points: <strong class=\"apoint\">0"+ $r['points'] +"</strong></ </li>";
-											}
-										} else {
-												echo "<li>Total: 0 </li>";
-												echo "<li>Available Points: <strong class=\"apoint\">0</strong></li>";
-										}
-									} catch(PDOException $e) {
-										echo "Error: " . $e->getMessage();
-									}
-									$conn = null;
+								echo "<li>Available Points: <strong class=\"apoint\">". $userInfo['donator_points_current'] ."</strong></li>";
+								echo "<li>Total Overall Points: " . $userInfo['donator_points_overall'] . "</li>";
+							} else {
+								echo "<li>Available Points: <strong class=\"apoint\">0</strong></li>";
+								echo "<li>Total Overall Points: 0</li>";
 							}
 						?>				
 
@@ -105,27 +92,7 @@ $userInfo = $ipbwi->member->info();
 <script src="js/util.js"></script>
 <script src="js/AnguishDonationPage.js"></script>
 <script>
-	AnguishDonationPage.getInstance().init();
+	AnguishDonationPage.getInstance().init(<?=$userInfo['donator_points_current']?>);
 </script>
-<script>
-var data = <?php echo json_encode($ipbwi->member->info()); ?> ;
-
-var isLoggedIn = false;
-var loggedInAs = "";
-
-
-if(data){
-	loggedInAs = data.name;
-	isLoggedIn = true;
-} 
-	
-
-if(isLoggedIn){
-	$('.storePanel').html("Logged in as "+loggedInAs);
-} else {
-	$('.storePanel').html("Not Logged in");
-}
-</script>
-
 </body>
 </html>
