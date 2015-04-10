@@ -81,7 +81,6 @@ body {
 .body-container {
     background: url(../img/body.png) no-repeat;
     width: 997px;
-    height: 1410px;
     margin: -40px auto 0;
     position: relative;
     left: 5px;
@@ -176,6 +175,38 @@ body {
     opacity: 0.8;
 }
 
+table {
+	 border-collapse: collapse; 
+}
+
+table.donationTable{
+	position: relative;
+	left: 15%;
+}
+
+td {
+	border:1px solid #273548;
+	box-shadow: 0.5px 1px 2px rgba(0, 0, 0, 0.5);
+	text-align:center; 
+    vertical-align:middle;
+}
+td.image{
+	width: 125px;
+}
+
+td.item{
+	width: 125px;
+}
+
+td.cost{
+	width: 125px;
+}
+
+tr {
+	border:1px solid #273548;
+	box-shadow: 0.5px 1px 1px rgba(0, 0, 0, 0.5);
+}
+
 .content-container .left-container {
     width: 610px;
     float: left;
@@ -184,6 +215,11 @@ body {
 .content-container .right-container {
     width: 276px;
     float: right;
+}
+.content-container .center-container {
+	position: relative;
+     width: 610px;
+	 left: 17%;
 }
 
 .box {
@@ -197,7 +233,9 @@ body {
     text-shadow: 1px 1px 1px rgba(53, 60, 76, 0.43);
     margin-bottom: 10px;
 }
-
+.box.donation {
+	background: none !important;
+}
 .box header {
     background: url(../img/header.png) no-repeat;
     width: 100%;

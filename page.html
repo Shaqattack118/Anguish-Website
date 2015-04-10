@@ -2,8 +2,8 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>Test</title>
-    <link href="bin/css/global.css" rel="stylesheet" type="text/css" />
+    <title>donations</title>
+    <link href="css/global.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <div class="container main-container">
@@ -16,19 +16,33 @@
             <a href="#" class="navigation-item">Community</a>
             <a href="#" class="navigation-item play"></a>
             <a href="#" class="navigation-item">Vote</a>
-            <a href="#" class="navigation-item">Donations</a>
+            <a href="#" class="navigation-item active">Donations</a>
         </nav>
     </header>
     <div class="body-container" role="main">
-        <div class="container">
-            <!-- add content here -->
-        </div>
+          <div class="content-container clear-fix">
+            <div class="center-container">
+                <div class="box donation">
+                    <header>
+                        <h2>Donation Prizes</h2>
+                    </header>
+					<table class ="donationTable">
+						<tr>
+						<td class ="image" align="center"><strong>Image</strong></td>
+						<td class ="item" align="center"><strong>Item Name</strong></td>
+						<td class ="cost" align="center"><strong>Cost</strong></td>
+						</tr>
+					</table>
+				</div>
+      
+            </div>
+		</div>
         <footer class="bottom-footer">
             <a href="http://art0fray.deviantart.com" target="_blank">
-                <img src="bin/images/ray.png" alt="Art by Ray" />
+                <img src="img/ray.png" alt="Art by Ray" />
             </a>
             <p class="copyright">
-                <span>Designed by <a href="http://art0fray.deviantart.com" target="_blank">Ray</a>. Written by <a href="http://apachenick.me" target="_blank">Apache Ah64</a>.</span>
+                <span>Designed by <a href="http://art0fray.deviantart.com" target="_blank">Ray</a></span>
                 <br />
                 <span>All Rights Reserved. © 2014 | Youserver.com</span>
             </p>
@@ -37,7 +51,93 @@
         </footer>
     </div>
 </div>
-<script src="bin/js/neo.min.js" rel="script" type="text/javascript"></script>
-<script src="bin/js/global.js" rel="script" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+<script>
+	function create(elemName)
+	{
+		return $(document.createElement(elemName));
+	}
+</script>
+<script>
+	var test = [
+					{
+						'image' : 'http://www.nearreality.com/addons/static/32.png',
+						'name' : 'Promethium Armour Set',
+						'cost' : '50',
+						'amt' : '1',
+						'itemid' : '80'
+					},{
+						'image' : 'http://www.nearreality.com/addons/static/32.png',
+						'name' : 'Promethium Armour Set',
+						'cost' : '50',
+						'amt' : '1',
+						'itemid' : '80'
+					},{
+						'image' : 'http://www.nearreality.com/addons/static/32.png',
+						'name' : 'Promethium Armour Set',
+						'cost' : '50',
+						'amt' : '1',
+						'itemid' : '80'
+					},{
+						'image' : 'http://www.nearreality.com/addons/static/32.png',
+						'name' : 'Promethium Armour Set',
+						'cost' : '50',
+						'amt' : '1',
+						'itemid' : '80'
+					},{
+						'image' : 'http://www.nearreality.com/addons/static/32.png',
+						'name' : 'Promethium Armour Set',
+						'cost' : '50',
+						'amt' : '1',
+						'itemid' : '80'
+					},{
+						'image' : 'http://www.nearreality.com/addons/static/32.png',
+						'name' : 'Promethium Armour Set',
+						'cost' : '50',
+						'amt' : '1',
+						'itemid' : '80'
+					},{
+						'image' : 'http://www.nearreality.com/addons/static/32.png',
+						'name' : 'Promethium Armour Set',
+						'cost' : '50',
+						'amt' : '1',
+						'itemid' : '80'
+					},{
+						'image' : 'http://www.nearreality.com/addons/static/32.png',
+						'name' : 'Promethium Armour Set',
+						'cost' : '50',
+						'amt' : '1',
+						'itemid' : '80'
+					},{
+						'image' : 'http://www.nearreality.com/addons/static/32.png',
+						'name' : 'Promethium Armour Set',
+						'cost' : '50',
+						'amt' : '1',
+						'itemid' : '80'
+					},{
+						'image' : 'http://www.nearreality.com/addons/static/32.png',
+						'name' : 'Promethium Armour Set',
+						'cost' : '50',
+						'amt' : '1',
+						'itemid' : '80'
+					}
+				];
+
+		var table = $('.donationTable');
+		// HERE WE WILL MOVE ALL THIS CODE TO A SEPERATE FOLDER AND USE AJAX TO CALL THE API FOR ITEMS.
+		_.each(test, function(obj){
+			var row = create("tr").addClass("row");
+			
+			row.append(create("td").addClass("image").append(create("img").attr("src", obj.image)));
+			row.append(create("td").addClass("name").append(obj.name));
+			row.append(create("td").addClass("cost").append(obj.cost));
+			
+			table.append(row);
+		});
+	
+</script>
+
+
 </body>
 </html>
