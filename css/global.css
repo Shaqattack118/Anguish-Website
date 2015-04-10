@@ -204,6 +204,10 @@ td.cost{
 	width: 125px;
 }
 
+td.buy{
+	width: 75px;
+}
+
 tr {
 	border:1px solid #273548;
 	box-shadow: 0.5px 1px 1px rgba(0, 0, 0, 0.5);
@@ -237,7 +241,7 @@ tr {
 }
 .box.donation {
 	background: none !important;
-	min-height: 550px
+	min-height: 850px;
 }
 .box header {
     background: url(../img/header.png) no-repeat;
@@ -538,7 +542,12 @@ input[type="submit"] {
     clear:both;
     content:'';
 }
- 
+
+.pointUL li {  list-style:none; }
+
+.apoint{
+	color: red;
+}
 .tab-links li {
     float:left;
     list-style:none;
