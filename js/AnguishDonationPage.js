@@ -46,14 +46,20 @@ var AnguishDonationPage = new function AnguishDonationPage()
 	}
 	this.loadEvents = function(){
 		var $this = this;
-		$("#purchase").click(function(e) { $this.purchaseItems($this.purchaseCallback) });
+		$("#purchase").click(function(e) {
+				var person = prompt("Please enter the username whom will be recieving these items!", "Who gets these?");
+				if (person != null) 
+				 $this.purchaseItems(person, $this.purchaseCallback) 
+			 
+				}
+			 );
 	}
 	
 	this.purchaseCallback = function(data){
 		console.log(data);
 	}
 	
-	this.purchaseItems = function(callback){
+	this.purchaseItems = function(person, callback){
 		
 		//TODO: SEND REQUEST TO API.PHP THAT CONTAINS AN ARRAY OF PRODUCTIDS
 
@@ -69,7 +75,7 @@ var AnguishDonationPage = new function AnguishDonationPage()
 		
 		var params =  {
 								'action' : 'purchase',
-								'username' : '',
+								'username' : person,
 								'memberId' : this.memberId,
 								'cart' : cart 
 							};
