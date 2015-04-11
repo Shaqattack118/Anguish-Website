@@ -98,7 +98,7 @@ $userInfo = $ipbwi->member->info();
 		 <p style="float: right;"><strong>Total Points:</strong> <span class="totalAmt"> </span></p>
     </div>
     <div class="modal-footer">
-      <a href="#purchase" class="button">Check Out</a>  <!--CHANGED TO "#close"-->
+      <a href="#purchase" id="purchase" class="button">Check Out</a>  <!--CHANGED TO "#close"-->
     </div>
     </div>
   </div>

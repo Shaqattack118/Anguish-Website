@@ -46,7 +46,7 @@ var AnguishDonationPage = new function AnguishDonationPage()
 	}
 	this.loadEvents = function(){
 		var $this = this;
-		$(".buyBtn").click(function(e) { $this.purchaseItems($this.purchaseCallback) });
+		$("#purchase").click(function(e) { $this.purchaseItems($this.purchaseCallback) });
 	}
 	
 	this.purchaseCallback = function(data){
@@ -89,8 +89,6 @@ var AnguishDonationPage = new function AnguishDonationPage()
 		else
 			this.currentPoints = this.removeFromTotal(cost);
 		
-		console.log(this.currentPoints);	
-			
 		$(".apoint").empty().html(this.currentPoints);
 	}
 	/*
