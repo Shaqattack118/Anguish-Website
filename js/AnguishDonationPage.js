@@ -11,6 +11,8 @@ var AnguishDonationPage = new function AnguishDonationPage()
 	
 	this.productCost = { };
 	
+	this.productInfo = { };
+	
 	this.currentPoints = 0;
 	
 	this.isLoggedIn = false;
@@ -110,6 +112,7 @@ var AnguishDonationPage = new function AnguishDonationPage()
 			/** We can buy this product **/
 			if($this.canBuyThisItem(productCost)){
 				$this.selectedItems[productId] = true;
+				$this._updateShoppingCart();
 				targ.prop("checked", true);
 			} else {
 				if($this.isLoggedIn)
@@ -174,6 +177,8 @@ var AnguishDonationPage = new function AnguishDonationPage()
 			var productId = obj.productId;
 			var productCost = obj.cost;
 			
+			$this.productInfo[productId] = obj;
+			
 			$this.productCost[productId] = productCost;
 			
 		  var radioButton = create("input").addClass("radio").attr("type", "radio").attr("productId", productId).click(function(e) { $this.selectRadio(e);  });
@@ -190,6 +195,40 @@ var AnguishDonationPage = new function AnguishDonationPage()
 		
 	};
 	
+	this._renderShoppingItem = function(obj){
+		
+		var list = create("li");
+		
+		var ammount = "1x ";
+		var image = create("img").attr("src", obj.picture);
+		var itemName = create("a").attr("href", "").append(obj.name);
+		var itemCost = create("strong").append(obj.cost);
+		
+		
+		list.append(create("span").append(ammount, image, itemName), itemCost);
+		
+		return list;
+	}
+	
+	this._updateShoppingCart = function(){
+		var shoppingList = $(".shoppingList");
+		
+			shoppingList.empty();
+		
+
+
+			var data = this.selectedItems;
+			var totalCost = 0;
+			for (var key in data) {
+				if (data.hasOwnProperty(key)) {
+					var obj = this.productInfo[key];
+					totalCost += parseInt(obj.cost);
+					shoppingList.append(this._renderShoppingItem(obj));
+				}
+			}
+			
+			$(".totalAmt").html(parseInt(totalCost));
+	}
 	/**
 	 * Tab click event
 	 */
@@ -246,6 +285,7 @@ var AnguishDonationPage = new function AnguishDonationPage()
 	* Render the page
 	*/
 	this._renderPage = function(jsonIn){
+		
 		var json = JSON.parse(jsonIn);
 		this._createRows(json);
 		

@@ -639,4 +639,34 @@ input[type="submit"] {
 #close {
   display: none;
 }
- 
+ .shoppingCart ul{
+         list-style:none;
+         position:relative;
+         display:block;
+  }
+         .shoppingCart li{
+            padding:10px 15px;
+            overflow:hidden;
+            height:auto;
+            background:#fff;
+           text-shadow:0 -1px #fff;
+               -webkit-box-shadow:inset 0 15px 20px #eee;
+                  -moz-box-shadow:inset 0 15px 20px #eee;
+                       box-shadow:inset 0 15px 20px #eee;
+         }
+
+            .shoppingCart li a{
+               color:#495860;
+               text-decoration:none;
+               border-color:#666;
+               border-bottom:1px dotted rgba(0,0,0,0.6);
+            }
+
+            .shoppingCart li span{
+               display:block;
+               float:left;
+            }
+            .shoppingCart li strong{
+               display:block;
+               float:right;
+            } 

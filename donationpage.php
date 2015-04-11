@@ -89,15 +89,16 @@ $userInfo = $ipbwi->member->info();
 <div class="modal" id="modal-one" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-header">
-      <h2>Your Shopping Cart</h2>
-      <a href="#close" class="btn-close" aria-hidden="true">×</a> <!--CHANGED TO "#close"-->
+      <h2>Your Shopping Cart <a href="#close" style="float: right" class="btn-close" aria-hidden="true">×</a> <!--CHANGED TO "#close"--></h2>
     </div>
-    <div class="modal-body">
-      <p>Shopping cart here</p>
+    <div class="modal-body shoppingCart">
+		<ul class="shoppingList">
+		<h2 class="emptyTxt">Your Shopping Cart is empty :( </h2>
+         </ul>
+		 <p style="float: right;"><strong>Total Points:</strong> <span class="totalAmt"> </span></p>
     </div>
     <div class="modal-footer">
-      <a href="#purchase" class="btn">Check-Out</a>  <!--CHANGED TO "#close"-->
-	  <a href="#continue" class="btn">Continue Shopping</a> 
+      <a href="#purchase" class="button">Check Out</a>  <!--CHANGED TO "#close"-->
     </div>
     </div>
   </div>
