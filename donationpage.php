@@ -24,9 +24,7 @@ $userInfo = $ipbwi->member->info();
             <div class="left-container">
                 <div class="box donation">
                     <header>
-                        <h2>Donation Prizes 
-
-		  </h2>
+                        <h2>Donation Prizes</h2>
                     </header>
 					<ul class="tab-links">
 
@@ -40,6 +38,7 @@ $userInfo = $ipbwi->member->info();
 						</tr>
 					</table>
 				</div>
+
             </div>
 			<aside class="right-container">
                 <div class="box">
@@ -57,6 +56,7 @@ $userInfo = $ipbwi->member->info();
 							if($isLoggedIn){
 								echo "<li>Available Points: <strong class=\"apoint\">". $userInfo['donator_points_current'] ."</strong></li>";
 								echo "<li>Total Overall Points: " . $userInfo['donator_points_overall'] . "</li>";
+								echo "<li><a href=\"#modal-one\" class=\"button cartBtn\">View Cart</a></li>";
 							} else {
 								echo "<li>Available Points: <strong class=\"apoint\">0</strong></li>";
 								echo "<li>Total Overall Points: 0</li>";
@@ -85,6 +85,23 @@ $userInfo = $ipbwi->member->info();
             <p class="links">
                 <a href="#">home</a> | <a href="#">community</a> | <a href="#">play now</a> | <a href="#">vote</a> | <a href="#">donations</a></p>
         </footer>
+		
+<div class="modal" id="modal-one" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-header">
+      <h2>Your Shopping Cart</h2>
+      <a href="#close" class="btn-close" aria-hidden="true">×</a> <!--CHANGED TO "#close"-->
+    </div>
+    <div class="modal-body">
+      <p>Shopping cart here</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#purchase" class="btn">Check-Out</a>  <!--CHANGED TO "#close"-->
+	  <a href="#continue" class="btn">Continue Shopping</a> 
+    </div>
+    </div>
+  </div>
+</div>
     </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script> 
@@ -92,7 +109,10 @@ $userInfo = $ipbwi->member->info();
 <script src="js/util.js"></script>
 <script src="js/AnguishDonationPage.js"></script>
 <script>
-	AnguishDonationPage.getInstance().init(<?=$userInfo['donator_points_current']?>);
+	var isLoggedIn = <?= $isLoggedIn ?>;
+	var donatorPoints = <?= $userInfo['donator_points_current'] ?>;
+	var memberId = <?= $userInfo['member_id'] ?>;
+	AnguishDonationPage.getInstance().init(isLoggedIn, memberId, donatorPoints);
 </script>
 </body>
 </html>

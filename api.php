@@ -12,11 +12,13 @@ error_reporting( - 1);
 if(isset($_POST) && !empty($_POST))
 {
 
+
 	$action = $_POST['action'];
+
 
 	switch($action)
 	{
-		case 'buyItems': getItems(stripslashes($_GET['category'])); break;
+		case 'purchase': purchase($_POST); return;
 	}
 }
 
@@ -29,28 +31,43 @@ if(isset($_GET) && !empty($_GET))
 	switch($action)
 	{
 		case 'getItems': getItems(stripslashes($_GET['category'])); break;
-		case 'purchase':
-			$items = json_decode($_POST['items']);
-			$points = $_POST['points'];
-			$usrname = $_POST['name'];
-			
-			//UPDATE DBS
-			
 	}
 
 }
 
 
+function redemationHistory($post){
+	
+}
+
+function purchaseHistory($post){
+	
+	
+}
 
 
-function buyItems($json)
+function purchase($post)
 {
-	//TODO: L
-	$cart = json_decode($json);
+	$cart = $post['cart'];
+	$username = $post['username'];
+	$memberId = $post['memberId'];
 	
-	//query UPDATE `members` SET `donator_points_current`=[value-77] WHERE `member_id` = ?
 	
-
+	/** Select products and make sure this user has enough tokens **/
+	
+	
+	/** remove points from User **/
+	
+	
+	/** give items **/
+	
+	
+	
+	/** success message **/
+	
+	
+	
+	print_r($cart);
 }
 
 /**

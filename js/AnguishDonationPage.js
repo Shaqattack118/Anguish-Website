@@ -13,6 +13,8 @@ var AnguishDonationPage = new function AnguishDonationPage()
 	
 	this.currentPoints = 0;
 	
+	this.isLoggedIn = false;
+	this.memberId = -1;
 	var instance = this;
 		
 	AnguishDonationPage.getInstance = function()
@@ -23,21 +25,57 @@ var AnguishDonationPage = new function AnguishDonationPage()
 	/**
 	 * Init handling
 	 */
-	this.init = function(points){
+	this.init = function(isLoggedIn, memberId,  points){
 		this.currentPoints = points;
+		this.isLoggedIn = isLoggedIn;
+		this.memberId = memberId;
 		this._createTabs();
 		var $this = this;
 		this._getDonationJSON('0', function(obj) {  $this.cachedJSON['0'] = obj; $this._renderPage(obj) });
+		
+		this.loadEvents();
 	}
 	
+	this._updateBuyText = function(count){
+		if(count != 0){
+			$(".cartBtn").html("("+count+") View Cart");
+		} else
+			$(".cartBtn").html("View Cart");
+	}
+	this.loadEvents = function(){
+		var $this = this;
+		$(".buyBtn").click(function(e) { $this.purchaseItems($this.purchaseCallback) });
+	}
 	
-	this.purchaseItems = function(){
+	this.purchaseCallback = function(data){
+		console.log(data);
+	}
+	
+	this.purchaseItems = function(callback){
 		
 		//TODO: SEND REQUEST TO API.PHP THAT CONTAINS AN ARRAY OF PRODUCTIDS
+
+		var data = this.selectedItems;
 		
-	//var toBeSent = JSON.Stringfy(this.selectedItems);
+		var cart = [];
 		
+		for (var key in data) {
+	  	if (data.hasOwnProperty(key)) {
+	  		cart.push(key);
+		  }
+		}
 		
+		var params =  {
+								'action' : 'purchase',
+								'username' : '',
+								'memberId' : this.memberId,
+								'cart' : cart 
+							};
+							
+		var url = "/website/api.php";
+		
+		console.log(params);
+		$.post(url, params, callback);
 		
 	}
 
@@ -74,13 +112,19 @@ var AnguishDonationPage = new function AnguishDonationPage()
 				$this.selectedItems[productId] = true;
 				targ.prop("checked", true);
 			} else {
-				alert("You need "+ -(this.currentPoints - productCost)  +" more donator points to purchase this item!");
+				if($this.isLoggedIn)
+					alert("You need "+ -(this.currentPoints - productCost)  +" more donator points to purchase this item!");
+				else
+					alert("You need login on the forums to purchase items!");
+					
 				targ.prop("checked", false);
 				return;
 			}			
 		}
 		
 		$this.updateCurrentAvailablePoints(productCost, type);
+		
+		$this._updateBuyText(Object.size($this.selectedItems));
 }
 	
 	
