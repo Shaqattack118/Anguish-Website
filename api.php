@@ -35,6 +35,8 @@ if(isset($_GET) && !empty($_GET))
 
 	switch($action)
 	{
+		case 'getPurchaseHistory': getPurchaseHistory(stripslashes($_GET['sessionId']));
+		
 		case 'getItems': getItems(stripslashes($_GET['category'])); break;
 	}
 
@@ -45,12 +47,6 @@ function redemationHistory($post){
 	
 }
 
-function purchaseHistory($post){
-	
-
-				
-	
-}
 
 /** Get Tokens for member Id **/
 function getTokens($memberId){
@@ -122,7 +118,7 @@ function givePlayerItem($json){
 function purchaseItemHistoryInsert($json){
 	$dbname     = "testDB";
 	$conn      = new PDO("mysql:host=".servername.";dbname=$dbname", username, password);
-	$select  = "INSERT INTO `donation_transactions`(`memberId`, `username`, `productId`, `amount`, `price`, `transactionId`, `boughtdate`) VALUES (:memberId,:username,:productId,:amount,:price,:transactionId,now())";
+	$select  = "INSERT INTO `donation_transactions`(`memberId`, `username`, `productId`, `amount`, `price`, `transactionId`, `boughtdate`) VALUES (:memberId,:username,:productId,:amount,:price,:transactionId, sysdate(3))";
 	$stmt   = $conn->prepare($select);
 
 	$stmt->execute($json);
@@ -131,17 +127,66 @@ function purchaseItemHistoryInsert($json){
  	
 }
 
+function getPurchaseHistory($sessionId)
+{
+	
+	$memberId = getMemberIdBySessionId($sessionId);
+
+	$dbname     = "testDB";
+	$conn      = new PDO("mysql:host=".servername.";dbname=$dbname", username, password);
+	$select  = "	SELECT username,	productId, 	amount, 	price, 	boughtdate, 	transactionId FROM `donation_transactions` where memberId = :memberId order by boughtdate";
+
+	$stmt     = $conn->prepare($select);
+	$stmt->execute(array(':memberId'=> $memberId));
+
+	$rows = $stmt->fetchAll();
+
+ 	$conn = null;
+ 	
+	die(json_encode($rows));
+
+}
+/**
+ * Select memberId by SessionId
+ **/
+function getMemberIdBySessionId($sessionId){
+
+	$dbname   = "forums";
+	$conn      = new PDO("mysql:host=".servername.";dbname=$dbname", username, password);
+	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  $select  = "SELECT member_id FROM `sessions` where id = :sessionId";
+ 
+
+	$stmt   = $conn->prepare($select);
+	$stmt->execute(array(':sessionId'=> $sessionId));
+
+	$rows = $stmt->fetchAll();
+
+	$conn = null;
+	
+		/** Invalid Session Id **/
+	if(empty($rows))
+				die(returnMessage('Invalid Session Id', 460));
+				
+				
+				
+	return $rows[0]['member_id'];
+}
+
+
 /* purchase Action **/
 function purchase($post)
 {
 	$cart = $post['cart'];
 	$username = $post['username'];
-	$memberId = $post['memberId'];
+	$sessionId = $post['sessionId'];
+	
+	$memberId = getMemberIdBySessionId($sessionId);
 	
 	/** no username **/
 	if (empty($username))
 			die(returnMessage('Please enter a username!', 450));
-			
+
 	$currentTokens = getTokens($memberId);
 	$productArr = getItemsById($cart);
 	

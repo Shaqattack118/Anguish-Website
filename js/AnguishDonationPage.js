@@ -21,7 +21,8 @@ var AnguishDonationPage = new function AnguishDonationPage()
 	this.currentPoints = 0;
 	
 	this.isLoggedIn = false;
-	this.memberId = -1;
+	
+	this.sessionId = -1;
 	
 	var instance = this;
 		
@@ -33,10 +34,10 @@ var AnguishDonationPage = new function AnguishDonationPage()
 	/**
 	 * Init handling
 	 */
-	this.init = function(isLoggedIn, memberId,  points){
+	this.init = function(isLoggedIn, sessionId,  points){
 		this.currentPoints = points;
 		this.isLoggedIn = isLoggedIn;
-		this.memberId = memberId;
+		this.sessionId = sessionId;
 		this._createTabs();
 		var $this = this;
 		this._getDonationJSON('0', function(obj) {  $this.cachedJSON['0'] = obj; $this._renderPage(obj) });
@@ -60,11 +61,16 @@ var AnguishDonationPage = new function AnguishDonationPage()
 	this.loadEvents = function(){
 		var $this = this;
 		$("#purchase").click(function(e) {
+			
 				var person = prompt("Please enter the username whom will be recieving these items!", "Who gets these?");
 				if (person != null) 
 				 $this.purchaseItems(person, $this.purchaseCallback);
 				}
 			 );
+			 
+			 
+			 
+		$(".paymentHistory").click(function(e) { $this._getPurchaseHistory();});
 	}
 	
 	/**
@@ -113,7 +119,7 @@ var AnguishDonationPage = new function AnguishDonationPage()
 		var params =  {
 								'action' : 'purchase',
 								'username' : person,
-								'memberId' : this.memberId,
+								'sessionId' : this.sessionId,
 								'cart' : cart 
 							};
 
@@ -234,6 +240,74 @@ var AnguishDonationPage = new function AnguishDonationPage()
 		
 	};
 	
+	/** Render purchase table row **/
+	this._renderPurchaseTableRow = function(table, obj){
+		
+		var transId = obj.transactionId;
+		//create("tr").addClass("header");
+		
+		
+	}
+	
+	/**
+	 *  Will render a table that is collapseable in a modal
+	 */
+	this._renderPurchaseHistory = function(obj){
+		
+
+/**
+		<table border="0">
+  <tr class="header">
+    <td colspan="2">Header</td>
+  </tr>
+  <tr>
+    <td>Transaction ID</td>
+    <td>Product</td>
+    <td>Price</td>
+    <td>Date Bought</td>
+  </tr>
+  <tr>
+    <td>data</td>
+    <td>data</td>
+  </tr>
+  <tr class="header">
+    <td colspan="2">Header</td>
+  </tr>
+  <tr>
+    <td>date</td>
+    <td>data</td>
+  </tr>
+  <tr>
+    <td>data</td>
+    <td>data</td>
+  </tr>
+  <tr>
+    <td>data</td>
+    <td>data</td>
+  </tr>
+</table>
+
+tr {
+    display: none;
+}
+
+tr.header {
+    display: table-row;
+}
+
+$('tr.header').click(function(){
+    $(this).nextUntil('tr.header').css('display', function(i,v){
+        return this.style.display === 'table-row' ? 'none' : 'table-row';
+    });
+});
+
+
+**/
+      
+      
+	}
+	
+	
 	this._renderShoppingItem = function(obj){
 		
 		var list = create("li");
@@ -328,6 +402,25 @@ var AnguishDonationPage = new function AnguishDonationPage()
 			callback(this.cachedJSON[type]);
 		}
 	};
+	
+	
+	
+		this._getPurchaseHistory = function(){
+
+			var url = API_ENDPOINT+"?action=getPurchaseHistory&sessionId="+this.sessionId;
+
+			var callback = function(r){
+				
+				var data = JSON.parse(r);
+				
+				console.log(data);
+				
+			};
+			$.get(url, callback);
+	
+	};
+	
+	
 	
 	/**
 	* Render the page

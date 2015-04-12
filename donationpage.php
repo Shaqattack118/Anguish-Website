@@ -17,7 +17,10 @@ $header->displayString();
 
 $isLoggedIn = $ipbwi->member->isLoggedIn();
 $userInfo = $ipbwi->member->info();
-	
+$ipbwi->session = new publicSessions();
+
+$sessionId = $ipbwi->session->session_id;
+
 ?>
     <div class="body-container" role="main">
           <div class="content-container clear-fix">
@@ -68,7 +71,7 @@ $userInfo = $ipbwi->member->info();
                 </div>
                 <div class="button-links">
                     <a href="#">Purchase Points</a>
-                    <a href="#">Payment History</a>
+                    <a class="paymentHistory">Payment History</a>
                     <a href="#">Redemption History</a>
                     <a href="#">Redeem Pin</a>
                     <a href="#">Gifting Center</a>
@@ -123,8 +126,8 @@ $userInfo = $ipbwi->member->info();
 <script>
 	var isLoggedIn = <?=  (empty($isLoggedIn) ? "false" : $isLoggedIn)  ?>;
 	var donatorPoints = <?= (empty($userInfo['donator_points_current']) ? 0 : $userInfo['donator_points_current']) ?>;
-	var memberId = <?=  (empty($userInfo['member_id']) ?  -1 : $userInfo['member_id']) ?>;
-	AnguishDonationPage.getInstance().init(isLoggedIn, memberId, donatorPoints);
+	var sessionId = '<?=  (empty($sessionId) ?  -1 : $sessionId) ?>';
+	AnguishDonationPage.getInstance().init(isLoggedIn, sessionId, donatorPoints);
 </script>
 </body>
 </html>
