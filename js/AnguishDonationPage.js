@@ -1,22 +1,28 @@
 /**
- * Donation Page Javascript,
- * TODO: Shopping cart and such validation 
+ * Anguish Donation Page
+ * Don't you wish you had a pro helping you?
  */
 var AnguishDonationPage = new function AnguishDonationPage() 
 {
 	
+	/** Items currently selected **/
 	this.selectedItems = {};
 	
+	/** Cached category JSON **/
 	this.cachedJSON = {};
 	
+	/** Product cost cache **/
 	this.productCost = { };
 	
+	/** product info cache **/
 	this.productInfo = { };
 	
+	/** current points **/
 	this.currentPoints = 0;
 	
 	this.isLoggedIn = false;
 	this.memberId = -1;
+	
 	var instance = this;
 		
 	AnguishDonationPage.getInstance = function()
@@ -38,23 +44,32 @@ var AnguishDonationPage = new function AnguishDonationPage()
 		this.loadEvents();
 	}
 	
+	/**
+	 * Update buy text
+	 */
 	this._updateBuyText = function(count){
 		if(count != 0){
 			$(".cartBtn").html("("+count+") View Cart");
 		} else
 			$(".cartBtn").html("View Cart");
 	}
+	
+	/**
+	 * load events 
+	 */
 	this.loadEvents = function(){
 		var $this = this;
 		$("#purchase").click(function(e) {
 				var person = prompt("Please enter the username whom will be recieving these items!", "Who gets these?");
 				if (person != null) 
-				 $this.purchaseItems(person, $this.purchaseCallback) 
-			 
+				 $this.purchaseItems(person, $this.purchaseCallback);
 				}
 			 );
 	}
 	
+	/**
+	 * purchase callback
+	 */
 	this.purchaseCallback = function($this, json){
 		var data = JSON.parse(json);	
 		
@@ -80,8 +95,10 @@ var AnguishDonationPage = new function AnguishDonationPage()
 		}
 	}
 	
+	/**
+	 * Purchase
+	 */
 	this.purchaseItems = function(person, callback){
-
 
 		var data = this.selectedItems;
 		var $this = this;
@@ -99,10 +116,8 @@ var AnguishDonationPage = new function AnguishDonationPage()
 								'memberId' : this.memberId,
 								'cart' : cart 
 							};
-							
-		var url = "/website/api.php";
-		
-		$.post(url, params, function(e) { callback($this, e); });
+
+		$.post(API_ENDPOINT, params, function(e) { callback($this, e); });
 		
 	}
 
@@ -305,7 +320,7 @@ var AnguishDonationPage = new function AnguishDonationPage()
 	 */
 	this._getDonationJSON = function(type, callback){
 
-		var url = "/website/api.php?action=getItems&category="+type
+		var url = API_ENDPOINT+"?action=getItems&category="+type
 		
 		if(!this.cachedJSON[type]){
 				$.get(url, callback);

@@ -29,3 +29,6 @@ function showNotification(heading, message){
 
 	$("#modalNoticeAlert").removeClass("hideSection").addClass("show");
 }
+
+
+var API_ENDPOINT = "/website/api.php"; // i hate php
