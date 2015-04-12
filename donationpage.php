@@ -32,7 +32,6 @@ $userInfo = $ipbwi->member->info();
 					<table class ="donationTable">
 						<tr>
 							<td class ="btn" align="center"><strong>Select</strong></td>
-							<td class ="image"align="center"><strong>Image</strong></td>
 							<td class ="item" align="center"><strong>Item Name</strong></td>
 							<td class ="cost" align="center"><strong>Cost</strong></td>
 						</tr>
@@ -86,6 +85,18 @@ $userInfo = $ipbwi->member->info();
                 <a href="#">home</a> | <a href="#">community</a> | <a href="#">play now</a> | <a href="#">vote</a> | <a href="#">donations</a></p>
         </footer>
 		
+<div class="modal" id="modalNoticeAlert" aria-hidden="true">
+  <div class="modal-dialog">
+			<div class="box modalNotice">
+	    	 <h3 id="heading"></h3>
+	      	<p id="message"></p>
+	      	<a href="#close" style="float: right" class="button close-btn" aria-hidden="true">close</a> 
+	    <div class="clear-fix"></div>
+	  	</div>
+    </div>
+ </div>                
+
+
 <div class="modal" id="modal-one" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-header">
@@ -98,7 +109,7 @@ $userInfo = $ipbwi->member->info();
 		 <p style="float: right;"><strong>Total Points:</strong> <span class="totalAmt"> </span></p>
     </div>
     <div class="modal-footer">
-      <a href="#purchase" id="purchase" class="button">Check Out</a>  <!--CHANGED TO "#close"-->
+      <a href="#purchase" id="purchase" style="display: none;" class="button">Check Out</a>  <!--CHANGED TO "#close"-->
     </div>
     </div>
   </div>
@@ -110,9 +121,9 @@ $userInfo = $ipbwi->member->info();
 <script src="js/util.js"></script>
 <script src="js/AnguishDonationPage.js"></script>
 <script>
-	var isLoggedIn = <?= $isLoggedIn ?>;
-	var donatorPoints = <?= $userInfo['donator_points_current'] ?>;
-	var memberId = <?= $userInfo['member_id'] ?>;
+	var isLoggedIn = <?=  (empty($isLoggedIn) ? "false" : $isLoggedIn)  ?>;
+	var donatorPoints = <?= (empty($userInfo['donator_points_current']) ? 0 : $userInfo['donator_points_current']) ?>;
+	var memberId = <?=  (empty($userInfo['member_id']) ?  -1 : $userInfo['member_id']) ?>;
 	AnguishDonationPage.getInstance().init(isLoggedIn, memberId, donatorPoints);
 </script>
 </body>

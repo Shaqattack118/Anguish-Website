@@ -55,16 +55,36 @@ var AnguishDonationPage = new function AnguishDonationPage()
 			 );
 	}
 	
-	this.purchaseCallback = function(data){
-		console.log(data);
+	this.purchaseCallback = function($this, json){
+		var data = JSON.parse(json);	
+		
+		var code = data.Code;
+		var message = data.Message;
+		
+		switch(code){
+			case 200:
+				$this.selectedItems = { };
+				$this._updateBuyText(0);
+				$this._reSelectRadios();
+				$this._updateShoppingCart();
+				showNotification("Success", "Your ingame account has successfully been credited. Please ::check ingame with a empty inventory. Happy Gaming!");
+				break;
+			
+			case 440:
+			case 450:
+				showNotification("Error!", message);
+				break;
+			default:
+				showNotification("Unknown Error!", code + " "+ message);
+			
+		}
 	}
 	
 	this.purchaseItems = function(person, callback){
-		
-		//TODO: SEND REQUEST TO API.PHP THAT CONTAINS AN ARRAY OF PRODUCTIDS
+
 
 		var data = this.selectedItems;
-		
+		var $this = this;
 		var cart = [];
 		
 		for (var key in data) {
@@ -82,11 +102,11 @@ var AnguishDonationPage = new function AnguishDonationPage()
 							
 		var url = "/website/api.php";
 		
-		console.log(params);
-		$.post(url, params, callback);
+		$.post(url, params, function(e) { callback($this, e); });
 		
 	}
 
+	
 	this.updateCurrentAvailablePoints = function(cost, type){
 		
 		
@@ -112,6 +132,7 @@ var AnguishDonationPage = new function AnguishDonationPage()
 			type = 'remove';
 			delete $this.selectedItems[productId];
 			targ.prop("checked", false);
+			$this._updateShoppingCart();
 		} else {
 			/** We can buy this product **/
 			if($this.canBuyThisItem(productCost)){
@@ -120,9 +141,9 @@ var AnguishDonationPage = new function AnguishDonationPage()
 				targ.prop("checked", true);
 			} else {
 				if($this.isLoggedIn)
-					alert("You need "+ -(this.currentPoints - productCost)  +" more donator points to purchase this item!");
+					showNotification("Error","You need "+ -(this.currentPoints - productCost)  +" more donator points to purchase this item!");
 				else
-					alert("You need login on the forums to purchase items!");
+					showNotification("Please Login","You need login on the forums to purchase items!");
 					
 				targ.prop("checked", false);
 				return;
@@ -151,8 +172,9 @@ var AnguishDonationPage = new function AnguishDonationPage()
 	/** Reselect radio buttons upon rending **/
 	this._reSelectRadios = function(){
 		
-		var data = this.selectedItems;
+		$('.donationTable').find(".radio").prop("checked", false);
 		
+		var data = this.selectedItems;
 		for (var key in data) {
 	  	if (data.hasOwnProperty(key)) {
 	  		
@@ -186,11 +208,9 @@ var AnguishDonationPage = new function AnguishDonationPage()
 			$this.productCost[productId] = productCost;
 			
 		  var radioButton = create("input").addClass("radio").attr("type", "radio").attr("productId", productId).click(function(e) { $this.selectRadio(e);  });
-		  
-		  //$("#radio_1").prop("checked", true)
+
 			row.append(create("td").addClass("buy").append(radioButton));
-			row.append(create("td").addClass("image").append(create("img").attr("src", obj.picture)));
-			row.append(create("td").addClass("name").append(obj.name));
+			row.append(create("td").addClass("name").append(create("img").attr("src", obj.picture), " ", obj.name));
 			row.append(create("td").addClass("cost").append(productCost));
 
 			table.append(row);
@@ -214,12 +234,15 @@ var AnguishDonationPage = new function AnguishDonationPage()
 		return list;
 	}
 	
+	/**
+	 * Update Shopping cart HTML
+	 **/
 	this._updateShoppingCart = function(){
 		var shoppingList = $(".shoppingList");
 		
 			shoppingList.empty();
 		
-
+				$(".modal-footer").find("#purchase").show();
 
 			var data = this.selectedItems;
 			var totalCost = 0;
@@ -229,6 +252,12 @@ var AnguishDonationPage = new function AnguishDonationPage()
 					totalCost += parseInt(obj.cost);
 					shoppingList.append(this._renderShoppingItem(obj));
 				}
+			}
+			
+			// we have no cost
+			if(totalCost == 0){
+				shoppingList.append("Your Shopping Cart is empty :(");
+				$(".modal-footer").find("#purchase").hide();
 			}
 			
 			$(".totalAmt").html(parseInt(totalCost));

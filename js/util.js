@@ -15,3 +15,17 @@ Object.size = function(obj) {
     }
     return size;
 };
+
+
+function showNotification(heading, message){
+	
+	$(".modalNotice").find("#heading").html(heading);
+	$(".modalNotice").find("#message").html(message);
+	
+	$(".modalNotice").find(".close-btn").click(function(e) {  
+		$("#modalNoticeAlert").removeClass("show");
+		$("#modalNoticeAlert").addClass("hideSection");
+	 });
+
+	$("#modalNoticeAlert").removeClass("hideSection").addClass("show");
+}

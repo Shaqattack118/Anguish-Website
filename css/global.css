@@ -181,7 +181,7 @@ table {
 
 table.donationTable{
 	position: relative;
-	left: 9%;
+	left: 18%;
 	top: 30px;
 }
 
@@ -197,7 +197,7 @@ td.image{
 }
 
 td.item{
-	width: 125px;
+	width: 200px;
 }
 
 td.cost{
@@ -302,6 +302,28 @@ tr {
 .button:hover {
     text-decoration: underline;
 }
+
+.modalNotice {
+    margin-bottom: 0;
+    padding-top: 10px;
+}
+
+.modalNotice h3 {
+    color: #FFF;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.modalNotice p {
+    margin-top: 2px;
+}
+
+.modalNotice .button {
+    float: right;
+    position: relative;
+    top: 2px;
+}
+
 
 .notice {
     padding-top: 10px;
@@ -591,6 +613,16 @@ input[type="submit"] {
   bottom: 0;
   z-index: 10;
 }
+.modal.show:before {
+  display: block;
+}
+.modal.show{
+  -webkit-transform: translate(0, 0);
+  -ms-transform: translate(0, 0);
+  transform: translate(0, 0);
+  top: 20%;
+}
+
 .modal:target:before {
   display: block;
 }
@@ -638,6 +670,15 @@ input[type="submit"] {
 /*ADDED TO STOP SCROLLING TO TOP*/
 #close {
   display: none;
+}
+
+#modalNoticeAlert{
+	position: relative;
+	top: -297px; left: -48px;
+}
+
+.hideSection {
+	  display: none;
 }
  .shoppingCart ul{
          list-style:none;
