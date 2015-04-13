@@ -20,8 +20,10 @@ var AnguishDonationPage = new function AnguishDonationPage()
 	/** current points **/
 	this.currentPoints = 0;
 	
+	/** Are we logged in? **/
 	this.isLoggedIn = false;
 	
+	/** Session Id to be passed **/
 	this.sessionId = -1;
 	
 	var instance = this;
@@ -35,14 +37,21 @@ var AnguishDonationPage = new function AnguishDonationPage()
 	 * Init handling
 	 */
 	this.init = function(isLoggedIn, sessionId,  points){
+		
 		this.currentPoints = points;
 		this.isLoggedIn = isLoggedIn;
 		this.sessionId = sessionId;
+		
 		this._createTabs();
+		
 		var $this = this;
-		this._getDonationJSON('0', function(obj) {  $this.cachedJSON['0'] = obj; $this._renderPage(obj) });
+		
+		this._getAllProducts();
+		
+
 		
 		this.loadEvents();
+		
 	}
 	
 	/**
@@ -63,14 +72,23 @@ var AnguishDonationPage = new function AnguishDonationPage()
 		$("#purchase").click(function(e) {
 			
 				var person = prompt("Please enter the username whom will be recieving these items!", "Who gets these?");
+				
 				if (person != null) 
 				 $this.purchaseItems(person, $this.purchaseCallback);
+				
 				}
+				
 			 );
-			 
-			 
-			 
-		$(".paymentHistory").click(function(e) { $this._getPurchaseHistory();});
+			 	 
+		$(".redemptionHistory").click(function(e) { $this._getRedemptionHistory();});
+		
+		$(".redemptionCenter").click(function(e) { 
+																							 $this._getDonationJSON('0', function(obj){ $this.cachedJSON['0'] = obj;
+																																													 $this._renderPage(obj); });
+																							 });
+	
+		$(".redemptionCenter").trigger('click');
+		
 	}
 	
 	/**
@@ -106,22 +124,23 @@ var AnguishDonationPage = new function AnguishDonationPage()
 	 */
 	this.purchaseItems = function(person, callback){
 
-		var data = this.selectedItems;
 		var $this = this;
+		var data = $this.selectedItems;
 		var cart = [];
 		
-		for (var key in data) {
-	  	if (data.hasOwnProperty(key)) {
+		for (var key in data){
+
+	  	if (data.hasOwnProperty(key)) 
 	  		cart.push(key);
-		  }
+		  
 		}
 		
 		var params =  {
-								'action' : 'purchase',
-								'username' : person,
-								'sessionId' : this.sessionId,
-								'cart' : cart 
-							};
+										'action' : 'purchase',
+										'username' : person,
+										'sessionId' : $this.sessionId,
+										'cart' : cart 
+									};
 
 		$.post(API_ENDPOINT, params, function(e) { callback($this, e); });
 		
@@ -193,6 +212,7 @@ var AnguishDonationPage = new function AnguishDonationPage()
 	/** Reselect radio buttons upon rending **/
 	this._reSelectRadios = function(){
 		
+		$('.donationTable').css({'left' : ''});
 		$('.donationTable').find(".radio").prop("checked", false);
 		
 		var data = this.selectedItems;
@@ -211,7 +231,10 @@ var AnguishDonationPage = new function AnguishDonationPage()
 	 */
 	this._createRows = function (tableData){
 	
-		var table = $('.donationTable');
+		var table = $('.contentArea');
+		
+		table.removeClass().addClass("contentArea donationTable");
+		table.empty();
 		
 		var $this = this;
 		
@@ -219,14 +242,10 @@ var AnguishDonationPage = new function AnguishDonationPage()
 		
 		_.each(tableData, function(obj){
 		
-		var row = create("tr").addClass("row");
-		
+			var row = create("tr").addClass("row");
+				
 			var productId = obj.productId;
 			var productCost = obj.cost;
-			
-			$this.productInfo[productId] = obj;
-			
-			$this.productCost[productId] = productCost;
 			
 		  var radioButton = create("input").addClass("radio").attr("type", "radio").attr("productId", productId).click(function(e) { $this.selectRadio(e);  });
 
@@ -235,79 +254,115 @@ var AnguishDonationPage = new function AnguishDonationPage()
 			row.append(create("td").addClass("cost").append(productCost));
 
 			table.append(row);
+			
 		});
 		
 		
 	};
 	
-	/** Render purchase table row **/
-	this._renderPurchaseTableRow = function(table, obj){
+	/** Render empty notice **/
+	this._renderEmpty = function() {
 		
-		var transId = obj.transactionId;
-		//create("tr").addClass("header");
-		
-		
+	var box = create("div").addClass("box notLoggedIn notice");
+		box.append(create("h3").append("Notice!"))
+		box.append(create("p").append("Only logged in users may view this section."));
+	
+		return box;
 	}
 	
+	/** Render purchase table row **/
+	this._renderPurchaseTableRow = function(table, arr){
+		
+				var $this = this;
+			
+				var row = create("tr").addClass("itemHistoryRow").appendTo(table);
+						
+				create("td").addClass("navigation-item").append("Transaction Id").appendTo(row);
+				create("td").addClass("navigation-item").append("Product").appendTo(row);
+				create("td").addClass("navigation-item").append("Account Redeemd").appendTo(row);
+				create("td").addClass("navigation-item").append("Price Paid").appendTo(row);
+
+				var totalCost = 0;
+				
+		_.each(arr, function(obj){
+				
+					
+				var row = create("tr").addClass("itemHistoryRow").appendTo(table);
+				var transId = obj.transactionId;
+				var productId = obj.productId;
+				var userName = obj.username;
+				var price = obj.price;
+
+
+				var prod = $this.productInfo[productId];
+				
+				totalCost += parseInt(price);
+
+						
+				create("td").append(transId).appendTo(row);
+				create("td").append(create("img").attr("src", prod.picture), " ", prod.name).appendTo(row);
+				create("td").append(userName).appendTo(row);
+				create("td").append(price).appendTo(row);
+
+		});
+		
+				var row = create("tr").addClass("itemHistoryRow").appendTo(table);
+				create("td").attr("colspan", 3).append("Total Points Used: ", totalCost).appendTo(row);
+
+	}
+
 	/**
 	 *  Will render a table that is collapseable in a modal
 	 */
-	this._renderPurchaseHistory = function(obj){
+	this._renderRedemptionHistory  = function(arr){
 		
+	
+		
+		var table = $("table.contentArea");
+		
+		table.removeClass().addClass("contentArea historyTable");
+		
+		$(".box.donation").find(".title").html("Redemption History");
+		
+		$(".tab-links").hide();		
+		table.empty();
 
-/**
-		<table border="0">
-  <tr class="header">
-    <td colspan="2">Header</td>
-  </tr>
-  <tr>
-    <td>Transaction ID</td>
-    <td>Product</td>
-    <td>Price</td>
-    <td>Date Bought</td>
-  </tr>
-  <tr>
-    <td>data</td>
-    <td>data</td>
-  </tr>
-  <tr class="header">
-    <td colspan="2">Header</td>
-  </tr>
-  <tr>
-    <td>date</td>
-    <td>data</td>
-  </tr>
-  <tr>
-    <td>data</td>
-    <td>data</td>
-  </tr>
-  <tr>
-    <td>data</td>
-    <td>data</td>
-  </tr>
-</table>
+		
+		var $this = this;
+				
+		for (var key in arr) {
+				if (arr.hasOwnProperty(key)) {
+						var obj = arr[key];
 
-tr {
-    display: none;
-}
+			  		var transId = key;
+			  		var tableHeaders = create("tr").addClass("header navigation-item").appendTo(table);
+					
+						tableHeaders.click(function(){
+						    $(this).nextUntil('tr.header').css('display', function(i,v){
+						        if(this.style.display === 'table-row')
+						        		return 'none' 
+						        else
+						        		return 'table-row';
+						    });
+						 		 table.css({'left' : 0});
+						
+							});
+						
+						create("td").attr("colspan", 3).append(transId).appendTo(tableHeaders);
+						create("td").append(obj[0].boughtdate).appendTo(tableHeaders);
+						
+						
+						$this._renderPurchaseTableRow(table, obj);
+			}
+		}
 
-tr.header {
-    display: table-row;
-}
-
-$('tr.header').click(function(){
-    $(this).nextUntil('tr.header').css('display', function(i,v){
-        return this.style.display === 'table-row' ? 'none' : 'table-row';
-    });
-});
-
-
-**/
       
       
 	}
 	
-	
+	/**
+	 * Render a shopping item
+	 */
 	this._renderShoppingItem = function(obj){
 		
 		var list = create("li");
@@ -405,17 +460,65 @@ $('tr.header').click(function(){
 	
 	
 	
-		this._getPurchaseHistory = function(){
+	this._getAllProducts = function(){
 
-			var url = API_ENDPOINT+"?action=getPurchaseHistory&sessionId="+this.sessionId;
+		var url = API_ENDPOINT+"?action=getAllItems";
+		var $this = this;
+		
+		var callback = function(data){
+			
+			var json = JSON.parse(data);
+			
+				_.each(json, function(obj){
+	
+					var productId = obj.productId;
+					var productCost = obj.cost;
+					
+					$this.productInfo[productId] = obj;
+					
+					$this.productCost[productId] = productCost;
+					
+				});
+		}
+	
+			$.get(url, callback);
+	
+	};
+	
+	
+	
+	/**
+	* Request to get Redemption History
+	*/
+	
+	this._getRedemptionHistory = function(){
 
+			var url = API_ENDPOINT+"?action=getRedemptionHistory&sessionId="+this.sessionId;
+
+			var $this = this;
+			
 			var callback = function(r){
 				
 				var data = JSON.parse(r);
 				
-				console.log(data);
+					if(data.length == 0){
+						$('.donation').children().hide();
+						$('.donation').append($this._renderEmpty());
+						return;
+					} else {
+						$('.donation').children().show();
+						$('.notLoggedIn').remove(); // remove our notice	
+					}
+					
+				
+					
+				var trans = _.sortBy(data, "boughtdate"); // sort by boughtdate
+				    trans = _.indexByArray(trans, 'transactionId'); // index it by transaction
+		
+					$this._renderRedemptionHistory(trans);
 				
 			};
+			
 			$.get(url, callback);
 	
 	};
@@ -426,6 +529,12 @@ $('tr.header').click(function(){
 	* Render the page
 	*/
 	this._renderPage = function(jsonIn){
+		
+		
+		$(".box.donation").find(".title").html("Donation Prizes");
+		$('.box.donation').children().show();
+		$('.notLoggedIn').remove(); // remove our notice																					 
+		
 		
 		var json = JSON.parse(jsonIn);
 		this._createRows(json);

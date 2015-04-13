@@ -35,8 +35,9 @@ if(isset($_GET) && !empty($_GET))
 
 	switch($action)
 	{
-		case 'getPurchaseHistory': getPurchaseHistory(stripslashes($_GET['sessionId']));
+		case 'getRedemptionHistory': getRedemptionHistory(stripslashes($_GET['sessionId']));
 		
+		case 'getAllItems': getAllItems(); break;
 		case 'getItems': getItems(stripslashes($_GET['category'])); break;
 	}
 
@@ -127,7 +128,7 @@ function purchaseItemHistoryInsert($json){
  	
 }
 
-function getPurchaseHistory($sessionId)
+function getRedemptionHistory($sessionId)
 {
 	
 	$memberId = getMemberIdBySessionId($sessionId);
@@ -239,6 +240,25 @@ function purchase($post)
 
 		die(returnMessage('Success', 200));
 }
+
+/**
+* Get donation items
+*/
+function getAllItems()
+{
+	$dbname     = "testDB";
+	$conn      = new PDO("mysql:host=".servername.";dbname=$dbname", username, password);
+	$select  = "SELECT productId, itemId, picture, name, cost, amount FROM donation_items";
+
+	$stmt     = $conn->prepare($select);
+	$stmt->execute();
+
+	$rows = $stmt->fetchAll();
+
+ $conn = null;
+	die(json_encode($rows));
+}
+
 
 /**
 * Get donation items

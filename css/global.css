@@ -52,6 +52,21 @@ body {
     display: table;
 }
 
+td.navigation-item {
+    font-family: 'Trajan Pro', serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #FFF;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5), 0 0 1px #000;
+    text-align: center;
+    padding: 38px 15px 0 0;
+    display: table-cell;
+    width: 150px;
+    opacity: 0.9;
+    transition: all 150ms ease-in-out;
+}
+
+
 .navigation-item {
     font-family: 'Trajan Pro', serif;
     font-size: 24px;
@@ -179,6 +194,12 @@ table {
 	 border-collapse: collapse; 
 }
 
+table.historyTable {
+	position: relative;
+	left: 8%;
+	top: 30px;
+}
+
 table.donationTable{
 	position: relative;
 	left: 18%;
@@ -241,8 +262,11 @@ tr {
 }
 .box.donation {
     position: relative;
-	background: none !important;
-	min-height: 850px;
+		background: none !important;
+		min-height: 850px;
+		overflow-y: auto;
+		overflow: none;
+		
 }
 .box header {
     background: url(../img/header.png) no-repeat;
@@ -617,9 +641,9 @@ input[type="submit"] {
   display: block;
 }
 .modal.show{
-  -webkit-transform: translate(0, 0);
-  -ms-transform: translate(0, 0);
-  transform: translate(0, 0);
+  -webkit-transform: translate(0, 20%);
+  -ms-transform: translate(0, 20%);
+  transform: translate(0, 20%);
   top: 20%;
 }
 
@@ -711,3 +735,14 @@ input[type="submit"] {
                display:block;
                float:right;
             } 
+            
+            
+            
+tr.itemHistoryRow {
+    display: none;
+}
+
+tr.header {
+    display: table-row;
+    width: 575px !important ;
+}

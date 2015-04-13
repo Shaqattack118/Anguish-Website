@@ -27,12 +27,12 @@ $sessionId = $ipbwi->session->session_id;
             <div class="left-container">
                 <div class="box donation">
                     <header>
-                        <h2>Donation Prizes</h2>
+                        <h2 class="title">Donation Prizes</h2>
                     </header>
 					<ul class="tab-links">
 
 					</ul>
-					<table class ="donationTable">
+					<table class ="contentArea donationTable">
 						<tr>
 							<td class ="btn" align="center"><strong>Select</strong></td>
 							<td class ="item" align="center"><strong>Item Name</strong></td>
@@ -70,9 +70,11 @@ $sessionId = $ipbwi->session->session_id;
                     </form>
                 </div>
                 <div class="button-links">
+                	
                     <a href="#">Purchase Points</a>
+                    <a class="redemptionCenter">Redemption Center</a>
+                    <a class="redemptionHistory">Redemption History</a>
                     <a class="paymentHistory">Payment History</a>
-                    <a href="#">Redemption History</a>
                     <a href="#">Redeem Pin</a>
                     <a href="#">Gifting Center</a>
                 </div>
@@ -100,6 +102,8 @@ $sessionId = $ipbwi->session->session_id;
  </div>                
 
 
+
+
 <div class="modal" id="modal-one" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-header">
@@ -117,7 +121,9 @@ $sessionId = $ipbwi->session->session_id;
     </div>
   </div>
 </div>
-    </div>
+
+
+  </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script> 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
