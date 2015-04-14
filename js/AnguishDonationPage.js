@@ -120,7 +120,7 @@ var AnguishDonationPage = new function AnguishDonationPage()
 	}
 	
 	/**
-	 * Purchase
+	 * Purchase Item
 	 */
 	this.purchaseItems = function(person, callback){
 
@@ -146,9 +146,10 @@ var AnguishDonationPage = new function AnguishDonationPage()
 		
 	}
 
-	
+	/**
+	 * Update current available points
+	 */
 	this.updateCurrentAvailablePoints = function(cost, type){
-		
 		
 		if(type == 'add')
 			this.currentPoints = this.addToTotalCost(cost);

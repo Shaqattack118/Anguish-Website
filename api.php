@@ -10,9 +10,23 @@ define('servername', 'localhost');
 define('username', 'root');
 define('password', 'rJCa!#7@mgq82hNS');
 
-$pinArrays = array();
+
+define("TO_ROOT", "./");
+define("ASSETS", TO_ROOT . "bin/php/");
+
+require_once(ASSETS . 'data.php');
+require_once(ASSETS . 'StringBuilder.php');
+require_once(TO_ROOT . 'ipbwi/ipbwi.inc.php');
+
+$GLOBALS['pinArray'] = array(
+					1 => 'Donator_Pin',
+					2 => 'Super_Donator_Pin',
+					4 => 'Drop_Pin'
+					);
 
 
+
+	 
 /** POSt routes **/
 if(isset($_POST) && !empty($_POST))
 {
@@ -44,10 +58,6 @@ if(isset($_GET) && !empty($_GET))
 }
 
 
-function redemationHistory($post){
-	
-}
-
 
 /** Get Tokens for member Id **/
 function getTokens($memberId){
@@ -71,20 +81,28 @@ function getTokens($memberId){
 function generateString($length){
 	return substr(str_shuffle(md5(time())),0,$length);;
 }
+
 /** Generate Donator Pin **/
 function generateDonatorPin(){
 	$length = 9;
 	return strtoupper("A".generateString($length));
 }
 
+function generateSuperDonatorPin(){
+	$length = 9;
+	return strtoupper("SD".generateString($length));
+	
+}
+
+function generateDropPin(){
+	$length = 9;
+	return strtoupper("DR".generateString($length));
+	
+}
+
 function generateTransactionId(){
 	$length = 10;
 	return strtoupper("TRAN_".generateString($length));
-}
-
-
-function purchasePin($productId){
-	
 }
 
 function removePoints($memberId, $beforePoints, $points){
@@ -182,6 +200,9 @@ function purchase($post)
 	$username = $post['username'];
 	$sessionId = $post['sessionId'];
 	
+	$pinArray = $GLOBALS['pinArray'];
+	
+	
 	$memberId = getMemberIdBySessionId($sessionId);
 	
 	/** no username **/
@@ -224,6 +245,8 @@ function purchase($post)
 
 		$playerItemObj = array(
 					'itemId' => $itemId,
+					'memberId' => $memberId,
+					'productId' => $productId,
 					'username' => $username,
 					'amount' => $amount
 					);
@@ -232,15 +255,71 @@ function purchase($post)
 		removePoints($memberId,  $beforePoints, $cost);
 		purchaseItemHistoryInsert($history);
 		
-		/** give player the item **/
-		givePlayerItem($playerItemObj);
+		if (array_key_exists($productId, $pinArray))
+			givePinToPlayer($playerItemObj);
+		else
+			givePlayerItem($playerItemObj);
+		
 		
 		$beforePoints = $beforePoints - $cost;
+		
 	}
+	
+	die(returnMessage("success", 200));
 
-		die(returnMessage('Success', 200));
 }
 
+function givePinToPlayer($playerItemObj){
+	
+	$productId = $playerItemObj['productId'];
+	$memberId = $playerItemObj['memberId'];
+	$pinArray = $GLOBALS['pinArray'];
+	
+
+	switch($pinArray[$productId]){
+		case 'Donator_Pin':
+				
+					$pin = generateDonatorPin();
+					
+					$pinData = array(
+						'pin' => $pin,
+						'hasRedeemed' => 0,
+						'type' => 0
+					);
+					
+					insertIntoPinTable($pinData);
+					
+					$pinMessage = "Here is your pin: ".$pin." \n Thanks for Donating!";
+					
+					sendPM($memberId, "Your Donator Pin [DO NOT REPLY]" , $pinMessage);
+					
+			break;
+
+	}
+	
+}
+
+function insertIntoPinTable($json){
+	$dbname     = "testDB";
+	$conn      = new PDO("mysql:host=".servername.";dbname=$dbname", username, password);
+	$select  = "INSERT INTO `donation_pins`(`pin`, `hasRedeemed`, `generateDate`, `type`) VALUES (:pin,:hasRedeemed,:productId,sysdate(3),:type)";
+	$stmt   = $conn->prepare($select);
+
+	$stmt->execute($json);
+
+ 	$conn = null;
+	
+}
+
+function sendPM($memberId, $title, $body){
+	global $ipbwi;
+	
+	$automated_sender = 'automated_sender';
+	$as_pw = 'Sm6h[w#Yb$_6$]Gt';					
+
+	$ipbwi->member->loginWithoutCheckingCredentials($automated_sender, false);
+	$ipbwi->pm->send($memberId, $title, $body);
+}
 /**
 * Get donation items
 */
