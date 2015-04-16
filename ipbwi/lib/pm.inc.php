@@ -502,6 +502,13 @@
 				return false;
 			}
 		}
+		
+		
+		
+		
+		public function sendAutomatedPm($toID, $fromID, $title, $message, $inviteUsers = array(), $options = array()){
+			$this->ipbwi->ips_wrapper->messenger->sendNewPersonalTopic($toID, $fromID, $inviteUsers, $title, $message, $options);
+		}
 		/**
 		 * @desc			Returns information on a Personal Message.
 		 * @param	int		$ID PM Topic ID

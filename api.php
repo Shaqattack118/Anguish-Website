@@ -21,6 +21,7 @@ require_once(TO_ROOT . 'ipbwi/ipbwi.inc.php');
 $GLOBALS['pinArray'] = array(
 					1 => 'Donator_Pin',
 					2 => 'Super_Donator_Pin',
+					3 => 'Five_Pack_Donator_Pin',
 					4 => 'Drop_Pin'
 					);
 
@@ -122,7 +123,7 @@ function removePoints($memberId, $beforePoints, $points){
 	
 }
 
-function givePlayerItem($json){
+function givePlayerItem($json, 	$conn){
 	$dbname     = "testDB";
 	$conn      = new PDO("mysql:host=".servername.";dbname=$dbname", username, password);
 	$select  = "INSERT INTO `donation_claim`(`item_id`, `amount`, `claimed`, `username`)  VALUES (:itemId,:amount,0 ,:username)";
@@ -286,14 +287,81 @@ function givePinToPlayer($playerItemObj){
 						'hasRedeemed' => 0,
 						'type' => 0
 					);
+			
+				insertIntoPinTable($pinData);
 					
-					insertIntoPinTable($pinData);
+				$pinMessage = "Thank you purchasing a donator pin! Make sure you write down your pin and keep it in a safe place. <br> Pin: ".$pin." \n";
+				$title = "Your Donator Pin [DO NOT REPLY]";				
+				sendPM($memberId, $title , $pinMessage);
+								
+		break;
+		case 'Super_Donator_Pin':
+				
+					$pin = generateSuperDonatorPin();
 					
-					$pinMessage = "Here is your pin: ".$pin." \n Thanks for Donating!";
+					$pinData = array(
+						'pin' => $pin,
+						'hasRedeemed' => 0,
+						'type' => 1
+					);
+			
+				insertIntoPinTable($pinData);
 					
-					sendPM($memberId, "Your Donator Pin [DO NOT REPLY]" , $pinMessage);
+				$pinMessage = "Thank you purchasing a super donator pin! Make sure you write down your pin and keep it in a safe place. <br> Pin: ".$pin." \n";
+				$title = "Your Super Donator Pin [DO NOT REPLY]";				
+				sendPM($memberId, $title , $pinMessage);
+								
+		break;			
+		case 'Drop_Pin':
+				
+					$pin = generateDropPin();
 					
-			break;
+					$pinData = array(
+						'pin' => $pin,
+						'hasRedeemed' => 0,
+						'type' => 2
+					);
+			
+				insertIntoPinTable($pinData);
+					
+				$pinMessage = "Thank you purchasing a 15% drop pin! Make sure you write down your pin and keep it in a safe place. <br> Pin: ".$pin." \n";
+				$title = "Your Drop Pin [DO NOT REPLY]";				
+				sendPM($memberId, $title , $pinMessage);
+								
+		break;			
+			
+		case 'Five_Pack_Donator_Pin':
+					
+
+			$pins = "";
+		
+			$first = true;
+			
+			for ($i = 0; $i < 5; $i++) {
+			
+				$pin = generateDropPin();
+			
+				$pinData = array(
+					'pin' => $pin,
+					'hasRedeemed' => 0,
+					'type' => 0
+				);
+			
+				insertIntoPinTable($pinData);
+				
+				if($first){
+					$pins = $pin;
+					$first = false;
+				} else
+					$pins = $pins . ' , ' . $pin; 
+			}				
+			
+			$pinMessage = "Thank you purchasing the 5 donator pin pack! Make sure you write down your pins and keep them in a safe place. <br> Pins: ".$pins." \n";
+			$title = "Your Five Donator Pack [DO NOT REPLY]";				
+				
+			sendPM($memberId, $title , $pinMessage);
+		
+		break;
 
 	}
 	
@@ -302,8 +370,11 @@ function givePinToPlayer($playerItemObj){
 function insertIntoPinTable($json){
 	$dbname     = "testDB";
 	$conn      = new PDO("mysql:host=".servername.";dbname=$dbname", username, password);
-	$select  = "INSERT INTO `donation_pins`(`pin`, `hasRedeemed`, `generateDate`, `type`) VALUES (:pin,:hasRedeemed,:productId,sysdate(3),:type)";
+	
+	
+	$select  = "INSERT INTO `donation_pins`(`pin`, `hasRedeemed`, `generateDate`, `type`) VALUES (:pin,:hasRedeemed,sysdate(3),:type)";
 	$stmt   = $conn->prepare($select);
+
 
 	$stmt->execute($json);
 
@@ -314,11 +385,8 @@ function insertIntoPinTable($json){
 function sendPM($memberId, $title, $body){
 	global $ipbwi;
 	
-	$automated_sender = 'automated_sender';
-	$as_pw = 'Sm6h[w#Yb$_6$]Gt';					
+	$ipbwi->pm->sendAutomatedPm($memberId, 16, $title, $body);
 
-	$ipbwi->member->loginWithoutCheckingCredentials($automated_sender, false);
-	$ipbwi->pm->send($memberId, $title, $body);
 }
 /**
 * Get donation items
