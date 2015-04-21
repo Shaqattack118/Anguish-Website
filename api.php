@@ -534,7 +534,7 @@ function ipin($post){
 	   # keycount is normally 1. However, if the product option "Use one
 	   # key" in the vendor area has been unchecked, BMT Micro expects
 	   # you to send back as many keys as the number of items (quantity)
-	   # ordered. The variable keycount represents the number of keys
+	   # ordered. The variable keycount represents thef number of keys
 	   # that the system expects to receive back from you.
 	   $file = fopen("log.txt", "a");
 	   fwrite($file, print_r($bmtparser, true));
