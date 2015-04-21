@@ -33,6 +33,20 @@ function showNotification(heading, message){
 
 var API_ENDPOINT = "/website/api.php"; // i hate php
 
+var BMT_PRODUCTS = [{
+					'picture'  : 'http://www.nearreality.com/addons/static/49.png',
+					'name' : '10 Premium Points',
+					'url' : 'https://secure.bmtmicro.com/cart?CID=9139&CLR=0&PRODUCTID=91390006'
+				   },{
+					'picture'  : 'http://www.nearreality.com/addons/static/49.png',
+					'name' : '25 Premium Points',
+					'url' : 'https://secure.bmtmicro.com/cart?CID=9139&CLR=0&PRODUCTID=91390005'
+				   },{
+					'picture'  : 'http://www.nearreality.com/addons/static/49.png',
+					'name' : '50 Premium Points',
+					'url' : 'https://secure.bmtmicro.com/cart?CID=9139&CLR=0&PRODUCTID=91390007'
+				   }];
+
 
 
 function groupIndex(behavior) {

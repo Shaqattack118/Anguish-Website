@@ -26,19 +26,82 @@ $GLOBALS['pinArray'] = array(
 					);
 
 
+$GLOBALS['bmtProductIds'] = array(
+					91390007 => '50',
+					91390006 => '10',
+					91390005 => '25'
+					);
+					
+$GLOBALS['bmtLinks']  = array(
+							91390007 => 'https://secure.bmtmicro.com/cart?CID=9139&CLR=0&PRODUCTID=91390007',
+							91390006 => 'https://secure.bmtmicro.com/cart?CID=9139&CLR=0&PRODUCTID=91390006',
+							91390005 => 'https://secure.bmtmicro.com/cart?CID=9139&CLR=0&PRODUCTID=91390005'
+						);
+					
+					
+			class BMTXMLParser {
+   var $tag_name;
+   var $tag_data;
+   var $tag_prev_name;
+   var $tag_parent_name;
+   function BMTXMLParser () {
+       $tag_name = NULL;
+       $tag_data = array ();
+       $tag_prev_name = NULL;
+       $tag_parent_name = NULL;
+       }
+   function startElement ($parser, $name, $attrs) {
+      if ($this->tag_name != NULL) {
+         $this->tag_parent_name = $this->tag_name;
+         }                
+      $this->tag_name = $name;
+      }
+   function endElement ($parser, $name) {
+      if ($this->tag_name == NULL) {
+         $this->tag_parent_name = NULL;
+         }
+      $this->tag_name = NULL;
+      $this->tag_prev_name = NULL;
+      }
+   function characterData ($parser, $data) {
+      if ($this->tag_name == $this->tag_prev_name) {
+         $data = $this->tag_data[$this->tag_name] . $data;
+         }
+      $this->tag_data[$this->tag_name] = $data;
+      if ($this->tag_parent_name != NULL) {
+         $this->tag_data[$this->tag_parent_name . "." . $this->tag_name] = $data;
+         }
+      $this->tag_prev_name = $this->tag_name;
+      }
+   function parse ($data) {
+      $xml_parser = xml_parser_create ();
+      xml_set_object ($xml_parser, $this);                        
+      xml_parser_set_option ($xml_parser, XML_OPTION_CASE_FOLDING, false);
+      xml_set_element_handler ($xml_parser, "startElement", "endElement");
+      xml_set_character_data_handler ($xml_parser, "characterData");
+      $success = xml_parse ($xml_parser, $data, true);
+      if (!$success) {
+          $this->tag_data['error'] =  sprintf ("XML error: %s at line %d", xml_error_string(xml_get_error_code ($xml_parser)), xml_get_current_line_number ($xml_parser));
+          }
+      xml_parser_free ($xml_parser);
+      return ($success);
+      }
+   function getElement ($tag) {
+      return ($this->tag_data[$tag]);
+      }
+   }		
 
 	 
 /** POSt routes **/
 if(isset($_POST) && !empty($_POST))
 {
 
-
 	$action = $_POST['action'];
-
 
 	switch($action)
 	{
 		case 'purchase': purchase($_POST); return;
+		case 'ipn' : ipn($_POST); return;
 	}
 }
 
@@ -86,7 +149,7 @@ function generateString($length){
 /** Generate Donator Pin **/
 function generateDonatorPin(){
 	$length = 9;
-	return strtoupper("A".generateString($length));
+	return strtoupper("D".generateString($length));
 }
 
 function generateSuperDonatorPin(){
@@ -113,13 +176,28 @@ function removePoints($memberId, $beforePoints, $points){
 	$conn      = new PDO("mysql:host=".servername.";dbname=$dbname", username, password);
 	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
   $select  = "UPDATE members 
-	       		 SET donator_points_current=?
-	       		 WHERE member_id=?";
+	       	  SET donator_points_current=?
+	       	  WHERE member_id=?";
   
   $newPoints = $beforePoints - $points;
   
 	$stmt   = $conn->prepare($select);
 	$stmt->execute(array($newPoints,$memberId));
+	
+}
+
+function addPoints($memberId, $points){
+	
+	
+	$dbname   = "forums";
+	$conn      = new PDO("mysql:host=".servername.";dbname=$dbname", username, password);
+	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  $select  = "UPDATE members 
+	       	  SET donator_points_current=donator_points_current+?
+	       	  WHERE member_id=?";
+  
+	$stmt   = $conn->prepare($select);
+	$stmt->execute(array($points,$memberId));
 	
 }
 
@@ -339,7 +417,7 @@ function givePinToPlayer($playerItemObj){
 			
 			for ($i = 0; $i < 5; $i++) {
 			
-				$pin = generateDropPin();
+				$pin = generateDonatorPin();
 			
 				$pinData = array(
 					'pin' => $pin,
@@ -441,8 +519,48 @@ function getItemsById($productIds)
  $conn = null;
 
 	return $rows;
+	
+
 }
 
+
+function ipin($post){
+
+	echo '<?xml version="1.0" encoding="utf-8"?>';
+	echo '<response>';
+	echo '<registrationkey>';
+	$bmtparser = new BMTXMLParser ();
+	if ($bmtparser->parse ($HTTP_RAW_POST_DATA)) {   
+	   # keycount is normally 1. However, if the product option "Use one
+	   # key" in the vendor area has been unchecked, BMT Micro expects
+	   # you to send back as many keys as the number of items (quantity)
+	   # ordered. The variable keycount represents the number of keys
+	   # that the system expects to receive back from you.
+	   $file = fopen("log.txt", "a");
+	   fwrite($file, print_r($bmtparser, true));
+	   $keycount = $bmtparser->getElement ('keycount');
+
+	   $data = $bmtparser->tag_data;
+	   $userId= $data['session'];
+	   $pid = $data['productid'];
+	   
+	   $value = $GLOBALS['bmtProductIds'][$pid];
+	   
+	   addPoints($userId, $value);
+	   
+	   for ($key = 1; $key <= $keycount; $key++) {
+		  $keydata = 'The registration key for ' . $bmtparser->getElement ('registername') . ' is ' . $key;
+		  echo '<keydata>' . $keydata . '</keydata>';
+		}
+	   }
+	else {
+	   echo '<errorcode>1</errorcode>';
+	   echo '<errormessage>' . $bmtparser->getElement ('error') . '</errormessage>';
+	   }
+	echo '</registrationkey>';
+	echo '</response>';
+
+}
 
 function returnMessage($message, $code){
 	return json_encode(array(

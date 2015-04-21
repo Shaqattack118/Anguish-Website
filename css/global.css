@@ -96,7 +96,7 @@ td.navigation-item {
 .body-container {
     background: url(../img/body.png) no-repeat;
     width: 997px;
-    margin: -40px auto 0;
+    margin: -80px auto 0;
     position: relative;
     left: 5px;
     padding: 92px 50px 0;
@@ -696,6 +696,20 @@ input[type="submit"] {
   display: none;
 }
 
+.purchasePointName {
+	margin-left: 25px;
+}
+.purchasePointBtn{
+	margin-left: 5px; 
+	float: right;
+	color: white !important;
+}
+
+#modal-three{
+	position: relative;
+	top: 297px; left: -48px;
+}
+ 
 #modalNoticeAlert{
 	position: relative;
 	top: -297px; left: -48px;

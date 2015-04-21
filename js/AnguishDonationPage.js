@@ -71,11 +71,10 @@ var AnguishDonationPage = new function AnguishDonationPage()
 		var $this = this;
 		$("#purchase").click(function(e) {
 			
-				var person = prompt("Please enter the username whom will be recieving these items!", "Who gets these?");
+				var person = prompt("Please enter the username whom will be recieving these items!", null);
 				
 				if (person != null) 
 				 $this.purchaseItems(person, $this.purchaseCallback);
-				
 				}
 				
 			 );
@@ -88,6 +87,10 @@ var AnguishDonationPage = new function AnguishDonationPage()
 																							 });
 	
 		$(".redemptionCenter").trigger('click');
+		
+		
+		$(".purchasePoints").click(function(e) { $this.buyPoints();});
+		$("#modal-three").find("#closeBtn").click(function(e) { $("#modal-three").removeClass("show").addClass("hideSection"); });
 		
 	}
 	
@@ -379,6 +382,40 @@ var AnguishDonationPage = new function AnguishDonationPage()
 		return list;
 	}
 	
+	this._renderPointAreaItem = function(obj){
+		
+		var list = create("li");
+		
+		var ammount = "1x ";
+		var image = create("img").attr("src", obj.picture);
+		var itemName = create("a").addClass("purchasePointName").attr("href", "").append(obj.name);
+		var itemCost = create("a").attr("href",obj.url+"&session="+this.sessionId).addClass("button purchasePointBtn").append("Purchase");
+			
+		 list.append(create("span").append(ammount, image, itemName), itemCost);
+		
+		return list;
+	}
+	
+	this.buyPoints = function(){
+		this._renderPointsArea();
+		$("#modal-three").removeClass("hideSection").addClass("show");
+
+	}; 
+
+	this._renderPointsArea = function(){
+		var shoppingList = $("#modal-three").find(".shoppingList");
+		var $this = this;
+		shoppingList.empty();
+				
+		$("#modal-three").find(".modal-footer").find("#purchase").hide();
+
+		_.each(BMT_PRODUCTS, function(obj){
+			shoppingList.append($this._renderPointAreaItem(obj));
+		
+		});
+		
+		
+	}
 	/**
 	 * Update Shopping cart HTML
 	 **/
@@ -387,7 +424,8 @@ var AnguishDonationPage = new function AnguishDonationPage()
 		
 			shoppingList.empty();
 		
-				$(".modal-footer").find("#purchase").show();
+		
+			$(".modal-footer").find("#purchase").show();
 
 			var data = this.selectedItems;
 			var totalCost = 0;

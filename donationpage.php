@@ -71,7 +71,7 @@ $sessionId = $ipbwi->session->session_id;
                 </div>
                 <div class="button-links">
                 	
-                    <a href="#">Purchase Points</a>
+                    <a class="purchasePoints">Purchase Points</a>
                     <a class="redemptionCenter">Redemption Center</a>
                     <a class="redemptionHistory">Redemption History</a>
                     <a class="paymentHistory">Payment History</a>
@@ -100,6 +100,22 @@ $sessionId = $ipbwi->session->session_id;
 	  	</div>
     </div>
  </div>                
+
+
+<div class="modal hideSection" id="modal-three" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-header">
+      <h2>Purchase Points <a href="#close" id="closeBtn" style="float: right" class="btn-close" aria-hidden="true">×</a> <!--CHANGED TO "#close"--></h2>
+    </div>
+    <div class="modal-body shoppingCart">
+		<ul class="shoppingList">
+	    </ul>
+	 </div>
+    <div class="modal-footer">
+    </div>
+   </div>
+ </div>
+
 
 
 
