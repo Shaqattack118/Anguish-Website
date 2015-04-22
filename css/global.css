@@ -14,6 +14,9 @@
 	text-align:center;
 	margin: 0 auto;
 }
+form p {
+	margin: 5px;
+}
 @font-face {
   font-family: 'Trajan Pro';
   src: url('../fonts/TrajanPro-Bold.eot'); /* IE9 Compat Modes */
