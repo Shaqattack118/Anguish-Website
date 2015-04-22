@@ -16,10 +16,10 @@ array("HiScores", "#"),
 );
 
 //Staff ranks who can access the cpanel
-$staff_ranks = array(4,6,8);
+$staff_ranks = array(4,7,6,8);
 //Staff ids for who can view bans, mutes and other logs
 $canViewLogs = array(4,6);
 //Staff ids for who can ban users, mute etc.
-$canPerfomActions  = array(4,7,6);
+$canPerfomActions  = array(4,6);
 
 ?>
