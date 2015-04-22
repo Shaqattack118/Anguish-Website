@@ -105,7 +105,9 @@ $header->displayString();
 		                			<p><input type="submit" name="submitbutton" value="Search IP(Bans)"></p>
 		                			<p>Mac Address: <input></p>
 		                			<p><input type="submit" name="submitbutton" value="Search Mac Bans"></p>';
-	                			}
+	                			} else {
+									echo 'You don\'t have sufficient permissions to perform these set of actions.';
+								}
 	                			
 	                			if(in_array($userInfo['member_group_id'], $canPerfomActions)) {
 	                				echo '<p>Username: <input></p>
@@ -117,7 +119,9 @@ $header->displayString();
 		                			<p>Mac Address: <input></p>
 		                			<p>Reason: <input></p>
 		                			<p><input type="submit" name="submitbutton" value="Mac Ban User"></p>';
-	                			} ?>
+	                			} else {
+									echo 'You don\'t have sufficient permissions to perform these set of actions.';
+								} ?>
                 			</form>
 	                	</div>
 	                </div>
@@ -131,6 +135,8 @@ $header->displayString();
 		                			<p><input type="submit" name="submitbutton" value="Search Mute"></p>
 		                			<p>Ip Address: <input></p>
 		                			<p><input type="submit" name="submitbutton" value="Search IP(Mutes)"></p>';
+								} else {
+									echo 'You don\'t have sufficient permissions to perform these set of actions.';
 								}
 		                		if(in_array($userInfo['member_group_id'], $canPerfomActions)) {
 		                			echo '<p>Username: <input></p>
@@ -139,7 +145,9 @@ $header->displayString();
 		                			<p>IP Address: <input></p>
 		                			<p>Reason: <input></p>
 		                			<p><input type="submit" name="submitbutton" value="IP Mute User"></p>';
-		                		}?>
+		                		} else {
+									echo 'You don\'t have sufficient permissions to perform these set of actions.';
+								}?>
 	                			
                 			</form>
 	                	</div>
@@ -154,6 +162,8 @@ $header->displayString();
 		                			<p><input type="submit" name="submitbutton" value="Search Trade Logs"></p>
 		                			<p><input type="submit" name="submitbutton" value="Search Duel Logs"></p>
 		                			<p><input type="submit" name="submitbutton" value="Search Connection Logs"></p>';
+								} else {
+									echo 'You don\'t have sufficient permissions to perform these set of actions.';
 								}
 	                			?>
 		                		

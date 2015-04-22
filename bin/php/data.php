@@ -20,6 +20,6 @@ $staff_ranks = array(4,7,6,8);
 //Staff ids for who can view bans, mutes and other logs
 $canViewLogs = array(4,7,6,8);
 //Staff ids for who can ban users, mute etc.
-$canPerfomActions  = array(4,7,6);
+$canPerfomActions  = array(7,6);
 
 ?>
