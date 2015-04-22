@@ -31,6 +31,10 @@ if(isset($_POST['submitbutton'])) {
 			$pre = $conn->prepare($query);
 			$pre->execute(array($_POST['sban']));
 			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
+			if(count($results) > 0) {
+				echo 'The username you entered cannot be found!';
+				return;
+			} 
 			$data = "<table><tr><td>Username</td><td>Banned By</td><td>Date</td></tr>";
 			for($i = 0; $i < count($results); $i++) {
 				$data .= "<tr><td>{$results[$i]['username']}</td><td>{$results[$i]['bannedBy']}</td><td>{$results[$i]['date']}</td></tr>";
@@ -165,9 +169,11 @@ $header->displayString();
 	                		<form method="post">
 	                			<?php
 	                			if(in_array($userInfo['member_group_id'], $canViewLogs)) {
-	                				echo '<p>Username: <input></p>
+	                				echo '<p>Giver: <input></p>
+	                				<p>Receiver: <input></p>
+	                				<p><input type="submit" name="submitbutton" value="Search Trade Logs"></p>
+	                				<p>Username: <input></p>
 		                			<p><input type="submit" name="submitbutton" value="Search Drop Logs"></p>
-		                			<p><input type="submit" name="submitbutton" value="Search Trade Logs"></p>
 		                			<p><input type="submit" name="submitbutton" value="Search Duel Logs"></p>
 		                			<p><input type="submit" name="submitbutton" value="Search Connection Logs"></p>';
 								} else {
