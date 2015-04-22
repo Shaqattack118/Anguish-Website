@@ -31,8 +31,11 @@ if(isset($_POST['submitbutton'])) {
 			$pre = $conn->prepare($query);
 			$pre->execute(array("%".$_POST['sban']."%"));
 			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
-			
-			$data = print_r($results, true);
+			$data = "<table><tr><td>Username</td><td>Banned By</td><td>Date</td></tr>";
+			for($i = 0; $i < count($results); $i++) {
+				$data .= "<tr><td>{$results[$i]['username']}</td><td>{$results[$i]['bannedBy']}</td><td>{$results[$i]['date']}</td></tr>";
+			}
+			$data .= "</table>";
 			break;
 		case "Search IP(Bans)": 
 			$data = "Search ip ban clicked";
