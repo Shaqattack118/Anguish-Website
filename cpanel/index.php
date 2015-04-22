@@ -78,7 +78,7 @@ $header->displayString();
 	$(document).ready(function() {
 		$("#bans").click(function() {
 			$("#title").html("Bans");
-			$("#centerbody").html($("#banscontainer").htm());
+			$("#centerbody").html($("#banscontainer").html());
 		});	
 	});
 	
