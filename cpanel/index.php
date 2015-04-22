@@ -97,48 +97,66 @@ $header->displayString();
 	                <div id="banscontainer" style="visibility: hidden;">
 	                	<div class="center">
 	                		<form method="post">
-		                		<p>Username: <input></p>
-	                			<p><input type="submit" name="submitbutton" value="Search Ban"></p>
-	                			<p>Ip Address: <input></p>
-	                			<p><input type="submit" name="submitbutton" value="Search IP(Bans)"></p>
-	                			<p>Username: <input></p>
-	                			<p>Reason: <input></p>
-	                			<p><input type="submit" name="submitbutton" value="Ban User"></p>
-	                			<p>IP Address: <input></p>
-	                			<p>Reason: <input></p>
-	                			<p><input type="submit" name="submitbutton" value="IP Ban User"></p>
-	                			<p>Mac Address: <input></p>
-	                			<p>Reason: <input></p>
-	                			<p><input type="submit" name="submitbutton" value="Mac Ban User"></p>
-	                			<p>Mac Address: <input></p>
-	                			<p><input type="submit" name="submitbutton" value="Search Mac Bans"></p>
+	                			<?php
+	                			if(in_array($userInfo['member_group_id'], $canViewLogs)) {
+	                				echo '<p>Username: <input></p>
+		                			<p><input type="submit" name="submitbutton" value="Search Ban"></p>
+		                			<p>Ip Address: <input></p>
+		                			<p><input type="submit" name="submitbutton" value="Search IP(Bans)"></p>
+		                			<p>Mac Address: <input></p>
+		                			<p><input type="submit" name="submitbutton" value="Search Mac Bans"></p>';
+	                			}
+	                			
+	                			if(in_array($userInfo['member_group_id'], $canPerfomActions)) {
+	                				echo '<p>Username: <input></p>
+		                			<p>Reason: <input></p>
+		                			<p><input type="submit" name="submitbutton" value="Ban User"></p>
+		                			<p>IP Address: <input></p>
+		                			<p>Reason: <input></p>
+		                			<p><input type="submit" name="submitbutton" value="IP Ban User"></p>
+		                			<p>Mac Address: <input></p>
+		                			<p>Reason: <input></p>
+		                			<p><input type="submit" name="submitbutton" value="Mac Ban User"></p>';
+	                			} ?>
                 			</form>
 	                	</div>
 	                </div>
 	                <div id="mutescontainer" style="visibility: hidden;">
 	                	<div class="center">
 	                		<form method="post">
-		                		<p>Username: <input></p>
-	                			<p><input type="submit" name="submitbutton" value="Search Mute"></p>
-	                			<p>Ip Address: <input></p>
-	                			<p><input type="submit" name="submitbutton" value="Search IP(Mutes)"></p>
-	                			<p>Username: <input></p>
-	                			<p>Reason: <input></p>
-	                			<p><input type="submit" name="submitbutton" value="Mute User"></p>
-	                			<p>IP Address: <input></p>
-	                			<p>Reason: <input></p>
-	                			<p><input type="submit" name="submitbutton" value="IP Mute User"></p>
+	                			<?php
+	                			
+	                			if(in_array($userInfo['member_group_id'], $canViewLogs)) {
+	                				echo '<p>Username: <input></p>
+		                			<p><input type="submit" name="submitbutton" value="Search Mute"></p>
+		                			<p>Ip Address: <input></p>
+		                			<p><input type="submit" name="submitbutton" value="Search IP(Mutes)"></p>';
+								}
+		                		if(in_array($userInfo['member_group_id'], $canPerfomActions)) {
+		                			echo '<p>Username: <input></p>
+		                			<p>Reason: <input></p>
+		                			<p><input type="submit" name="submitbutton" value="Mute User"></p>
+		                			<p>IP Address: <input></p>
+		                			<p>Reason: <input></p>
+		                			<p><input type="submit" name="submitbutton" value="IP Mute User"></p>';
+		                		}?>
+	                			
                 			</form>
 	                	</div>
 	                </div>
 	                <div id="logscontainer" style="visibility: hidden;">
 	                	<div class="center">
 	                		<form method="post">
-		                		<p>Username: <input></p>
-	                			<p><input type="submit" name="submitbutton" value="Search Drop Logs"></p>
-	                			<p><input type="submit" name="submitbutton" value="Search Trade Logs"></p>
-	                			<p><input type="submit" name="submitbutton" value="Search Duel Logs"></p>
-	                			<p><input type="submit" name="submitbutton" value="Search Connection Logs"></p>
+	                			<?php
+	                			if(in_array($userInfo['member_group_id'], $canViewLogs)) {
+	                				echo '<p>Username: <input></p>
+		                			<p><input type="submit" name="submitbutton" value="Search Drop Logs"></p>
+		                			<p><input type="submit" name="submitbutton" value="Search Trade Logs"></p>
+		                			<p><input type="submit" name="submitbutton" value="Search Duel Logs"></p>
+		                			<p><input type="submit" name="submitbutton" value="Search Connection Logs"></p>';
+								}
+	                			?>
+		                		
                 			</form>
 	                	</div>
 	                </div>
