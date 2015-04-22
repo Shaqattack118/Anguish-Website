@@ -48,6 +48,14 @@ $header->displayString();
     <div class="body-container" role="main">
           <div class="content-container clear-fix">
             <div class="left-container">
+            	<div class="box">
+                    <header>
+                        <h2>Results</h2>
+                    </header>
+                    <div id="resultsbody">
+                    	<?php echo $data; ?>
+                    </div>
+				</div>
                 <div class="box">
                     <header>
                         <h2 id="title"></h2>
@@ -79,15 +87,6 @@ $header->displayString();
                 			<p>Reason: <input></p>
                 			<p><input type="submit" name="submitbutton" value="IP Ban User"></p>
                 		</form>
-                		
-                		<div class="box">
-		                    <header>
-		                        <h2>Results</h2>
-		                    </header>
-		                    <div id="resultsbody">
-		                    	<?php echo $data; ?>
-		                    </div>
-						</div>
                 	</div>
                 </div>
                 <div id="mutescontainer" style="visibility: hidden;">
