@@ -9,7 +9,7 @@ $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
 $navigation = array(
 //array(name, url)
 array("products", "http://anguishps.com/website/donationpage.php"),
-array("Forum", "#"),
+array("Forum", "http://anguishps.com/forums/"),
 array("", "#"),
 array("Vote", "#"),
 array("HiScores", "#"),
