@@ -24,7 +24,7 @@
             <div class="center-container">
                 <div class="box notice">
                     <h3>NOTICE!</h3>
-                    <p>test
+                    <p>testing git pull
                     </p>
                     <div class="clear-fix"></div>
          				 </div>
