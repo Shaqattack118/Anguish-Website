@@ -33,7 +33,7 @@ $header->displayString();
             <div class="left-container">
                 <div class="box donation">
                     <header>
-                        <h2 id="title">Donation Prizes</h2>
+                        <h2 id="title"></h2>
                     </header>
                     <div id="centerbody">
                     	
@@ -76,9 +76,19 @@ $header->displayString();
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 <script>
 	$(document).ready(function() {
+		$("#title").html("Bans");
+		$("#centerbody").html($("#banscontainer").html());
 		$("#bans").click(function() {
 			$("#title").html("Bans");
 			$("#centerbody").html($("#banscontainer").html());
+		});	
+		$("#mutes").click(function() {
+			$("#title").html("Bans");
+			$("#centerbody").html($("#mutescontainer").html());
+		});	
+		$("#logs").click(function() {
+			$("#title").html("Bans");
+			$("#centerbody").html($("#logscontainer").html());
 		});	
 	});
 	
