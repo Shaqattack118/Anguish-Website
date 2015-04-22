@@ -106,7 +106,7 @@ $header->displayString();
 		                			<p>Mac Address: <input></p>
 		                			<p><input type="submit" name="submitbutton" value="Search Mac Bans"></p>';
 	                			} else {
-									echo 'You don\'t have sufficient permissions to perform these set of actions.';
+									echo '<p>You don\'t have sufficient permissions to view logs!</p>';
 								}
 	                			
 	                			if(in_array($userInfo['member_group_id'], $canPerfomActions)) {
@@ -136,7 +136,7 @@ $header->displayString();
 		                			<p>Ip Address: <input></p>
 		                			<p><input type="submit" name="submitbutton" value="Search IP(Mutes)"></p>';
 								} else {
-									echo 'You don\'t have sufficient permissions to perform these set of actions.';
+									echo '<p>You don\'t have sufficient permissions to view logs!</p>';
 								}
 		                		if(in_array($userInfo['member_group_id'], $canPerfomActions)) {
 		                			echo '<p>Username: <input></p>
@@ -163,7 +163,7 @@ $header->displayString();
 		                			<p><input type="submit" name="submitbutton" value="Search Duel Logs"></p>
 		                			<p><input type="submit" name="submitbutton" value="Search Connection Logs"></p>';
 								} else {
-									echo 'You don\'t have sufficient permissions to perform these set of actions.';
+									echo '<p>You don\'t have sufficient permissions to view logs!</p>';
 								}
 	                			?>
 		                		
