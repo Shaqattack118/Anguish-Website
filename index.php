@@ -1,24 +1,20 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>Anguish</title>
-    <link href="css/global.css" rel="stylesheet" type="text/css" />
-</head>
-<body>
-<div class="container main-container">
-    <header class="header-top">
-        <div class="logo">
-            <div class="logo-inner"></div>
-        </div>
-        <nav class="navigation">
-            <a href="#" class="navigation-item">Home</a>
-            <a href="#" class="navigation-item">Community</a>
-            <a href="#" class="navigation-item play"></a>
-            <a href="#" class="navigation-item">Vote</a>
-            <a href="#" class="navigation-item">Donations</a>
-        </nav>
-    </header>
+<?php 
+ini_set('display_errors',1);
+ini_set('display_startup_errors',1);
+error_reporting(-1);
+
+define("TO_ROOT", "./");
+define("ASSETS", TO_ROOT . "bin/php/");
+
+require_once(ASSETS . 'data.php');
+require_once(ASSETS . 'StringBuilder.php');
+
+require_once(ASSETS . 'header.php');
+require_once(ASSETS . 'footer.php');
+require_once(TO_ROOT . 'ipbwi/ipbwi.inc.php');
+
+$header->displayString();
+?>
     <div class="body-container" role="main">
     		<div class="content-container clear-fix">
             <div class="center-container">
