@@ -28,8 +28,8 @@ if(isset($_POST['submitbutton'])) {
 	switch($_POST['submitbutton']) {
 		case "Search Ban": 
 			$query = "SELECT * FROM `banned` WHERE `username` = ?";
-			$conn->prepare($query);
-			$conn->execute($_POST['sban']);
+			$pre = $conn->prepare($query);
+			$pre->execute($_POST['sban']);
 			$results = $conn->fetchAll(PDO::FETCH_ASSOC);
 			
 			$data = print_r($results, true);
