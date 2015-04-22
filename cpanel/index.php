@@ -29,7 +29,7 @@ if(isset($_POST['submitbutton'])) {
 		case "Search Ban": 
 			$data = "Search ban clicked";
 			break;
-		case "Search IP Ban": 
+		case "Search IP(Bans)": 
 			$data = "Search ip ban clicked";
 			break;
 		case "Ban User": 
@@ -38,16 +38,18 @@ if(isset($_POST['submitbutton'])) {
 		case "IP Ban User": 
 			$data = "ip ban user clicked";
 			break;
+			
+			
 		case "Search Mute": 
 			$data = "Search Mute clicked";
 			break;
-		case "Search IP Mute": 
+		case "Search IP(Mutes)": 
 			$data = "Search ip Mute clicked";
 			break;
-		case "Ban Mute": 
+		case "Mute User": 
 			$data = "Mute user clicked";
 			break;
-		case "IP Ban Mute": 
+		case "IP Mute User": 
 			$data = "ip Mute user clicked";
 			break;
 	}
@@ -92,7 +94,7 @@ $header->displayString();
 		                		<p>Username: <input></p>
 	                			<p><input type="submit" name="submitbutton" value="Search Ban"></p>
 	                			<p>Ip Address: <input></p>
-	                			<p><input type="submit" name="submitbutton" value="Search IP Ban"></p>
+	                			<p><input type="submit" name="submitbutton" value="Search IP(Bans)"></p>
 	                			<p>Username: <input></p>
 	                			<p>Reason: <input></p>
 	                			<p><input type="submit" name="submitbutton" value="Ban User"></p>
@@ -108,7 +110,7 @@ $header->displayString();
 		                		<p>Username: <input></p>
 	                			<p><input type="submit" name="submitbutton" value="Search Mute"></p>
 	                			<p>Ip Address: <input></p>
-	                			<p><input type="submit" name="submitbutton" value="Search IP Mute"></p>
+	                			<p><input type="submit" name="submitbutton" value="Search IP(Mutes)"></p>
 	                			<p>Username: <input></p>
 	                			<p>Reason: <input></p>
 	                			<p><input type="submit" name="submitbutton" value="Mute User"></p>
