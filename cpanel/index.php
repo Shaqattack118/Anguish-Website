@@ -66,6 +66,15 @@ $header->displayString();
                 			<p>Reason: <input></p>
                 			<p><input type="submit" value="IP Ban User"></p>
                 		</form>
+                		
+                		<div class="box donation">
+		                    <header>
+		                        <h2>Results</h2>
+		                    </header>
+		                    <div id="resultsbody">
+		                    	Nothing to show!
+		                    </div>
+						</div>
                 	</div>
                 </div>
                 <div id="mutescontainer" style="visibility: hidden;">
