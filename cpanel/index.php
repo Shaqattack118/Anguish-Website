@@ -29,7 +29,7 @@ if(isset($_POST['submitbutton'])) {
 		case "Search Ban": 
 			$query = "SELECT * FROM `banned` WHERE `username` = ?";
 			$pre = $conn->prepare($query);
-			$pre->execute($_POST['sban']);
+			$pre->execute(array($_POST['sban']));
 			$results = $conn->fetchAll(PDO::FETCH_ASSOC);
 			
 			$data = print_r($results, true);
