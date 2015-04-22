@@ -64,7 +64,7 @@ $header->displayString();
 <script>
 	$(document).ready(function() {
 		$("#bans").click(function() {
-			$("#title").val("Bans");
+			$("#title").html("Bans");
 		});	
 	});
 	
