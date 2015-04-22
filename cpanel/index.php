@@ -27,7 +27,12 @@ if(!in_array($userInfo['member_group_id'], $staff_ranks)) {
 if(isset($_POST['submitbutton'])) {
 	switch($_POST['submitbutton']) {
 		case "Search Ban": 
-			$data = "Search ban clicked";
+			$query = "SELECT * FROM `banned` WHERE `username` = ?";
+			$conn->prepare($query);
+			$conn->execute($_POST['sban']);
+			$results = $conn->fetchAll(PDO::FETCH_ASSOC);
+			
+			$data = print_r($results, true);
 			break;
 		case "Search IP(Bans)": 
 			$data = "Search ip ban clicked";
@@ -99,11 +104,11 @@ $header->displayString();
 	                		<form method="post">
 	                			<?php
 	                			if(in_array($userInfo['member_group_id'], $canViewLogs)) {
-	                				echo '<p>Username: <input></p>
+	                				echo '<p>Username: <input name="sban"></p>
 		                			<p><input type="submit" name="submitbutton" value="Search Ban"></p>
-		                			<p>Ip Address: <input></p>
+		                			<p>Ip Address: <input name="siban"></p>
 		                			<p><input type="submit" name="submitbutton" value="Search IP(Bans)"></p>
-		                			<p>Mac Address: <input></p>
+		                			<p>Mac Address: <input name="smban"></p>
 		                			<p><input type="submit" name="submitbutton" value="Search Mac Bans"></p>';
 	                			} else {
 									echo '<p>You don\'t have sufficient permissions to view logs!</p>';
