@@ -8,10 +8,12 @@ $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
 
 $navigation = array(
 //array(name, url)
-array("products", "#"),
+array("products", "donationpage.php"),
 array("Forum", "#"),
+array("HiScores", "#"),
 array("", "#"),
 array("Vote", "#"),
+array("HiScores", "#"),
 array("HiScores", "#"),
 );
 
