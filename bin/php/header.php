@@ -5,7 +5,7 @@ $header->append('<!DOCTYPE html>
 	<html>
 	<head lang="en">
 	<meta charset="UTF-8">
-	<title>donations</title>');
+	<title>'.isset($title) ? $title : "Anguish RSPS".'</title>');
 
 //Stylesheets / Javascripts
 $header->append('<link href="'.TO_ROOT.'css/global.css" rel="stylesheet" type="text/css" />');
