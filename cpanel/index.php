@@ -33,7 +33,7 @@ $header->displayString();
             <div class="left-container">
                 <div class="box donation">
                     <header>
-                        <h2 class="title">Donation Prizes</h2>
+                        <h2 id="title">Donation Prizes</h2>
                     </header>
 				</div>
 
@@ -42,9 +42,9 @@ $header->displayString();
 
                 <div class="button-links">
                 	
-                    <a href="#" class="bans">Bans</a>
-                    <a href="#" class="mutes">Mutes</a>
-                    <a href="#" class="logs">Logs</a>
+                    <a href="#" id="bans">Bans</a>
+                    <a href="#" id="mutes">Mutes</a>
+                    <a href="#" id="logs">Logs</a>
                 </div>
             </aside>
 		</div>
@@ -63,8 +63,8 @@ $header->displayString();
 </div>
 <script>
 	$(document).ready(function() {
-		$(".bans").click(function() {
-			$(".title").val("Bans");
+		$("#bans").click(function() {
+			$("#title").val("Bans");
 		});	
 	});
 	
