@@ -73,10 +73,10 @@ $header->displayString();
                     <a id="mutes">Mutes</a>
                     <a id="logs">Logs</a>
                 </div>
-                <div id="banscontainer" style="visibility: hidden;">
-                	<div class="center">
-                		<form method="post">
-                			<p>Username: <input></p>
+                <form method="post">
+	                <div id="banscontainer" style="visibility: hidden;">
+	                	<div class="center">
+	                		<p>Username: <input></p>
                 			<p><input type="submit" name="submitbutton" value="Search Ban"></p>
                 			<p>Ip Address: <input></p>
                 			<p><input type="submit" name="submitbutton" value="Search IP Ban"></p>
@@ -86,15 +86,37 @@ $header->displayString();
                 			<p>IP Address: <input></p>
                 			<p>Reason: <input></p>
                 			<p><input type="submit" name="submitbutton" value="IP Ban User"></p>
-                		</form>
-                	</div>
-                </div>
-                <div id="mutescontainer" style="visibility: hidden;">
-                	Mutes container here
-                </div>
-                <div id="logscontainer" style="visibility: hidden;">
-                	Logs container here
-                </div>
+	                	</div>
+	                </div>
+	                <div id="mutescontainer" style="visibility: hidden;">
+	                	<div class="center">
+	                		<p>Username: <input></p>
+                			<p><input type="submit" name="submitbutton" value="Search Mute"></p>
+                			<p>Ip Address: <input></p>
+                			<p><input type="submit" name="submitbutton" value="Search IP Mute"></p>
+                			<p>Username: <input></p>
+                			<p>Reason: <input></p>
+                			<p><input type="submit" name="submitbutton" value="Mute User"></p>
+                			<p>IP Address: <input></p>
+                			<p>Reason: <input></p>
+                			<p><input type="submit" name="submitbutton" value="IP Ban User"></p>
+	                	</div>
+	                </div>
+	                <div id="logscontainer" style="visibility: hidden;">
+	                	<div class="center">
+	                		<p>Username: <input></p>
+                			<p><input type="submit" name="submitbutton" value="Search Ban"></p>
+                			<p>Ip Address: <input></p>
+                			<p><input type="submit" name="submitbutton" value="Search IP Ban"></p>
+                			<p>Username: <input></p>
+                			<p>Reason: <input></p>
+                			<p><input type="submit" name="submitbutton" value="Ban User"></p>
+                			<p>IP Address: <input></p>
+                			<p>Reason: <input></p>
+                			<p><input type="submit" name="submitbutton" value="IP Ban User"></p>
+	                	</div>
+	                </div>
+                </form>
             </aside>
 		</div>
         <footer class="bottom-footer">
