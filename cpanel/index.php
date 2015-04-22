@@ -24,7 +24,11 @@ if(!isLoggedIn) {
 if(!in_array($userInfo['member_group_id'], $staff_ranks)) {
 	header("Location: ../index.php");
 }
-
+if(isset($_POST['submitbutton'])) {
+	switch($_POST['submitbutton']) {
+		case "VALUEE": break;
+	}
+}
 $header->displayString();
 
 ?>
@@ -51,12 +55,16 @@ $header->displayString();
                 <div id="banscontainer" style="visibility: hidden;">
                 	<div class="center">
                 		<form method="post">
-                			
-                			<p><input></p>
-                			<p><input></p>
-                			<p><input></p>
-                			<p><input></p>
-                			<p><input type="submit"></p>
+                			<p>Username: <input></p>
+                			<p><input type="submit" value="Search Ban"></p>
+                			<p>Ip Address: <input></p>
+                			<p><input type="submit" value="Search IP Ban"></p>
+                			<p>Username: <input></p>
+                			<p>Reason: <input></p>
+                			<p><input type="submit" value="Ban User"></p>
+                			<p>IP Address: <input></p>
+                			<p>Reason: <input></p>
+                			<p><input type="submit" value="IP Ban User"></p>
                 		</form>
                 	</div>
                 </div>
