@@ -38,6 +38,18 @@ if(isset($_POST['submitbutton'])) {
 		case "IP Ban User": 
 			$data = "ip ban user clicked";
 			break;
+		case "Search Mute": 
+			$data = "Search Mute clicked";
+			break;
+		case "Search IP Mute": 
+			$data = "Search ip Mute clicked";
+			break;
+		case "Ban Mute": 
+			$data = "Mute user clicked";
+			break;
+		case "IP Ban Mute": 
+			$data = "ip Mute user clicked";
+			break;
 	}
 } else {
 	$data = "Nothing to show!";
@@ -113,6 +125,7 @@ $header->displayString();
 	                			<p><input type="submit" name="submitbutton" value="Search Drop Logs"></p>
 	                			<p><input type="submit" name="submitbutton" value="Search Trade Logs"></p>
 	                			<p><input type="submit" name="submitbutton" value="Search Duel Logs"></p>
+	                			<p><input type="submit" name="submitbutton" value="Search Connection Logs"></p>
                 			</form>
 	                	</div>
 	                </div>
