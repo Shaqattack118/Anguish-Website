@@ -1,11 +1,11 @@
 <?php
 $header = new StringBuilder();
-
+$title = isset($title) ? $title : 'Anguish RSPS';
 $header->append('<!DOCTYPE html>
 	<html>
 	<head lang="en">
 	<meta charset="UTF-8">
-	<title>'.isset($title) ? $title : 'Anguish RSPS'.'</title>');
+	<title>'.$title.'</title>');
 
 //Stylesheets / Javascripts
 $header->append('<link href="'.TO_ROOT.'css/global.css" rel="stylesheet" type="text/css" />');
