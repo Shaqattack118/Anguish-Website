@@ -49,7 +49,16 @@ $header->displayString();
                     <a id="logs">Logs</a>
                 </div>
                 <div id="banscontainer" style="visibility: hidden;">
-                	Bans container here
+                	<div class="center">
+                		<form method="post">
+                			
+                			<p><input></p>
+                			<p><input></p>
+                			<p><input></p>
+                			<p><input></p>
+                			<p><input type="submit"></p>
+                		</form>
+                	</div>
                 </div>
                 <div id="mutescontainer" style="visibility: hidden;">
                 	Mutes container here
@@ -83,11 +92,11 @@ $header->displayString();
 			$("#centerbody").html($("#banscontainer").html());
 		});	
 		$("#mutes").click(function() {
-			$("#title").html("Bans");
+			$("#title").html("Mutes");
 			$("#centerbody").html($("#mutescontainer").html());
 		});	
 		$("#logs").click(function() {
-			$("#title").html("Bans");
+			$("#title").html("Logs");
 			$("#centerbody").html($("#logscontainer").html());
 		});	
 	});
