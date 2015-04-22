@@ -24,9 +24,7 @@
             <div class="center-container">
                 <div class="box notice">
                     <h3>NOTICE!</h3>
-                    <p>Morbi vel lorem vel urna pellentesque dignissim a ut tortor. Mauris vitae elementum tortor, in ornare velit. Curabitur sed
-                        enim ante. Aenean eget fermentum neque. Nullam eget pellentesque enim. Vestibulum sed dolor <a href="#" class="button">Read more</a> <br />
-                        sed ipsum maximus hendrerit id quis dolor. Phasellus ullamcorper congue ligula ac ult....
+                    <p>test
                     </p>
                     <div class="clear-fix"></div>
          				 </div>
