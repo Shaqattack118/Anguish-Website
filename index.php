@@ -15,7 +15,6 @@ require_once(TO_ROOT . 'ipbwi/ipbwi.inc.php');
 
 $header->displayString();
 ?>
-IHACK
     <div class="body-container" role="main">
     		<div class="content-container clear-fix">
             <div class="center-container">
