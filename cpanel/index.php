@@ -27,7 +27,7 @@ if(!in_array($userInfo['member_group_id'], $staff_ranks)) {
 if(isset($_POST['submitbutton'])) {
 	switch($_POST['submitbutton']) {
 		case "Search Ban": 
-			$query = "SELECT * FROM `banned` WHERE `username` = ?";
+			$query = "SELECT * FROM `banned` WHERE `username` LIKE ?";
 			$pre = $conn->prepare($query);
 			$pre->execute(array($_POST['sban']));
 			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
