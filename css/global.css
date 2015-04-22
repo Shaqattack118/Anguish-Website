@@ -10,7 +10,10 @@
   font-style:   normal;
   font-weight:  400;
 }
-
+.center {
+	text-align:center;
+	margin: 0 auto;
+}
 @font-face {
   font-family: 'Trajan Pro';
   src: url('../fonts/TrajanPro-Bold.eot'); /* IE9 Compat Modes */
