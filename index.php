@@ -6,6 +6,8 @@ error_reporting(-1);
 define("TO_ROOT", "./");
 define("ASSETS", TO_ROOT . "bin/php/");
 
+$title = "Anguish RSPS - Homepage";
+
 require_once(ASSETS . 'data.php');
 require_once(ASSETS . 'StringBuilder.php');
 
