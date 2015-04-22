@@ -38,6 +38,12 @@ if(isset($_POST['submitbutton'])) {
 		case "IP Ban User": 
 			$data = "ip ban user clicked";
 			break;
+		case "Mac Ban User": 
+			$data = "mac ban user clicked";
+			break;
+		case "Search Mac Bans": 
+			$data = "search mac ban clicked";
+			break;
 			
 			
 		case "Search Mute": 
@@ -47,7 +53,7 @@ if(isset($_POST['submitbutton'])) {
 			$data = "Search ip Mute clicked";
 			break;
 		case "Mute User": 
-			$data = "Mute user clicked";
+			$data = "This function is not working!";
 			break;
 		case "IP Mute User": 
 			$data = "ip Mute user clicked";
@@ -101,6 +107,11 @@ $header->displayString();
 	                			<p>IP Address: <input></p>
 	                			<p>Reason: <input></p>
 	                			<p><input type="submit" name="submitbutton" value="IP Ban User"></p>
+	                			<p>Mac Address: <input></p>
+	                			<p>Reason: <input></p>
+	                			<p><input type="submit" name="submitbutton" value="Mac Ban User"></p>
+	                			<p>Mac Address: <input></p>
+	                			<p><input type="submit" name="submitbutton" value="Search Mac Bans"></p>
                 			</form>
 	                	</div>
 	                </div>
