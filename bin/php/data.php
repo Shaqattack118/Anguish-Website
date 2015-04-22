@@ -15,4 +15,6 @@ array("Vote", "#"),
 array("HiScores", "#"),
 );
 
+$staff_ranks = array(4,7,6);
+
 ?>

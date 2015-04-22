@@ -6,12 +6,24 @@ error_reporting(-1);
 define("TO_ROOT", "../");
 define("ASSETS", TO_ROOT . "bin/php/");
 
+$title = "Anguish - Cpanel";
+
 require_once(ASSETS . 'data.php');
 require_once(ASSETS . 'StringBuilder.php');
 
 require_once(ASSETS . 'header.php');
 require_once(ASSETS . 'footer.php');
 require_once(TO_ROOT . 'ipbwi/ipbwi.inc.php');
+
+$isLoggedIn = $ipbwi->member->isLoggedIn();
+$userInfo = $ipbwi->member->info();
+
+if(!isLoggedIn) {
+	header("Location: ../index.php");
+}
+if(!in_array($userInfo['member_group_id'], $staff_ranks)) {
+	header("Location: ../index.php");
+}
 
 $header->displayString();
 
@@ -37,25 +49,7 @@ $header->displayString();
 
             </div>
 			<aside class="right-container">
-                <div class="box">
-                    <header>Header
-                    </header>
-						<ul class = "pointUL">  
-						<?php 
-							if($isLoggedIn){
-								echo "<li>Available Points: <strong class=\"apoint\">". $userInfo['donator_points_current'] ."</strong></li>";
-								echo "<li>Total Overall Points: " . $userInfo['donator_points_overall'] . "</li>";
-								echo "<li><a href=\"#modal-one\" class=\"button cartBtn\">View Cart</a></li>";
-							} else {
-								echo "<li>Available Points: <strong class=\"apoint\">0</strong></li>";
-								echo "<li>Total Overall Points: 0</li>";
-							}
-						?>				
 
-						</ul>
-                        <div class="clear-fix"></div>
-                    </form>
-                </div>
                 <div class="button-links">
                 	
                     <a href="#">Purchase Points</a>
@@ -76,17 +70,6 @@ $header->displayString();
             <p class="links">
                 <a href="#">home</a> | <a href="#">community</a> | <a href="#">play now</a> | <a href="#">vote</a> | <a href="#">donations</a></p>
         </footer>
-		
-<div class="modal" id="modalNoticeAlert" aria-hidden="true">
-  <div class="modal-dialog">
-			<div class="box modalNotice">
-	    	 <h3 id="heading"></h3>
-	      	<p id="message"></p>
-	      	<a href="#close" style="float: right" class="button close-btn" aria-hidden="true">close</a> 
-	    <div class="clear-fix"></div>
-	  	</div>
-    </div>
- </div>   
 
 
   </div>
