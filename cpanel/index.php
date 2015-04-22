@@ -35,16 +35,6 @@ $header->displayString();
                     <header>
                         <h2 class="title">Donation Prizes</h2>
                     </header>
-					<ul class="tab-links">
-
-					</ul>
-					<table class ="contentArea donationTable">
-						<tr>
-							<td class ="btn" align="center"><strong>Select</strong></td>
-							<td class ="item" align="center"><strong>Item Name</strong></td>
-							<td class ="cost" align="center"><strong>Cost</strong></td>
-						</tr>
-					</table>
 				</div>
 
             </div>
@@ -52,12 +42,9 @@ $header->displayString();
 
                 <div class="button-links">
                 	
-                    <a href="#">Purchase Points</a>
-                    <a class="redemptionCenter">Redemption Center</a>
-                    <a class="redemptionHistory">Redemption History</a>
-                    <a class="paymentHistory">Payment History</a>
-                    <a href="#">Redeem Pin</a>
-                    <a href="#">Gifting Center</a>
+                    <a class="bans">Bans</a>
+                    <a class="mutes">Mutes</a>
+                    <a class="logs">Logs</a>
                 </div>
             </aside>
 		</div>
@@ -74,6 +61,14 @@ $header->displayString();
 
   </div>
 </div>
+<script>
+	$(document).ready(function() {
+		$(".bans").click(function() {
+			$(".title").val("Bans");
+		});	
+	});
+	
+</script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script> 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 </body>
