@@ -26,8 +26,21 @@ if(!in_array($userInfo['member_group_id'], $staff_ranks)) {
 }
 if(isset($_POST['submitbutton'])) {
 	switch($_POST['submitbutton']) {
-		case "VALUEE": break;
+		case "Search Ban": 
+			$data = "Search ban clicked";
+			break;
+		case "Search IP Ban": 
+			$data = "Search ip ban clicked";
+			break;
+		case "Ban User": 
+			$data = "Ban user clicked";
+			break;
+		case "IP Ban User": 
+			$data = "ip ban user clicked";
+			break;
 	}
+} else {
+	$data = "Nothing to show!";
 }
 $header->displayString();
 
@@ -35,7 +48,7 @@ $header->displayString();
     <div class="body-container" role="main">
           <div class="content-container clear-fix">
             <div class="left-container">
-                <div class="box donation">
+                <div class="box">
                     <header>
                         <h2 id="title"></h2>
                     </header>
@@ -56,23 +69,23 @@ $header->displayString();
                 	<div class="center">
                 		<form method="post">
                 			<p>Username: <input></p>
-                			<p><input type="submit" value="Search Ban"></p>
+                			<p><input type="submit" name="submitbutton" value="Search Ban"></p>
                 			<p>Ip Address: <input></p>
-                			<p><input type="submit" value="Search IP Ban"></p>
+                			<p><input type="submit" name="submitbutton" value="Search IP Ban"></p>
                 			<p>Username: <input></p>
                 			<p>Reason: <input></p>
-                			<p><input type="submit" value="Ban User"></p>
+                			<p><input type="submit" name="submitbutton" value="Ban User"></p>
                 			<p>IP Address: <input></p>
                 			<p>Reason: <input></p>
-                			<p><input type="submit" value="IP Ban User"></p>
+                			<p><input type="submit" name="submitbutton" value="IP Ban User"></p>
                 		</form>
                 		
-                		<div class="box donation">
+                		<div class="box">
 		                    <header>
 		                        <h2>Results</h2>
 		                    </header>
 		                    <div id="resultsbody">
-		                    	Nothing to show!
+		                    	<?php echo $data; ?>
 		                    </div>
 						</div>
                 	</div>
