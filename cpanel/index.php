@@ -35,16 +35,27 @@ $header->displayString();
                     <header>
                         <h2 id="title">Donation Prizes</h2>
                     </header>
+                    <div id="centerbody">
+                    	
+                    </div>
 				</div>
 
             </div>
 			<aside class="right-container">
 
                 <div class="button-links">
-                	
-                    <a href="#" id="bans">Bans</a>
-                    <a href="#" id="mutes">Mutes</a>
-                    <a href="#" id="logs">Logs</a>
+                    <a id="bans">Bans</a>
+                    <a id="mutes">Mutes</a>
+                    <a id="logs">Logs</a>
+                </div>
+                <div id="banscontainer" style="visibility: hidden;">
+                	Bans container here
+                </div>
+                <div id="mutescontainer" style="visibility: hidden;">
+                	Mutes container here
+                </div>
+                <div id="logscontainer" style="visibility: hidden;">
+                	Logs container here
                 </div>
             </aside>
 		</div>
@@ -67,6 +78,7 @@ $header->displayString();
 	$(document).ready(function() {
 		$("#bans").click(function() {
 			$("#title").html("Bans");
+			$("#centerbody").html($("#banscontainer").htm());
 		});	
 	});
 	
