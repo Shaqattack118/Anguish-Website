@@ -73,47 +73,47 @@ $header->displayString();
                     <a id="mutes">Mutes</a>
                     <a id="logs">Logs</a>
                 </div>
-                <form method="post">
+                
 	                <div id="banscontainer" style="visibility: hidden;">
 	                	<div class="center">
-	                		<p>Username: <input></p>
-                			<p><input type="submit" name="submitbutton" value="Search Ban"></p>
-                			<p>Ip Address: <input></p>
-                			<p><input type="submit" name="submitbutton" value="Search IP Ban"></p>
-                			<p>Username: <input></p>
-                			<p>Reason: <input></p>
-                			<p><input type="submit" name="submitbutton" value="Ban User"></p>
-                			<p>IP Address: <input></p>
-                			<p>Reason: <input></p>
-                			<p><input type="submit" name="submitbutton" value="IP Ban User"></p>
+	                		<form method="post">
+		                		<p>Username: <input></p>
+	                			<p><input type="submit" name="submitbutton" value="Search Ban"></p>
+	                			<p>Ip Address: <input></p>
+	                			<p><input type="submit" name="submitbutton" value="Search IP Ban"></p>
+	                			<p>Username: <input></p>
+	                			<p>Reason: <input></p>
+	                			<p><input type="submit" name="submitbutton" value="Ban User"></p>
+	                			<p>IP Address: <input></p>
+	                			<p>Reason: <input></p>
+	                			<p><input type="submit" name="submitbutton" value="IP Ban User"></p>
+                			</form>
 	                	</div>
 	                </div>
 	                <div id="mutescontainer" style="visibility: hidden;">
 	                	<div class="center">
-	                		<p>Username: <input></p>
-                			<p><input type="submit" name="submitbutton" value="Search Mute"></p>
-                			<p>Ip Address: <input></p>
-                			<p><input type="submit" name="submitbutton" value="Search IP Mute"></p>
-                			<p>Username: <input></p>
-                			<p>Reason: <input></p>
-                			<p><input type="submit" name="submitbutton" value="Mute User"></p>
-                			<p>IP Address: <input></p>
-                			<p>Reason: <input></p>
-                			<p><input type="submit" name="submitbutton" value="IP Ban User"></p>
+	                		<form method="post">
+		                		<p>Username: <input></p>
+	                			<p><input type="submit" name="submitbutton" value="Search Mute"></p>
+	                			<p>Ip Address: <input></p>
+	                			<p><input type="submit" name="submitbutton" value="Search IP Mute"></p>
+	                			<p>Username: <input></p>
+	                			<p>Reason: <input></p>
+	                			<p><input type="submit" name="submitbutton" value="Mute User"></p>
+	                			<p>IP Address: <input></p>
+	                			<p>Reason: <input></p>
+	                			<p><input type="submit" name="submitbutton" value="IP Mute User"></p>
+                			</form>
 	                	</div>
 	                </div>
 	                <div id="logscontainer" style="visibility: hidden;">
 	                	<div class="center">
-	                		<p>Username: <input></p>
-                			<p><input type="submit" name="submitbutton" value="Search Ban"></p>
-                			<p>Ip Address: <input></p>
-                			<p><input type="submit" name="submitbutton" value="Search IP Ban"></p>
-                			<p>Username: <input></p>
-                			<p>Reason: <input></p>
-                			<p><input type="submit" name="submitbutton" value="Ban User"></p>
-                			<p>IP Address: <input></p>
-                			<p>Reason: <input></p>
-                			<p><input type="submit" name="submitbutton" value="IP Ban User"></p>
+	                		<form method="post">
+		                		<p>Username: <input></p>
+	                			<p><input type="submit" name="submitbutton" value="Search Drop Logs"></p>
+	                			<p><input type="submit" name="submitbutton" value="Search Trade Logs"></p>
+	                			<p><input type="submit" name="submitbutton" value="Search Duel Logs"></p>
+                			</form>
 	                	</div>
 	                </div>
                 </form>
