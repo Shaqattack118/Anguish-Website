@@ -42,9 +42,9 @@ $header->displayString();
 
                 <div class="button-links">
                 	
-                    <a class="bans">Bans</a>
-                    <a class="mutes">Mutes</a>
-                    <a class="logs">Logs</a>
+                    <a href="#" class="bans">Bans</a>
+                    <a href="#" class="mutes">Mutes</a>
+                    <a href="#" class="logs">Logs</a>
                 </div>
             </aside>
 		</div>
