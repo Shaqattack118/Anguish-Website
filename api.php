@@ -6,10 +6,6 @@ ini_set('display_errors',1);
 ini_set('display_startup_errors',1);
 error_reporting( - 1);
 
-define('servername', 'localhost');
-define('username', 'root');
-define('password', 'rJCa!#7@mgq82hNS');
-
 
 define("TO_ROOT", "./");
 define("ASSETS", TO_ROOT . "bin/php/");
