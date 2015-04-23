@@ -242,7 +242,7 @@ $header->displayString();
 			$("#hideorshow").html("Show");
 		} else {
 			$("#resultsbody").css("visibility", "visible");
-			$("#resultsbody").css("height", "0px");
+			$("#resultsbody").css("height", "auto");
 			$("#hideorshow").html("Show");
 		}
 	}
