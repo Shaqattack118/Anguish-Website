@@ -236,7 +236,7 @@ $header->displayString();
 	});
 	
 	function hide() {
-		if($(this).html() == "Hide") {
+		if($("#hideorshow").html() == "Hide") {
 			$("#resultsbody").css("visibility", "hidden");
 			$("#resultsbody").css("height", "0px");
 			$("#hideorshow").html("Show");
