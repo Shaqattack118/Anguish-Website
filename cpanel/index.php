@@ -237,7 +237,7 @@ $header->displayString();
 	
 	function hide() {
 		if($(this).html() == "Hide") {
-			$("#resultsbody").css("visibility", "collapse");
+			$("#resultsbody").css("visibility", "hidden");
 			$("#resultsbody").css("height", "0px");
 			$("#hideorshow").html("Show");
 		} else {
