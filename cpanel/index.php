@@ -33,7 +33,6 @@ if(isset($_POST['submitbutton'])) {
 			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
 			if(count($results) <= 0) {
 				$data = 'The username you entered cannot be found!';
-				return;
 			} else {
 				$data = "<table><tr><td>Username</td><td>Banned By</td><td>Date</td></tr>";
 				for($i = 0; $i < count($results); $i++) {
@@ -50,9 +49,9 @@ if(isset($_POST['submitbutton'])) {
 			if(count($results) <= 0) {
 				$data = 'The ip address you entered cannot be found!';
 			} else {
-				$data = "<table><tr><td>Username</td><td>Banned By</td><td>Date</td></tr>";
+				$data = "<table><tr><td>Ip Address</td><td>Username</td><td>Banned By</td><td>Date</td></tr>";
 				for($i = 0; $i < count($results); $i++) {
-					$data .= "<tr><td>{$results[$i]['victim']}</td><td>{$results[$i]['bannedBy']}</td><td>{$results[$i]['date']}</td></tr>";
+					$data .= "<tr><td>{$results[$i]['ip']}</td><td>{$results[$i]['victim']}</td><td>{$results[$i]['bannedBy']}</td><td>{$results[$i]['date']}</td></tr>";
 				}
 				$data .= "</table>";
 			}
