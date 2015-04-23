@@ -49,7 +49,7 @@ Client Sprites - Sapro
  -Updated to new server name (Sapro)
 
 Webclient
- -Lennard and Tyler
+ -Lennard
 
 Advertisement
  -Server Logo, Banners, Advertisement threads
