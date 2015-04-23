@@ -94,7 +94,7 @@ $header->displayString();
             <div class="left-container">
             	<div class="box">
                     <header>
-                        <h2>Results</h2><h2 style="float:right;" onclick="hide()">Hide</h2>
+                        <h2>Results</h2><h2 style="float:right; cursor:pointer;" onclick="hide();">Hide</h2>
                     </header>
                     <div id="resultsbody">
                     	<?php echo $data; ?>
@@ -234,6 +234,10 @@ $header->displayString();
 			$("#centerbody").html($("#logscontainer").html());
 		});	
 	});
+	
+	function hide() {
+		$("#resultsbody").css("visibility", "hidden");
+	}
 	
 </script>
 </body>
