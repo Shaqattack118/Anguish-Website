@@ -27,7 +27,7 @@ if(!in_array($userInfo['member_group_id'], $staff_ranks)) {
 if(isset($_POST['submitbutton'])) {
 	switch($_POST['submitbutton']) {
 		case "Search Ban": 
-			$query = "SELECT * FROM `banned` WHERE `username` LIKE ?";
+			$query = "SELECT * FROM `banned` WHERE `username` = ?";
 			$pre = $conn->prepare($query);
 			$pre->execute(array($_POST['sban']));
 			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
@@ -43,7 +43,7 @@ if(isset($_POST['submitbutton'])) {
 			}
 			break;
 		case "Search IP(Bans)": 
-			$query = "SELECT * FROM `ipbans` WHERE `ip` LIKE ?";
+			$query = "SELECT * FROM `ipbans` WHERE `ip` = ?";
 			$pre = $conn->prepare($query);
 			$pre->execute(array($_POST['siban']));
 			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
