@@ -50,8 +50,8 @@ function getMemberIdBySessionId($sessionId){
 		$conn      = new PDO("mysql:host=".servername.";dbname=$dbname", username, password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		$select  = "UPDATE members 
-				  SET donator_points_current=donator_points_current+?
-				  WHERE member_id=?";
+				   SET donator_points_current=donator_points_current+?
+				   WHERE member_id=?";
 	  
 		$stmt   = $conn->prepare($select);
 		$stmt->execute(array($points,$memberId));
@@ -74,7 +74,7 @@ function getMemberIdBySessionId($sessionId){
 	   $keycount = $bmtparser->getElement ('keycount');
 
 	   $data = $bmtparser->tag_data;
-	   $userId= getMemberIdBySessionId($data['CCOM0']);
+	   $userId= getMemberIdBySessionId($data['ccom']);
 	   $pid = $data['productid'];
 	   
 	   $value = $GLOBALS['bmtProductIds'][$pid];
