@@ -18,6 +18,31 @@ $GLOBALS['bmtProductIds'] = array(
 					91390005 => '25'
 	);
 					
+function getMemberIdBySessionId($sessionId){
+
+	$dbname   = "forums";
+	$conn      = new PDO("mysql:host=".servername.";dbname=$dbname", username, password);
+	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  $select  = "SELECT member_id FROM `sessions` where id = :sessionId";
+ 
+
+	$stmt   = $conn->prepare($select);
+	$stmt->execute(array(':sessionId'=> $sessionId));
+
+	$rows = $stmt->fetchAll();
+
+	$conn = null;
+	
+		/** Invalid Session Id **/
+	if(empty($rows))
+				die('Invalid Session Id'));
+				
+				
+				
+	return $rows[0]['member_id'];
+}
+
+				
 	function addPoints($memberId, $points){
 		
 		
@@ -49,7 +74,7 @@ $GLOBALS['bmtProductIds'] = array(
 	   $keycount = $bmtparser->getElement ('keycount');
 
 	   $data = $bmtparser->tag_data;
-	   $userId= $data['CCOM0'];
+	   $userId= getMemberIdBySessionId($data['CCOM0']);
 	   $pid = $data['productid'];
 	   
 	   $value = $GLOBALS['bmtProductIds'][$pid];
