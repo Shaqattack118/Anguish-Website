@@ -24,6 +24,7 @@ Donator Panel - Tyler
  -Payment history
  -Change Redeem Pin on the right side to Pin CP, do what shaq done and add input boxes, for redeeming, validity
  -Missing 2 products on Buy points
+ -Add Page 1 2 3 at bottom of things tht goes outside the theme box thing.
  -Final Full Process Test Phase Passed?
 
 Staff CP - Shaq
@@ -49,7 +50,7 @@ Client Sprites - Sapro
  -Updated to new server name (Sapro)
 
 Webclient
- -Lennard and Tyler
+ -Lennard
 
 Advertisement
  -Server Logo, Banners, Advertisement threads
