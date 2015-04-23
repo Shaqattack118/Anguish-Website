@@ -18,30 +18,27 @@ $GLOBALS['bmtProductIds'] = array(
 					91390005 => '25'
 	);
 					
+	function addPoints($memberId, $points){
+		
+		
+		$dbname   = "forums";
+		$conn      = new PDO("mysql:host=".servername.";dbname=$dbname", username, password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$select  = "UPDATE members 
+				  SET donator_points_current=donator_points_current+?
+				  WHERE member_id=?";
+	  
+		$stmt   = $conn->prepare($select);
+		$stmt->execute(array($points,$memberId));
+		
+	}
 
-					
-function addPoints($memberId, $points){
-	
-	
-	$dbname   = "forums";
-	$conn      = new PDO("mysql:host=".servername.";dbname=$dbname", username, password);
-	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-	$select  = "UPDATE members 
-	       	  SET donator_points_current=donator_points_current+?
-	       	  WHERE member_id=?";
-  
-	$stmt   = $conn->prepare($select);
-	$stmt->execute(array($points,$memberId));
-	
-}
 
-	
-	
 	echo '<?xml version="1.0" encoding="utf-8"?>';
 	echo '<response>';
 	echo '<registrationkey>';
 	$bmtparser = new BMTXMLParser ();
-	if ($bmtparser->parse ($HTTP_RAW_POST_DATA)) {   
+	if ($bmtparser->parse (file_get_contents('php://input'))) {   
 	   # keycount is normally 1. However, if the product option "Use one
 	   # key" in the vendor area has been unchecked, BMT Micro expects
 	   # you to send back as many keys as the number of items (quantity)
@@ -63,8 +60,7 @@ function addPoints($memberId, $points){
 		  $keydata = 'The registration key for ' . $bmtparser->getElement ('registername') . ' is ' . $key;
 		  echo '<keydata>' . $keydata . '</keydata>';
 		}
-	   }
-	else {
+	} else {
 	   echo '<errorcode>1</errorcode>';
 	   echo '<errormessage>' . $bmtparser->getElement ('error') . '</errormessage>';
 	   }
