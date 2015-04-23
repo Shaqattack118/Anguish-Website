@@ -242,8 +242,8 @@ $header->displayString();
 			$("#hideorshow").html("Show");
 		} else {
 			$("#resultsbody").css("visibility", "visible");
-			$("#resultsbody").css("height", "auto");
-			$("#hideorshow").html("Show");
+			$("#resultsbody").css("height", "inherit");
+			$("#hideorshow").html("Hide");
 		}
 	}
 	
