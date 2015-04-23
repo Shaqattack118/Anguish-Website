@@ -42,7 +42,19 @@ if(isset($_POST['submitbutton'])) {
 			$data .= "</table>";
 			break;
 		case "Search IP(Bans)": 
-			$data = "Search ip ban clicked";
+			$query = "SELECT * FROM `ipbans` WHERE `ip` LIKE ?";
+			$pre = $conn->prepare($query);
+			$pre->execute(array($_POST['siban']));
+			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
+			if(count($results) > 0) {
+				echo 'The ip address you entered cannot be found!';
+				return;
+			}
+			$data = "<table><tr><td>Username</td><td>Banned By</td><td>Date</td></tr>";
+			for($i = 0; $i < count($results); $i++) {
+				$data .= "<tr><td>{$results[$i]['victim']}</td><td>{$results[$i]['bannedBy']}</td><td>{$results[$i]['date']}</td></tr>";
+			}
+			$data .= "</table>";
 			break;
 		case "Ban User": 
 			$data = "Ban user clicked";
@@ -116,6 +128,7 @@ $header->displayString();
 		                			<p>Ip Address: <input name="siban"></p>
 		                			<p><input type="submit" name="submitbutton" value="Search IP(Bans)"></p>
 		                			<p>Mac Address: <input name="smban"></p>
+		                			<p>Username: <input name="smban2"></p>
 		                			<p><input type="submit" name="submitbutton" value="Search Mac Bans"></p>';
 	                			} else {
 									echo '<p>You don\'t have sufficient permissions to view logs!</p>';
@@ -175,6 +188,8 @@ $header->displayString();
 	                				<p>Username: <input></p>
 		                			<p><input type="submit" name="submitbutton" value="Search Drop Logs"></p>
 		                			<p><input type="submit" name="submitbutton" value="Search Duel Logs"></p>
+		                			<p>Username: <input></p>
+		                			<p>Ip Address: <input></p>
 		                			<p><input type="submit" name="submitbutton" value="Search Connection Logs"></p>';
 								} else {
 									echo '<p>You don\'t have sufficient permissions to view logs!</p>';
