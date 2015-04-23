@@ -32,7 +32,7 @@ if(isset($_POST['submitbutton'])) {
 			$pre->execute(array($_POST['sban']));
 			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
 			if(count($results) > 0) {
-				echo 'The username you entered cannot be found!';
+				$data = 'The username you entered cannot be found!';
 				return;
 			} else {
 				$data = "<table><tr><td>Username</td><td>Banned By</td><td>Date</td></tr>";
@@ -48,7 +48,7 @@ if(isset($_POST['submitbutton'])) {
 			$pre->execute(array($_POST['siban']));
 			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
 			if(count($results) > 0) {
-				echo 'The ip address you entered cannot be found!';
+				$data = 'The ip address you entered cannot be found!';
 			} else {
 				$data = "<table><tr><td>Username</td><td>Banned By</td><td>Date</td></tr>";
 				for($i = 0; $i < count($results); $i++) {
