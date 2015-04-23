@@ -34,12 +34,13 @@ if(isset($_POST['submitbutton'])) {
 			if(count($results) > 0) {
 				echo 'The username you entered cannot be found!';
 				return;
-			} 
-			$data = "<table><tr><td>Username</td><td>Banned By</td><td>Date</td></tr>";
-			for($i = 0; $i < count($results); $i++) {
-				$data .= "<tr><td>{$results[$i]['username']}</td><td>{$results[$i]['bannedBy']}</td><td>{$results[$i]['date']}</td></tr>";
+			} else {
+				$data = "<table><tr><td>Username</td><td>Banned By</td><td>Date</td></tr>";
+				for($i = 0; $i < count($results); $i++) {
+					$data .= "<tr><td>{$results[$i]['username']}</td><td>{$results[$i]['bannedBy']}</td><td>{$results[$i]['date']}</td></tr>";
+				}
+				$data .= "</table>";
 			}
-			$data .= "</table>";
 			break;
 		case "Search IP(Bans)": 
 			$query = "SELECT * FROM `ipbans` WHERE `ip` LIKE ?";
@@ -48,13 +49,13 @@ if(isset($_POST['submitbutton'])) {
 			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
 			if(count($results) > 0) {
 				echo 'The ip address you entered cannot be found!';
-				return;
+			} else {
+				$data = "<table><tr><td>Username</td><td>Banned By</td><td>Date</td></tr>";
+				for($i = 0; $i < count($results); $i++) {
+					$data .= "<tr><td>{$results[$i]['victim']}</td><td>{$results[$i]['bannedBy']}</td><td>{$results[$i]['date']}</td></tr>";
+				}
+				$data .= "</table>";
 			}
-			$data = "<table><tr><td>Username</td><td>Banned By</td><td>Date</td></tr>";
-			for($i = 0; $i < count($results); $i++) {
-				$data .= "<tr><td>{$results[$i]['victim']}</td><td>{$results[$i]['bannedBy']}</td><td>{$results[$i]['date']}</td></tr>";
-			}
-			$data .= "</table>";
 			break;
 		case "Ban User": 
 			$data = "Ban user clicked";
