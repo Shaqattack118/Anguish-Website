@@ -94,7 +94,7 @@ $header->displayString();
             <div class="left-container">
             	<div class="box">
                     <header>
-                        <h2>Results</h2><h2 style="float:right; cursor:pointer;" onclick="hide();">Hide</h2>
+                        <h2>Results</h2><h2 style="float:right; cursor:pointer;" id="hideorshow" onclick="hide();">Hide</h2>
                     </header>
                     <div id="resultsbody">
                     	<?php echo $data; ?>
@@ -236,7 +236,15 @@ $header->displayString();
 	});
 	
 	function hide() {
-		$("#resultsbody").css("visibility", "hidden");
+		if($(this).html() == "Hide") {
+			$("#resultsbody").css("visibility", "collapse");
+			$("#resultsbody").css("height", "0px");
+			$("#hideorshow").html("Show");
+		} else {
+			$("#resultsbody").css("visibility", "visible");
+			$("#resultsbody").css("height", "0px");
+			$("#hideorshow").html("Show");
+		}
 	}
 	
 </script>
