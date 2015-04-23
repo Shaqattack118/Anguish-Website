@@ -6,6 +6,14 @@ $dbname = "testDB";
 $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
 										$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+										
+										
+define('servername', 'localhost');
+define('username', 'root');
+define('password', 'rJCa!#7@mgq82hNS');
+
+
+
 $navigation = array(
 //array(name, url)
 array("products", "http://anguishps.com/website/donationpage.php"),

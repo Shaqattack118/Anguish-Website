@@ -389,7 +389,7 @@ var AnguishDonationPage = new function AnguishDonationPage()
 		var ammount = "1x ";
 		var image = create("img").attr("src", obj.picture);
 		var itemName = create("a").addClass("purchasePointName").attr("href", "").append(obj.name);
-		var itemCost = create("a").attr("href",obj.url+"&session="+this.sessionId).addClass("button purchasePointBtn").append("Purchase");
+		var itemCost = create("a").attr("href",obj.url+"&CCOM0="+this.sessionId).addClass("button purchasePointBtn").append("Purchase");
 			
 		 list.append(create("span").append(ammount, image, itemName), itemCost);
 		
