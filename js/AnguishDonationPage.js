@@ -326,6 +326,12 @@ var AnguishDonationPage = new function AnguishDonationPage()
 		
 		table.removeClass().addClass("contentArea historyTable");
 		
+		table.pagination({
+			items: 100,
+			itemsOnPage: 5,
+			cssStyle: 'light-theme'
+		});
+		
 		$(".box.donation").find(".title").html("Redemption History");
 		
 		$(".tab-links").hide();		

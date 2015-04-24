@@ -147,6 +147,7 @@ $sessionId = $ipbwi->session->session_id;
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 <script src="js/util.js"></script>
 <script src="js/AnguishDonationPage.js"></script>
+<script src="js/plugins/jquery.simplePagination.js"></script>
 <script>
 	var isLoggedIn = <?=  (empty($isLoggedIn) ? "false" : $isLoggedIn)  ?>;
 	var donatorPoints = <?= (empty($userInfo['donator_points_current']) ? 0 : $userInfo['donator_points_current']) ?>;
