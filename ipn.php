@@ -1,14 +1,19 @@
 <?php 
 
+/**
+ * BMTMicro IPN, connects and adds points to a ipboard member
+ *
+ */
+
+ini_set('display_errors','On');
 error_reporting(E_ALL);
-ini_set('display_errors', 'On');
 
 define('servername', 'localhost');
 define('username', 'root');
 define('password', 'rJCa!#7@mgq82hNS');
 
-
-			
+	   
+	   
 class BMTXMLParser {
    var $tag_name;
    var $tag_data;
@@ -59,94 +64,15 @@ class BMTXMLParser {
    function getElement ($tag) {
       return ($this->tag_data[$tag]);
       }
-   }		
-   
-
-					
-	function getMemberInfoBySessionId($conn, $sessionId){
+ }		
 
 
-		$select  = "SELECT member_id , donator_points_current FROM `sessions` s, `members` m where s.id = :sessionId and s.member_id = m.member_id";
-	 
-
-		$stmt = $conn->prepare($select);
-		$stmt->execute(array(':sessionId'=> $sessionId));
-
-		$rows = $stmt->fetchAll();
-
-										
-		return $rows;
-	}
-
-				
-	function addPoints($sessionId, $points){
-			
-		$dbname  = "forums";
-		$conn    = new PDO("mysql:host=".servername.";dbname=$dbname", username, password);
-		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-		
-		$rows = getMemberInfoBySessionId($sessionId);
-		
-		
-		/** Invalid Session Id **/
-		if(empty($rows)){
-			$conn = null;
-			die('Invalid Session Id'));
-		}
-		
-		$row = $rows[0];
-					
-		$points = $row['donator_points_current'];
-		$memberId = $row['member_id'];
-		
-		$dbname   = "forums";
-
-		$select  = "UPDATE members 
-				   SET donator_points_current=?
-				   WHERE member_id=?";
-	  
-		$stmt  = $conn->prepare($select);
-		$stmt->execute(array($points ,$memberId));
-		
-	}
-
-
-
-		
-		
-	function processTransaction($data){
-
-		$fp = fopen('transactions.txt', 'a');
-
-
-		$bmtProducts = array(
-			'91390007' => '50',
-			'91390006' => '10',
-			'91390005' => '25'
-		);
-	   
-	   $sessionId = $data['ccom'];
-	   $pid = $data['productid'];
-	   
-	   $value = $bmtProducts[$pid];
-	   
-	   $transactionDetails = encode_json 
-	   addPoints($sessionId, $value);
-	  
-	  
-		$fp = fopen('transactions.txt', 'a');
-		fwrite($fp, $sessionId);
-		fwrite($fp, $value);
-		fwrite($fp, json_encode($data));
-		fclose($fp);
-	}
-	
 	echo '<?xml version="1.0" encoding="utf-8"?>';
 	echo '<response>';
 	echo '<registrationkey>';
+	
 	$bmtparser = new BMTXMLParser ();
-	if ($bmtparser->parse (file_get_contents('php://input'))) {   
+	if ($bmtparser->parse(file_get_contents('php://input'))) {   
 	   # keycount is normally 1. However, if the product option "Use one
 	   # key" in the vendor area has been unchecked, BMT Micro expects
 	   # you to send back as many keys as the number of items (quantity)
@@ -155,18 +81,134 @@ class BMTXMLParser {
 
 	   $keycount = $bmtparser->getElement ('keycount');
 
-	   $data = $bmtparser->tag_data;
-	  
-		processTransaction($data);
+		$data = $bmtparser->tag_data;
 		
-	   for ($key = 1; $key <= $keycount; $key++) {
+		/** Process the transaction **/
+		processTransaction($data);
+	  
+		for ($key = 1; $key <= $keycount; $key++) {
 		  $keydata = 'The registration key for ' . $bmtparser->getElement ('registername') . ' is ' . $key;
 		  echo '<keydata>' . $keydata . '</keydata>';
 		}
 	} else {
 	   echo '<errorcode>1</errorcode>';
 	   echo '<errormessage>' . $bmtparser->getElement ('error') . '</errormessage>';
-	   }
+	}
 	echo '</registrationkey>';
-	echo '</response>';
+	echo '</response>';  
+	
+
+
+
+	/***
+	 * Grab Member Info by session Id,
+	 * This will query Ip.board's member table and session table for an active session.
+	 *  @return rows 
+	 */
+	function getMemberInfoBySessionId($sessionId){
+	
+		$dbname  = "forums";
+		$conn    = new PDO("mysql:host=".servername.";dbname=$dbname", username, password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+		$stmt = $conn->prepare("SELECT m.member_id , m.donator_points_current FROM `sessions` s, `members` m where s.id = :sessionId and s.member_id = m.member_id");
+		$stmt->execute(array(':sessionId'=> $sessionId));
+
+		$rows = $stmt->fetchAll();
+
+										
+		return $rows;
+	}
+	
+
+	/**
+	 * Build Transaction History 
+	 *
+	 **/
+	function transactionHistory($data){
+	
+		// build our transaction history 
+		$transactionHistory = array(
+			'orderId' => $data['orderid'],
+			'ordernumber' => $data['ordernumber'],
+			'productid' => $data['productid'],
+			'firstname' => $data['firstname'],
+			'lastname' => $data['lastname'],
+			'address1' => $data['address1'],
+			'city' => $data['city'],
+			'state' => $data['state'],
+			'zip' => $data['zip'],
+			'country' => $data['country'],
+			'phone' => $data['phone'],
+			'ipaddress' => $data['ipaddress'],
+			'emailAddress' => $data['email'],
+			'total' => $data['vendorroyalty'],
+			'orderdate' => $data['orderdate']
+		);
+		
+
+		$dbname     = "testDB";
+		$conn      = new PDO("mysql:host=".servername.";dbname=$dbname", username, password);
+		$select  = "INSERT INTO `donation_point_transactions`(`orderId`, `ordernumber`, `productid`, `firstname`, `lastname`, `address1`, `city`, `state`, `zip`, `country`, `phone`, `ipaddress`, `emailAddress`, `total`, `orderdate`, `processdate` ) VALUES (:orderId, :ordernumber, :productid, :firstname, :lastname, :address1, :city, :state, :zip, :country, :phone, :ipaddress, :emailAddress, :total, :orderdate, sysdate(3))";
+		$stmt   = $conn->prepare($select);
+
+			
+		$stmt->execute($transactionHistory);
+
+	}
+	
+	/**
+	 * Add Points to user
+	 *
+	 */
+	function addPoints($sessionId, $value){
+
+	    /** get member info by session ID **/
+		$rows = getMemberInfoBySessionId($sessionId);
+	
+		$dbname  = "forums";
+		$conn    = new PDO("mysql:host=".servername.";dbname=$dbname", username, password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		
+		$row = $rows[0];
+					
+		$points = $row['donator_points_current'] + $value; // increase our new vlaue 
+		$memberId = $row['member_id'];
+
+		$select  = "UPDATE members 
+				   SET donator_points_current=?
+				   WHERE member_id=?";
+	  
+		$stmt  = $conn->prepare($select);
+		$stmt->execute(array($points ,$memberId));
+
+	}
+
+   /*
+    * Process a transaction
+	*/
+	function processTransaction($data){
+
+		$bmtProducts = array( // todo add more products 
+			91390007 => '50',
+			91390006 => '10',
+			91390005 => '25',
+		);
+	   
+	   $sessionId = $data['ccom'];
+	   $pid = $data['productid'];
+	   
+	   $value = $bmtProducts[$pid];
+	   
+	 	$file = 'people.log';
+		$person = "".json_encode($data)."\n";
+
+		file_put_contents($file, $person, FILE_APPEND | LOCK_EX);
+		
+		addPoints($sessionId, $value);
+		
+		transactionHistory($data);
+		
+	}
+	
 ?>

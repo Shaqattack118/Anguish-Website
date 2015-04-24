@@ -20,10 +20,13 @@ Vote Panel - Tyler
  -Final Full Process Test Phase Passed?
 
 Donator Panel - Tyler
- -IPN Testing
- -Payment history
+
+ -IPN Testing - Finished (4/23)
+ -Payment history - Finished (4/23) just need to implement web portion but backend is done
+ -Missing 2 products on Buy points - finished (4/23) 
+ 
  -Change Redeem Pin on the right side to Pin CP, do what shaq done and add input boxes, for redeeming, validity
- -Missing 2 products on Buy points
+
  -Add Page 1 2 3 at bottom of things tht goes outside the theme box thing.
  -Final Full Process Test Phase Passed?
 
