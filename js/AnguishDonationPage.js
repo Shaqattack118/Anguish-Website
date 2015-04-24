@@ -5,6 +5,14 @@
 var AnguishDonationPage = new function AnguishDonationPage() 
 {
 	
+	/** item limit **/
+	this.itemLimit = 10;
+	
+	this.currentPaginationPage = 1;
+	
+	/** **/
+	this.paginationItems = { };
+	
 	/** Items currently selected **/
 	this.selectedItems = {};
 	
@@ -316,58 +324,133 @@ var AnguishDonationPage = new function AnguishDonationPage()
 	}
 
 	/**
-	 *  Will render a table that is collapseable in a modal
+	 *  PreProcess our RedemtionHistory
 	 */
-	this._renderRedemptionHistory  = function(arr){
-		
-	
-		
-		var table = $("table.contentArea");
-		
-		table.removeClass().addClass("contentArea historyTable");
-		
-		table.pagination({
-			items: 100,
-			itemsOnPage: 5,
-			cssStyle: 'light-theme'
-		});
-		
-		$(".box.donation").find(".title").html("Redemption History");
-		
-		$(".tab-links").hide();		
-		table.empty();
+	this._preprocessRedemptionHistory  = function(arr){
 
-		
 		var $this = this;
 				
-		for (var key in arr) {
-				if (arr.hasOwnProperty(key)) {
-						var obj = arr[key];
+		// preprocess data
+		
+		var currentCount = 0;
+		var currentPage = 1;
 
-			  		var transId = key;
-			  		var tableHeaders = create("tr").addClass("header navigation-item").appendTo(table);
+		/** Loop through indexed data **/
+		for (var key in arr) {
+			
+				if (arr.hasOwnProperty(key)) {
 					
-						tableHeaders.click(function(){
-						    $(this).nextUntil('tr.header').css('display', function(i,v){
-						        if(this.style.display === 'table-row')
-						        		return 'none' 
-						        else
-						        		return 'table-row';
-						    });
-						 		 table.css({'left' : 0});
+						var obj = arr[key];
 						
-							});
+						/** Did we exceed our item limit? **/
+						if(currentCount < $this.itemLimit){
+							
+							if(!this.paginationItems[currentPage])
+									this.paginationItems[currentPage] = [];
+								
 						
-						create("td").attr("colspan", 3).append(transId).appendTo(tableHeaders);
-						create("td").append(obj[0].boughtdate).appendTo(tableHeaders);
-						
-						
-						$this._renderPurchaseTableRow(table, obj);
-			}
+							this.paginationItems[currentPage].push(obj);
+							currentCount++;
+	
+						} else {
+						currentCount = 0;
+						currentPage++;
+					}
+				}
 		}
 
+		/** Render first page **/
+		this._renderPaginatedHistory(1);
+
       
-      
+	}
+	/**
+	 *  Render a Paginated items by PageNumber
+	 */
+	this._renderPaginatedHistory = function(pageNum){
+		
+				
+	
+			this.currentPaginationPage = pageNum;
+			
+			var table = $("table.contentArea");
+			
+			table.removeClass().addClass("contentArea historyTable");
+	
+			
+			$(".box.donation").find(".title").html("Redemption History");
+			
+			$(".tab-links").hide();		
+			table.empty();
+
+			var $this = this;
+			
+			
+			var arr = $this.paginationItems[pageNum];
+		
+			_.each(arr, function(obj){
+
+		  	var tableHeaders = create("tr").addClass("header navigation-item").appendTo(table);
+		  	
+				tableHeaders.click(function(){
+							    $(this).nextUntil('tr.header').css('display', function(i,v){
+							        if(this.style.display === 'table-row')
+							        		return 'none' 
+							        else
+							        		return 'table-row';
+							    });
+							 		 table.css({'left' : 0});
+							
+				});
+				
+						create("td").attr("colspan", 3).append(obj[0].transactionId).appendTo(tableHeaders);
+						create("td").append(obj[0].boughtdate).appendTo(tableHeaders);
+							
+							
+						$this._renderPurchaseTableRow(table, obj);	
+			});
+	
+	  /** Was not found, so append **/
+		if($(".box.donation").find("#compact-pagination").length == 0)
+				$(".box.donation").append('<div id="compact-pagination" class="compact-theme simple-pagination"><ul class ="pagination"></ul></div>');	
+		
+		$this._renderPaginationItem();
+	}
+	
+	/**
+	 * Render Pageination Item
+	 */
+	this._renderPaginationItem = function(){
+		
+		var ul = $(".box.donation").find(".pagination");
+		
+		ul.empty();
+		
+		ul.append(create("li").addClass("active").append(create("span").addClass("current prev").append("<")));
+		
+		var $this = this;
+		var arr = $this.paginationItems;
+		
+		
+		/** Loop through our indexed item by Page number **/
+			for (var pageNum in arr) {
+			
+				if (arr.hasOwnProperty(pageNum)) {
+					
+					var li = create("li")
+				
+						/** We are on the page, so this must be active? **/
+						if(key == $this.currentPaginationPage){
+								li.append(create("span").addClass("current").append(pageNum));
+								li.addClass("active");
+						} else {
+								li.append(create("a").addClass("page-link").append(pageNum)).attr("pageNum", pageNum).click(function(e) { $this._renderPaginatedHistory($(this).attr("pageNum")); }) ;							
+						}
+							ul.append(li);
+					}
+			}
+		ul.append(create("li").addClass("active").append(create("span").addClass("current next").append(">")));
+
 	}
 	
 	/**
@@ -557,10 +640,10 @@ var AnguishDonationPage = new function AnguishDonationPage()
 					
 				
 					
-				var trans = _.sortBy(data, "boughtdate"); // sort by boughtdate
+				var trans = _.sortBy(data, "boughtdate").reverse(); // sort by boughtdate
 				    trans = _.indexByArray(trans, 'transactionId'); // index it by transaction
 		
-					$this._renderRedemptionHistory(trans);
+					$this._preprocessRedemptionHistory(trans);
 				
 			};
 			

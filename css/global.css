@@ -782,7 +782,7 @@ ul.simple-pagination {
 	display: block;
 	overflow: hidden;
 	padding: 0 5px 5px 0;
-	margin: 0;
+	margin-left: 45%; margin-top: 50px;
 }
 
 .simple-pagination ul {
