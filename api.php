@@ -34,6 +34,7 @@ if(isset($_POST) && !empty($_POST))
 	{
 		case 'purchase': purchase($_POST); return;
 		case 'ipn' : ipn($_POST); return;
+		case 'redeemPIn' : redeemPin($_POST); return;
 	}
 }
 
@@ -46,7 +47,7 @@ if(isset($_GET) && !empty($_GET))
 	switch($action)
 	{
 		case 'getRedemptionHistory': getRedemptionHistory(stripslashes($_GET['sessionId']));
-		
+		case 'checkPin': checkPin(stripslashes($_GET['pin'])); break;
 		case 'getAllItems': getAllItems(); break;
 		case 'getItems': getItems(stripslashes($_GET['category'])); break;
 	}
@@ -377,6 +378,117 @@ function insertIntoPinTable($json){
  	$conn = null;
 	
 }
+
+
+function getPinData($pin){
+	$dbname     = "testDB";
+	$conn      = new PDO("mysql:host=".servername.";dbname=$dbname", username, password);
+	
+	$select  = "SELECT pin, generateDate, hasRedeemed FROM donation_pins WHERE pin = :pin ";
+	$stmt   = $conn->prepare($select);
+
+	$stmt->execute(array(':pin'=> $pin));
+
+	$rows = $stmt->fetchAll();
+
+	$conn = null;
+	
+	return $rows;
+
+}
+
+
+
+/*
+ * Validate Pin
+ */
+function validatePin($pin){
+
+	$pinData = getPinData($pin);
+	
+		/** Invalid Session Id **/
+	if(empty($pinData))
+		die(returnMessage('Invalid Pin ', 480));
+				
+	if($pinData[0]['hasRedeemed'] == 1)
+		die(returnMessage('Pin has been redeemed already!', 485));			
+			
+}
+
+
+/**
+ * Is this pin valid?
+ */
+function isPinValid($pin){
+
+	$pinData = getPinData($pin);
+
+	if(empty($pinData))
+		return false;
+				
+	if($pinData[0]['hasRedeemed'] === 1)
+		return false;		
+				
+	return true;
+}
+
+/*
+ * Check a Pin
+ */
+function checkPin($pin){
+	validatePin($pin);
+	die(returnMessage("Pin Is Valid", 200));
+}
+
+/**
+ * Redeem Pin
+ */
+function redeemPin($post){
+
+	$username = $post['username'];
+	$pin = $post['pin'];
+	
+	/** GET VALID PIN DATA, if pin is invalid we will die with an error **/
+	validatePin($pin);
+
+
+	$dbname     = "testDB";
+	$conn      = new PDO("mysql:host=".servername.";dbname=$dbname", username, password);
+	
+	/** Set this pin to Redeemed **/
+	$update  = "update donation_pins
+				set hasRedeemed = 1, generateDate =  sysdate(3)
+				where pin = :pin";
+				
+	$stmt   = $conn->prepare($update);
+
+
+	$stmt->execute(array(
+					'pin' => $pin
+					));
+					
+	$stmt  = null;
+	
+	/** Insert pin for username **/
+	$insert = "INSERT INTO `donators`(`username`, `pin`, `date`) VALUES (:username,:pin, sysdate(3))";
+	$stmt   = $conn->prepare($insert);
+
+	$stmt->execute(array(
+					'username' => $username,
+					'pin' => $pin
+					));
+
+	
+	
+	
+
+ 	$conn = null;
+	
+	die(returnMessage("success", 200));
+
+}
+
+
 
 function sendPM($memberId, $title, $body){
 	global $ipbwi;

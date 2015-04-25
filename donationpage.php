@@ -72,25 +72,14 @@ $sessionId = $ipbwi->session->session_id;
                     </form>
                 </div>
                 <div class="button-links">
-                	
-                    <a class="purchasePoints">Purchase Points</a>
-                    <a class="redemptionCenter">Redemption Center</a>
-                    <a class="redemptionHistory">Redemption History</a>
-                    <a class="paymentHistory">Payment History</a>
-                    <a href="#">Redeem Pin</a>
-                    <a href="#">Gifting Center</a>
+                	  <a class="purchasePoints">Purchase Points</a>
+                	  <a class="redeemPin">Redeem Pin</a>
+                	 	<a class="redemptionCenter">Shop</a>
+                    <a class="redemptionHistory">Shopping History</a>
                 </div>
             </aside>
 		</div>
-        <footer class="bottom-footer">
-            <p class="copyright">
-                <span>Designed by <a href="http://art0fray.deviantart.com" target="_blank">Ray</a></span>
-                <br />
-                <span>All Rights Reserved. © 2014 | Youserver.com</span>
-            </p>
-            <p class="links">
-                <a href="#">home</a> | <a href="#">community</a> | <a href="#">play now</a> | <a href="#">vote</a> | <a href="#">donations</a></p>
-        </footer>
+    
 		
 <div class="modal" id="modalNoticeAlert" aria-hidden="true">
   <div class="modal-dialog">
@@ -118,37 +107,32 @@ $sessionId = $ipbwi->session->session_id;
    </div>
  </div>
 
-
-
-
-
 <div class="modal" id="modal-one" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-header">
       <h2>Your Shopping Cart <a href="#close" style="float: right" class="btn-close" aria-hidden="true">×</a> <!--CHANGED TO "#close"--></h2>
     </div>
     <div class="modal-body shoppingCart">
-		<ul class="shoppingList">
-		<h2 class="emptyTxt">Your Shopping Cart is empty :( </h2>
-         </ul>
-		 <p style="float: right;"><strong>Total Points:</strong> <span class="totalAmt"> </span></p>
+			<ul class="shoppingList">
+				<h2 class="emptyTxt">Your Shopping Cart is empty :( </h2>
+	    	</ul>
+			 <p style="float: right;"><strong>Total Points:</strong> <span class="totalAmt"> </span></p>
+	   </div>
+	    <div class="modal-footer">
+	      <a href="#purchase" id="purchase" style="display: none;" class="button">Check Out</a>  <!--CHANGED TO "#close"-->
+	    </div>
     </div>
-    <div class="modal-footer">
-      <a href="#purchase" id="purchase" style="display: none;" class="button">Check Out</a>  <!--CHANGED TO "#close"-->
-    </div>
-    </div>
-  </div>
 </div>
 
 
-  </div>
-</div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script> 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
-<script src="js/util.js"></script>
+
+
+ <?= $footer->displayString(); ?>
+
 <script src="js/AnguishDonationPage.js"></script>
-<script src="js/plugins/jquery.simplePagination.js"></script>
+<script>vex.defaultOptions.className = 'vex-theme-os';</script>
 <script>
+	
 	var isLoggedIn = <?=  (empty($isLoggedIn) ? "false" : $isLoggedIn)  ?>;
 	var donatorPoints = <?= (empty($userInfo['donator_points_current']) ? 0 : $userInfo['donator_points_current']) ?>;
 	var sessionId = '<?=  (empty($sessionId) ?  -1 : $sessionId) ?>';
@@ -156,3 +140,4 @@ $sessionId = $ipbwi->session->session_id;
 </script>
 </body>
 </html>
+

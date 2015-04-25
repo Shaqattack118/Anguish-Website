@@ -9,6 +9,9 @@ $header->append('<!DOCTYPE html>
 
 //Stylesheets / Javascripts
 $header->append('<link href="'.TO_ROOT.'css/global.css" rel="stylesheet" type="text/css" />');
+$header->append('<link href="'.TO_ROOT.'css/vex.css" rel="stylesheet" type="text/css" />');
+$header->append('<link href="'.TO_ROOT.'css/vex-theme-os.css" rel="stylesheet" type="text/css" />');
+
 $header->append('</head>
 	<body>
 	<div class="container main-container">

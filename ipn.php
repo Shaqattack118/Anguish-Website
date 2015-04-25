@@ -111,7 +111,7 @@ class BMTXMLParser {
 		$conn    = new PDO("mysql:host=".servername.";dbname=$dbname", username, password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-		$stmt = $conn->prepare("SELECT m.member_id , m.donator_points_current FROM `sessions` s, `members` m where s.id = :sessionId and s.member_id = m.member_id");
+		$stmt = $conn->prepare("SELECT m.member_id, m.donator_points_overall, m.donator_points_current FROM `sessions` s, `members` m where s.id = :sessionId and s.member_id = m.member_id");
 		$stmt->execute(array(':sessionId'=> $sessionId));
 
 		$rows = $stmt->fetchAll();
@@ -125,7 +125,7 @@ class BMTXMLParser {
 	 * Build Transaction History 
 	 *
 	 **/
-	function transactionHistory($data){
+	function transactionHistory($memberId, $data){
 	
 		// build our transaction history 
 		$transactionHistory = array(
@@ -143,13 +143,14 @@ class BMTXMLParser {
 			'ipaddress' => $data['ipaddress'],
 			'emailAddress' => $data['email'],
 			'total' => $data['vendorroyalty'],
-			'orderdate' => $data['orderdate']
+			'orderdate' => $data['orderdate'],
+			'memberId' => $memberId
 		);
 		
 
 		$dbname     = "testDB";
 		$conn      = new PDO("mysql:host=".servername.";dbname=$dbname", username, password);
-		$select  = "INSERT INTO `donation_point_transactions`(`orderId`, `ordernumber`, `productid`, `firstname`, `lastname`, `address1`, `city`, `state`, `zip`, `country`, `phone`, `ipaddress`, `emailAddress`, `total`, `orderdate`, `processdate` ) VALUES (:orderId, :ordernumber, :productid, :firstname, :lastname, :address1, :city, :state, :zip, :country, :phone, :ipaddress, :emailAddress, :total, :orderdate, sysdate(3))";
+		$select  = "INSERT INTO `donation_point_transactions`(`orderId`, `ordernumber`, `memberId`,`productid`, `firstname`, `lastname`, `address1`, `city`, `state`, `zip`, `country`, `phone`, `ipaddress`, `emailAddress`, `total`, `orderdate`, `processdate` ) VALUES (:orderId, :ordernumber, :memberId, :productid, :firstname, :lastname, :address1, :city, :state, :zip, :country, :phone, :ipaddress, :emailAddress, :total, :orderdate, sysdate(3))";
 		$stmt   = $conn->prepare($select);
 
 			
@@ -161,26 +162,25 @@ class BMTXMLParser {
 	 * Add Points to user
 	 *
 	 */
-	function addPoints($sessionId, $value){
+	function addPoints($rows, $value){
 
-	    /** get member info by session ID **/
-		$rows = getMemberInfoBySessionId($sessionId);
+
 	
 		$dbname  = "forums";
 		$conn    = new PDO("mysql:host=".servername.";dbname=$dbname", username, password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		
 		$row = $rows[0];
-					
+		$donator_points_overall = $row['donator_points_overall'] + $value;
 		$points = $row['donator_points_current'] + $value; // increase our new vlaue 
 		$memberId = $row['member_id'];
 
 		$select  = "UPDATE members 
-				   SET donator_points_current=?
+				   SET donator_points_current=?, set donator_points_overall = ?
 				   WHERE member_id=?";
 	  
 		$stmt  = $conn->prepare($select);
-		$stmt->execute(array($points ,$memberId));
+		$stmt->execute(array($points , $donator_points_overall, $memberId));
 
 	}
 
@@ -205,9 +205,11 @@ class BMTXMLParser {
 
 		file_put_contents($file, $person, FILE_APPEND | LOCK_EX);
 		
-		addPoints($sessionId, $value);
+		/** get member info by session ID **/
+		$rows = getMemberInfoBySessionId($sessionId);
+		addPoints($rows, $value);
 		
-		transactionHistory($data);
+		transactionHistory($row['member_id'], $data);
 		
 	}
 	

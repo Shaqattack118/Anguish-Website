@@ -6,11 +6,12 @@ var AnguishDonationPage = new function AnguishDonationPage()
 {
 	
 	/** item limit **/
-	this.itemLimit = 10;
+	this.itemLimit = 5;
 	
+	/** Current Page **/
 	this.currentPaginationPage = 1;
 	
-	/** **/
+	/** pagination Items**/
 	this.paginationItems = { };
 	
 	/** Items currently selected **/
@@ -77,30 +78,114 @@ var AnguishDonationPage = new function AnguishDonationPage()
 	 */
 	this.loadEvents = function(){
 		var $this = this;
+		
 		$("#purchase").click(function(e) {
 			
-				var person = prompt("Please enter the username whom will be recieving these items!", null);
+			vex.dialog.open({
+				  message: 'Please enter the username whom will be recieving these items!',
+				  input: "<input name=\"username\" type=\"text\" placeholder=\"Username\" required />",
+				  buttons: [
+				    $.extend({}, vex.dialog.buttons.YES, {
+				      text: 'Purchase'
+				    }), $.extend({}, vex.dialog.buttons.NO, {
+				      text: 'Cancel'
+				    })
+				  ],
+				  callback: function(data) {
+				    if (data){
+				    		$this.purchaseItems(data.username, $this.purchaseCallback);
+
+				  	}
+				  }
+				});
 				
-				if (person != null) 
-				 $this.purchaseItems(person, $this.purchaseCallback);
-				}
-				
-			 );
+			 });
 			 	 
 		$(".redemptionHistory").click(function(e) { $this._getRedemptionHistory();});
-		
-		$(".redemptionCenter").click(function(e) { 
-																							 $this._getDonationJSON('0', function(obj){ $this.cachedJSON['0'] = obj;
-																																													 $this._renderPage(obj); });
-																							 });
+		$(".redemptionCenter").click(function(e) {  $this._getDonationJSON('0', function(obj){ $this.cachedJSON['0'] = obj; $this._renderPage(obj); }); });
 	
-		$(".redemptionCenter").trigger('click');
-		
-		
-		$(".purchasePoints").click(function(e) { $this.buyPoints();});
+
+		$(".purchasePoints").click(function(e) { $this.buyPointsEvent();});
+		$(".redeemPin").click(function(e) { $this.redeemPinEvent();});
+	
+	
 		$("#modal-three").find("#closeBtn").click(function(e) { $("#modal-three").removeClass("show").addClass("hideSection"); });
 		
+		$(".redemptionCenter").trigger('click');
 	}
+	
+	/**
+	 * Redeem Pin
+	 */
+	this.redeemPinEvent = function(){
+		
+
+		var $this = this;
+			if(!$this.isLoggedIn){
+				showNotification("Please Login","You must be registered on our forums to redeem pins!");	
+				return;
+			}
+				vex.dialog.open({
+				  message: 'Enter your username and pin',
+				  input: "<input name=\"username\" type=\"text\" placeholder=\"Username\" required />\n<input name=\"pin\" type=\"text\" placeholder=\"Pin\" required />",
+				  buttons: [
+				    $.extend({}, vex.dialog.buttons.YES, {
+				      text: 'Redeem'
+				    }), $.extend({}, vex.dialog.buttons.NO, {
+				      text: 'Cancel'
+				    })
+				  ],
+				  callback: function(data) {
+				    if (data){
+				    		$this._redeemPin(data.username, data.pin);
+				  	}
+				  }
+				});
+		}
+	
+	
+	/**
+	 * AJAX post to redeem our pin
+	 */
+	this._redeemPin = function(username, pin){
+		
+		
+		
+		var pinCallBack = function(json) {
+			
+							var obj = JSON.parse(json);	
+					
+							var code = obj.Code;
+							var message = obj.Message;
+							
+							var sucessMessage = "Your ingame account has successfully been credited with the pin: {pin} <br> Happy Gaming!";
+							
+							sucessMessage = sucessMessage.replace('{pin}', pin);
+							
+							switch(code){
+								case 200:
+									showNotification("Success", sucessMessage );
+									break;
+								
+								case 480:
+								case 485:
+									showNotification("Error!", message);
+									break;
+								default:
+									showNotification("Unknown Error!", code + " "+ message);
+							
+						};
+				};
+				
+		var params =  {
+										'action' : 'redeemPIn',
+										'username' : username,
+										'pin' : pin 
+									};
+
+		$.post(API_ENDPOINT, params, function(e) { pinCallBack(e); });
+	}
+	
 	
 	/**
 	 * purchase callback
@@ -208,19 +293,7 @@ var AnguishDonationPage = new function AnguishDonationPage()
 }
 	
 	
-	this.addToTotalCost = function(productCost){
-		return parseInt(this.currentPoints - productCost);
-	}
-	
-	this.removeFromTotal = function(productCost){
-		return parseInt(this.currentPoints + productCost);
-	}
-	
-	this.canBuyThisItem = function(productCost){
-		return (productCost <= this.currentPoints);
-	}
-	
-	
+
 	/** Reselect radio buttons upon rending **/
 	this._reSelectRadios = function(){
 		
@@ -440,7 +513,7 @@ var AnguishDonationPage = new function AnguishDonationPage()
 					var li = create("li")
 				
 						/** We are on the page, so this must be active? **/
-						if(key == $this.currentPaginationPage){
+						if(pageNum == $this.currentPaginationPage){
 								li.append(create("span").addClass("current").append(pageNum));
 								li.addClass("active");
 						} else {
@@ -471,6 +544,9 @@ var AnguishDonationPage = new function AnguishDonationPage()
 		return list;
 	}
 	
+	/**
+	 * Render Points Item
+	 */
 	this._renderPointAreaItem = function(obj){
 		
 		var list = create("li");
@@ -485,12 +561,18 @@ var AnguishDonationPage = new function AnguishDonationPage()
 		return list;
 	}
 	
-	this.buyPoints = function(){
+	/**
+	 * Buy Points Event
+	 */
+	this.buyPointsEvent = function(){
 		this._renderPointsArea();
 		$("#modal-three").removeClass("hideSection").addClass("show");
 
 	}; 
 
+  /*
+   * Render the Points Buying modal
+   */
 	this._renderPointsArea = function(){
 		var shoppingList = $("#modal-three").find(".shoppingList");
 		var $this = this;
@@ -534,6 +616,7 @@ var AnguishDonationPage = new function AnguishDonationPage()
 			
 			$(".totalAmt").html(parseInt(totalCost));
 	}
+	
 	/**
 	 * Tab click event
 	 */
@@ -546,7 +629,6 @@ var AnguishDonationPage = new function AnguishDonationPage()
 		$(".tab-links").find(".active").removeClass("active");
 		
 		target.addClass("active");
-
 
 		this._getDonationJSON(type, function(obj) { $this.cachedJSON[type] = obj; $this._renderPage(obj) });
 
@@ -587,7 +669,9 @@ var AnguishDonationPage = new function AnguishDonationPage()
 	};
 	
 	
-	
+	/**
+	 * query the API for all of our donation products, then we do some preprocessing
+	 */
 	this._getAllProducts = function(){
 
 		var url = API_ENDPOINT+"?action=getAllItems";
@@ -658,7 +742,7 @@ var AnguishDonationPage = new function AnguishDonationPage()
 	*/
 	this._renderPage = function(jsonIn){
 		
-		
+		$('#compact-pagination').remove();
 		$(".box.donation").find(".title").html("Donation Prizes");
 		$('.box.donation').children().show();
 		$('.notLoggedIn').remove(); // remove our notice																					 
@@ -669,6 +753,19 @@ var AnguishDonationPage = new function AnguishDonationPage()
 		
 		this._reSelectRadios();
 	}
+	
+	this.addToTotalCost = function(productCost){
+		return parseInt(this.currentPoints - productCost);
+	}
+	
+	this.removeFromTotal = function(productCost){
+		return parseInt(this.currentPoints + productCost);
+	}
+	
+	this.canBuyThisItem = function(productCost){
+		return (productCost <= this.currentPoints);
+	}
+	
 	
 	return AnguishDonationPage;
 }
