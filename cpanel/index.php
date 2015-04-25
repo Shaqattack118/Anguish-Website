@@ -47,9 +47,9 @@ if(isset($_POST['submitbutton'])) {
 			}
 			break;
 		case "Search IP(Bans)": 
-			$query = "SELECT * FROM `ipbans` WHERE `ip` = ? LIMIT ?, ?";
+			$query = "SELECT * FROM `ipbans` WHERE `ip` = ? LIMIT {($page-1)*$resultsPerPage}, {$resultsPerPage}";
 			$pre = $conn->prepare($query);
-			$pre->execute(array(($_POST['siban']), (($page-1)*$resultsPerPage), ($resultsPerPage)));
+			$pre->execute(array($_POST['siban']));
 			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
 			if(count($results) <= 0) {
 				$data = 'The ip address you entered cannot be found!';
