@@ -1,10 +1,10 @@
-TO DO LIST:
+### TO DO LIST:
 
 Next to each breakdown, type Date of completion.
 
-Come up with a name then buy the domain. Done. 25/03/2015
-Buy the forum software license. Done. 25/03/2015
-Buy Dedi for forums and Install forums, and set up all boards and sections. Done. 25/03/2015
+Come up with a name then buy the domain. ** Done. 25/03/2015 **
+Buy the forum software license. Done.  ** Done. 25/03/2015 **
+Buy Dedi for forums and Install forums, and set up all boards and sections.  ** Done. 25/03/2015 **
 
 ## Homepage - Shaq and Tyler
  - Add short brief description of server
@@ -19,12 +19,13 @@ Buy Dedi for forums and Install forums, and set up all boards and sections. Done
  - Shop page for spending vote points (Enter in-game name to redeem item on)
  - Final Full Process Test Phase Passed?
 
-## Donator Panel - Tyler  finished (4/24) 
- - IPN Testing - Finished (4/23)
- - Payment history - Finished (4/23) just need to implement web portion but backend is done
- - Missing 2 products on Buy points - finished (4/23) 
- - Change Redeem Pin on the right side to Pin CP - finished (4/24) 
- - Add Page 1 2 3 at bottom of things tht goes outside the theme box thing -  finished (4/24) 
+## Donator Panel - Tyler
+ -  ** Done. Ready for Testing 24/04/2015 **
+ - IPN Testing -  ** Done. 4/24/2015 **
+ - Payment history -  ** Done. 4/24/2015 **
+ - Missing 2 products on Buy points -  ** Done. 4/24/2015 **
+ - Change Redeem Pin on the right side to Pin CP -  ** Done. 4/24/2015 **
+ - Add Page 1 2 3 at bottom of things tht goes outside the theme box thing -  ** Done. 4/24/2015 **
  - Final Full Process Test Phase Passed?
 
 ## Staff CP - Shaq
@@ -50,7 +51,7 @@ Buy Dedi for forums and Install forums, and set up all boards and sections. Done
  - Updated to new server name
 
 ## Webclient
- -Lennard
+ - Lennard
 
 ## Advertisement
  -Server Logo, Banners, Advertisement threads
