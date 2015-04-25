@@ -34,7 +34,7 @@ if(isset($_POST['submitbutton'])) {
 		case "Search Ban": 
 			$query = "SELECT * FROM `banned` WHERE `username` = ? LIMIT ?, ?";
 			$pre = $conn->prepare($query);
-			$pre->execute(array($_POST['sban']), ($page-1)*$resultsPerPage, $resultsPerPage);
+			$pre->execute(array($_POST['sban'], ($page-1)*$resultsPerPage, $resultsPerPage));
 			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
 			if(count($results) <= 0) {
 				$data = 'The username you entered cannot be found!';
@@ -49,7 +49,7 @@ if(isset($_POST['submitbutton'])) {
 		case "Search IP(Bans)": 
 			$query = "SELECT * FROM `ipbans` WHERE `ip` = ? LIMIT ?, ?";
 			$pre = $conn->prepare($query);
-			$pre->execute(array($_POST['siban']), ($page-1)*$resultsPerPage, $resultsPerPage);
+			$pre->execute(array($_POST['siban'], ($page-1)*$resultsPerPage, $resultsPerPage));
 			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
 			if(count($results) <= 0) {
 				$data = 'The ip address you entered cannot be found!';
