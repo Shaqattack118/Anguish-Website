@@ -71,7 +71,7 @@ if(isset($_POST['submitbutton'])) {
 			
 			
 		case "Search Mute": 
-			$data = "Search Mute clicked";
+			$data = "This function is not working!";
 			break;
 		case "Search IP(Mutes)": 
 			$data = "Search ip Mute clicked";
