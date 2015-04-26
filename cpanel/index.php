@@ -180,6 +180,42 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 			$pre->execute(array($fdata['ipmute'], $userInfo['name'], $today));
 			$data = $fdata['ipmute'] . " ip muted successfully!";
 			break;
+		case "Search Trade Logs":
+			$table = 'tradelogs';
+			$query = "SELECT * FROM `{$table}` WHERE `username` = :user or `tradewith` = :twith";
+			$pre = $conn->prepare($query);
+			$start = ($page-1)*$resultsPerPage;
+			$pre->bindParam(':user', $fdata['stl'], PDO::PARAM_STR);
+			$pre->bindParam(':twith', $fdata['stl1'], PDO::PARAM_STR);
+			$pre->execute();
+			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
+			if(count($results) <= 0) {
+				$data = 'The ip address you entered cannot be found!';
+				$page = 0;
+			} else {
+				$data = "<table><tr><td>Giver</td><td>Item</td><td>Amount</td><td>Receiver</td><td>Date</td><td>Type</td></tr>";
+				for($i = 0; $i < $resultsPerPage; $i++) {
+					if(!empty($results[($i+($resultsPerPage*($page-1)))]['ip'])) 
+						$data .= "<tr><td>{$results[($i+($resultsPerPage*($page-1)))]['username']}</td>
+						<td>{$results[($i+($resultsPerPage*($page-1)))]['itemname']}</td>
+						<td>{$results[($i+($resultsPerPage*($page-1)))]['amountreceive']}</td>
+						<td>{$results[($i+($resultsPerPage*($page-1)))]['tradewith']}</td>
+						<td>{$results[($i+($resultsPerPage*($page-1)))]['date']}</td>
+						<td>{$results[($i+($resultsPerPage*($page-1)))]['type']}</td>
+						</tr>";
+				}
+
+			}
+			break;
+		case "Search Drop Logs":
+			
+			break;
+		case "Search Connections Logs":
+			
+			break;
+		case "Search Duel Logs":
+			
+			break;
 	}
 	if($page > 0) {
 		$serializedData = urlencode(serialize($fdata));
@@ -285,8 +321,8 @@ $header->displayString();
 	                		<form method="post">
 	                			<?php
 	                			if(in_array($userInfo['member_group_id'], $canViewLogs)) {
-	                				echo '<p>Giver: <input></p>
-	                				<p>Receiver: <input></p>
+	                				echo '<p>Giver: <input name="stl"></p>
+	                				<p>Receiver: <input name="stl2"></p>
 	                				<p><input type="submit" name="submitbutton" value="Search Trade Logs"></p>
 	                				<p>Username: <input></p>
 		                			<p><input type="submit" name="submitbutton" value="Search Drop Logs"></p>
