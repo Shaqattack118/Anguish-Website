@@ -29,7 +29,6 @@
 
 ## Staff CP - Shaq
 **TODO**
- - IPMute Player - (Only allow IP Address to be entered)
  - Search Connections Logs - (Search by username and ip aka 2 options)
  - Search Duel Logs - (Search by Winner and Loser aka 2 options)
  - Search Trade Logs - (Search by Giver and Receiver aka 2 options)
@@ -39,6 +38,8 @@
  - Final Full Process Test Phase Passed?
 
 **COMPLETED**
+ - IPMute Player - (Only allow IP Address to be entered) **COMPLETED**
+ - Search IPMutes - (Search by IP Address) **Completed.**
  - IPBan Player - (Only allow IP Address to be entered) **Completed.**
  - Mute Player - (Not Available atm) **Completed.**
  - Ban Player - (Ban by username) **Completed.**
