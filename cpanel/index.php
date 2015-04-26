@@ -68,6 +68,7 @@ if(isset($_POST['submitbutton']) || isset($_GET['data'])) {
 			$pre->execute();
 			$max = 2;
 			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
+			$serializedData = serialize($fdata);
 			if(count($results) <= 0) {
 				$data = 'The ip address you entered cannot be found!';
 			} else {
@@ -77,7 +78,7 @@ if(isset($_POST['submitbutton']) || isset($_GET['data'])) {
 				}
 				$data .= "</table><p>Current page: {$page}</p>
 				<p>Go to page: <form method=\"get\"><input type=\"number\" name=\"page\" min=\"1\" max=\"{$max}\" value=\"{$page}.\">
-				<input type=\"hidden\" name=\"data\" value=\"{serialize($fdata)}\"><input type=\"submit\" name=\"action\" value=\"go\"></form></p>";
+				<input type=\"hidden\" name=\"data\" value=\"{$serializedData}\"><input type=\"submit\" name=\"action\" value=\"go\"></form></p>";
 			}
 			break;
 		case "Ban User": 
