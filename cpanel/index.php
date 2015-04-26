@@ -68,7 +68,7 @@ if(isset($_POST['submitbutton']) || isset($_GET['data'])) {
 			$pre->execute();
 			$max = 2;
 			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
-			$serializedData = serialize($fdata);
+			$serializedData = urlencode(serialize($fdata));
 			if(count($results) <= 0) {
 				$data = 'The ip address you entered cannot be found!';
 			} else {
