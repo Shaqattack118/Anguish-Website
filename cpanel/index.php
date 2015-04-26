@@ -159,6 +159,7 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 			}
 			break;
 		case "Mute User": 
+			$page = 0;
 			$data = "This function is not working!";
 			break;
 		case "IP Mute User": 
@@ -259,7 +260,6 @@ $header->displayString();
 								}
 		                		if(in_array($userInfo['member_group_id'], $canPerfomActions)) {
 		                			echo '<p>Username: <input></p>
-		                			<p>Reason: <input></p>
 		                			<p><input type="submit" name="submitbutton" value="Mute User"></p>
 		                			<p>IP Address: <input name="ipmute"></p>
 		                			<p><input type="submit" name="submitbutton" value="IP Mute User"></p>';
