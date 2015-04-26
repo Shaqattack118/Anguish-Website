@@ -793,9 +793,9 @@ var AnguishDonationPage = new function AnguishDonationPage()
 		var ul = $(".tab-links");
 		var $this = this;
 		
-		var misc = create("li").append(create("a").attr("type", 0).addClass("navigation-item active").append("Misc").click( function(e) { $this._tabClickEvent(e);  }));
-		var armour = create("li").append(create("a").attr("type", 1).addClass("navigation-item").append("Armour").click( function(e) { $this._tabClickEvent(e);  }));
-		var weapons = create("li").append(create("a").attr("type", 2).addClass("navigation-item").append("Weapons").click(function(e) { $this._tabClickEvent(e);  }));
+		var misc = create("li").append(create("a").attr("type", 0).addClass("navigation-item active").append("Popular").click( function(e) { $this._tabClickEvent(e);  }));
+		var armour = create("li").append(create("a").attr("type", 1).addClass("navigation-item").append("Weapons").click( function(e) { $this._tabClickEvent(e);  }));
+		var weapons = create("li").append(create("a").attr("type", 2).addClass("navigation-item").append("Armour").click(function(e) { $this._tabClickEvent(e);  }));
 		var rares = create("li").append(create("a").attr("type", 3).addClass("navigation-item").append("Rares").click( function(e) { $this._tabClickEvent(e);  }));
 
 		
