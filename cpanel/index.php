@@ -113,7 +113,27 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 			$data = $fdata['macban'] . " mac addess banned successfully!";
 			break;
 		case "Search Mac Bans": 
-			$data = "search mac ban clicked";
+			$table = 'macbans';
+			$query = "SELECT * FROM `{$table}` WHERE `mac` = :mac or `victim`= :usname LIMIT :start, :end";
+			$pre = $conn->prepare($query);
+			$start = ($page-1)*$resultsPerPage;
+			$pre->bindParam(':start', $start, PDO::PARAM_INT);
+			$pre->bindParam(':end', $resultsPerPage, PDO::PARAM_INT);
+			$pre->bindParam(':mac', $fdata['smban'], PDO::PARAM_STR);
+			$pre->bindParam(':usname', $fdata['smban2'], PDO::PARAM_STR);
+			$pre->execute();
+			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
+			if(count($results) <= 0) {
+				$data = 'The ip address you entered cannot be found!';
+				$page = 0;
+			} else {
+				$data = "<table><tr><td>Ip Address</td><td>Username</td><td>Banned By</td><td>Date</td></tr>";
+				for($i = 0; $i < count($results); $i++) {
+					$data .= "<tr><td>{$results[$i]['ip']}</td><td>{$results[$i]['victim']}</td><td>{$results[$i]['bannedBy']}</td><td>{$results[$i]['date']}</td></tr>";
+				}
+
+			}
+			break;
 			break;
 			
 			
@@ -132,7 +152,7 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 	}
 	if($page > 0) {
 		$serializedData = urlencode(serialize($fdata));
-		$pre2 = $conn->prepare("SELECT COUNT(*) FROM `{$table}`");
+		$pre2 = $conn->prepare(str_replace("*", "COUNT(*)", $query));
 		$pre2->execute();
 		$max=$pre2->fetchAll(PDO::FETCH_ASSOC);
 		$max= ceil(abs($max[0]['COUNT(*)']/$resultsPerPage));
