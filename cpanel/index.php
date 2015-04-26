@@ -70,7 +70,7 @@ if(isset($_POST['submitbutton']) || isset($_GET['data'])) {
 			$max=$pre2->fetchAll(PDO::FETCH_ASSOC);
 			
 			$max= ceil(abs($max['COUNT(*)']/$resultsPerPage));
-			die($max['COUNT(*)']/$resultsPerPage);
+			die(print_r($max, true) . $max['COUNT(*)']/$resultsPerPage);
 			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
 			$serializedData = urlencode(serialize($fdata));
 			if(count($results) <= 0) {
