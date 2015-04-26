@@ -55,6 +55,7 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
 			if(count($results) <= 0) {
 				$data = 'The username you entered cannot be found!';
+				$page = 0;
 			} else {
 				$data = "<table><tr><td>Username</td><td>Banned By</td><td>Date</td></tr>";
 				for($i = 0; $i < count($results); $i++) {
@@ -75,22 +76,41 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
 			if(count($results) <= 0) {
 				$data = 'The ip address you entered cannot be found!';
+				$page = 0;
 			} else {
-				$data = "<table><tr><td>Ip Address</td><td>Userggname</td><td>Banned By</td><td>Date</td></tr>";
+				$data = "<table><tr><td>Ip Address</td><td>Username</td><td>Banned By</td><td>Date</td></tr>";
 				for($i = 0; $i < count($results); $i++) {
 					$data .= "<tr><td>{$results[$i]['ip']}</td><td>{$results[$i]['victim']}</td><td>{$results[$i]['bannedBy']}</td><td>{$results[$i]['date']}</td></tr>";
 				}
 
 			}
 			break;
-		case "Ban User": 
-			$data = "Ban user clicked";
-			break;
 		case "IP Ban User": 
-			$data = "ip ban user clicked";
+			$page = 0;
+			$table = 'ipbans';
+			$today = date("Y-m-d H:i:s");
+			$query = "INSERT INTO `{$table}`(`ip`, `bannedBy`, `date`) VALUES (?,?,?)";
+			$pre = $conn->prepare($query);
+			$pre->execute($fdata['ipban'], $userInfo['name'], $today);
+			$data = $fdata['ipban'] . " ip banned successfully!";
+			break;
+		case "Ban User": 
+			$page = 0;
+			$table = 'banned';
+			$today = date("Y-m-d H:i:s");
+			$query = "INSERT INTO `{$table}`(`username`, `bannedBy`, `date`) VALUES (?,?,?)";
+			$pre = $conn->prepare($query);
+			$pre->execute($fdata['uban'], $userInfo['name'], $today);
+			$data = $fdata['uban'] . " banned successfully!";
 			break;
 		case "Mac Ban User": 
-			$data = "mac ban user clicked";
+			$page = 0;
+			$table = 'macbans';
+			$today = date("Y-m-d H:i:s");
+			$query = "INSERT INTO `{$table}`(`mac`, `bannedBy`, `date`) VALUES (?,?,?)";
+			$pre = $conn->prepare($query);
+			$pre->execute($fdata['macban'], $userInfo['name'], $today);
+			$data = $fdata['macban'] . " mac addess banned successfully!";
 			break;
 		case "Search Mac Bans": 
 			$data = "search mac ban clicked";
@@ -110,14 +130,16 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 			$data = "ip Mute user clicked";
 			break;
 	}
-	$serializedData = urlencode(serialize($fdata));
-	$pre2 = $conn->prepare("SELECT COUNT(*) FROM `{$table}`");
-	$pre2->execute();
-	$max=$pre2->fetchAll(PDO::FETCH_ASSOC);
-	$max= ceil(abs($max[0]['COUNT(*)']/$resultsPerPage));
-	$data .= "</table><p>Current page: {$page}</p>
-	<p>Go to page: <form method=\"post\"><input type=\"number\" name=\"page\" min=\"1\" max=\"{$max}\" value=\"{$page}\">
-	<input type=\"hidden\" name=\"data\" value=\"{$serializedData}\"><input type=\"submit\" name=\"action\" value=\"go\"></form></p>";
+	if($page > 0) {
+		$serializedData = urlencode(serialize($fdata));
+		$pre2 = $conn->prepare("SELECT COUNT(*) FROM `{$table}`");
+		$pre2->execute();
+		$max=$pre2->fetchAll(PDO::FETCH_ASSOC);
+		$max= ceil(abs($max[0]['COUNT(*)']/$resultsPerPage));
+		$data .= "</table><p>Current page: {$page}</p>
+		<p>Go to page: <form method=\"post\"><input type=\"number\" name=\"page\" min=\"1\" max=\"{$max}\" value=\"{$page}\">
+		<input type=\"hidden\" name=\"data\" value=\"{$serializedData}\"><input type=\"submit\" name=\"action\" value=\"go\"></form></p>";
+	}
 } else {
 	$data = "Nothing to show!";
 }
@@ -170,14 +192,11 @@ $header->displayString();
 								}
 	                			
 	                			if(in_array($userInfo['member_group_id'], $canPerfomActions)) {
-	                				echo '<p>Username: <input></p>
-		                			<p>Reason: <input></p>
+	                				echo '<p>Username: <input name="uban"></p>
 		                			<p><input type="submit" name="submitbutton" value="Ban User"></p>
-		                			<p>IP Address: <input></p>
-		                			<p>Reason: <input></p>
+		                			<p>IP Address: <input name="ipban"></p>
 		                			<p><input type="submit" name="submitbutton" value="IP Ban User"></p>
-		                			<p>Mac Address: <input></p>
-		                			<p>Reason: <input></p>
+		                			<p>Mac Address: <input name="macban"></p>
 		                			<p><input type="submit" name="submitbutton" value="Mac Ban User"></p>';
 	                			} else {
 									echo 'You don\'t have sufficient permissions to perform these set of actions.';
