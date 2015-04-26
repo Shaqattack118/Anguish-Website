@@ -150,7 +150,7 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 				$data = 'The ip address you entered cannot be found!';
 				$page = 0;
 			} else {
-				$data = "<table><tr><td>Ip Address</td><td>Username</td><td>Banned By</td><td>Date</td></tr>";
+				$data = "<table><tr><td>Ip Address</td><td>Username</td><td>Muted By</td><td>Date</td></tr>";
 				for($i = 0; $i < $resultsPerPage; $i++) {
 					if(!empty($results[($i+($resultsPerPage*($page-1)))]['ip'])) 
 						$data .= "<tr><td>{$results[($i+($resultsPerPage*($page-1)))]['ip']}</td><td>{$results[($i+($resultsPerPage*($page-1)))]['victim']}</td><td>{$results[($i+($resultsPerPage*($page-1)))]['bannedBy']}</td><td>{$results[($i+($resultsPerPage*($page-1)))]['date']}</td></tr>";
