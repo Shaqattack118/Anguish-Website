@@ -45,7 +45,8 @@ if(isset($_POST['submitbutton']) || isset($_GET['action'])) {
 			$start = ($page-1)*$resultsPerPage;
 			$pre->bindParam(':start', $start, PDO::PARAM_INT);
 			$pre->bindParam(':end', $resultsPerPage, PDO::PARAM_INT);
-			$pre->execute(array($fdata['sban']));
+			$pre->bindParam('?', $fdata['sban'], PDO::PARAM_STR);
+			$pre->execute();
 			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
 			if(count($results) <= 0) {
 				$data = 'The username you entered cannot be found!';
