@@ -65,10 +65,15 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 			break;
 		case "Search IP(Bans)": 
 			$table = 'ipbans';
-			$query = "SELECT * FROM `{$table}` WHERE `ip` = :ip";
+			$query = "SELECT * FROM `{$table}` WHERE `ip` = :ip or `victim` = :usrname";
 			$pre = $conn->prepare($query);
 			$start = ($page-1)*$resultsPerPage;
 			$pre->bindParam(':ip', $fdata['siban'], PDO::PARAM_STR);
+			if(!empty($fdata['siban2'])) {
+				$pre->bindParam(':usrname', $fdata['siban2'], PDO::PARAM_STR);
+			} else {
+				$pre->bindParam(':usrname', 'DONTSEARCHUSERNAMES', PDO::PARAM_STR);
+			}
 			$pre->execute();
 			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
 			if(count($results) <= 0) {
@@ -116,11 +121,15 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 			$pre = $conn->prepare($query);
 			$start = ($page-1)*$resultsPerPage;
 			$pre->bindParam(':mac', $fdata['smban'], PDO::PARAM_STR);
-			$pre->bindParam(':usname', $fdata['smban2'], PDO::PARAM_STR);
+			if(!empty($fdata['smban2'])) {
+				$pre->bindParam(':usrname', $fdata['smban2'], PDO::PARAM_STR);
+			} else {
+				$pre->bindParam(':usrname', 'DONTSEARCHUSERNAMES', PDO::PARAM_STR);
+			}
 			$pre->execute();
 			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
 			if(count($results) <= 0) {
-				$data = 'The ip address you entered cannot be found!';
+				$data = 'The mac address you entered cannot be found!';
 				$page = 0;
 			} else {
 				$data = "<table><tr><td>Mac Address</td><td>Username</td><td>Banned By</td><td>Date</td></tr>";
