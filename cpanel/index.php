@@ -122,9 +122,9 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 			$start = ($page-1)*$resultsPerPage;
 			$pre->bindParam(':mac', $fdata['smban'], PDO::PARAM_STR);
 			if(!empty($fdata['smban2'])) {
-				$pre->bindParam(':usrname', $fdata['smban2'], PDO::PARAM_STR);
+				$pre->bindParam(':usname', $fdata['smban2'], PDO::PARAM_STR);
 			} else {
-				$pre->bindParam(':usrname', $dontSearch, PDO::PARAM_STR);
+				$pre->bindParam(':usname', $dontSearch, PDO::PARAM_STR);
 			}
 			$pre->execute();
 			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
