@@ -55,10 +55,11 @@ var AnguishDonationPage = new function AnguishDonationPage()
 		
 		var $this = this;
 		
+		/** Load all Products for preprocessing **/
 		this._getAllProducts();
 		
 
-		
+		/** Load Dom events **/
 		this.loadEvents();
 		
 	}
@@ -92,9 +93,18 @@ var AnguishDonationPage = new function AnguishDonationPage()
 				    })
 				  ],
 				  callback: function(data) {
+				  	
+				  	/** Better to ask for confirmation **/
 				    if (data){
-				    		$this.purchaseItems(data.username, $this.purchaseCallback);
-
+				    	
+					  	vex.dialog.confirm({
+							  message: 'Are you absolutely sure you want to recieve these items on <br><b>' + data.username + '</b>',
+							  callback: function(value) {
+							  	if(value)
+							   	$this.purchaseItems(data.username, $this.purchaseCallback);
+							  }
+							});
+							
 				  	}
 				  }
 				});
@@ -104,9 +114,11 @@ var AnguishDonationPage = new function AnguishDonationPage()
 		$(".redemptionHistory").click(function(e) { $this._getRedemptionHistory();});
 		$(".redemptionCenter").click(function(e) {  $this._getDonationJSON('0', function(obj){ $this.cachedJSON['0'] = obj; $this._renderPage(obj); }); });
 	
-
-		$(".purchasePoints").click(function(e) { $this.buyPointsEvent();});
-		$(".redeemPin").click(function(e) { $this.redeemPinEvent();});
+		$(".purchasePoints").click(function(e) { $this._buyPointsEvent();});
+		$(".purchasePointsHistory").click(function(e) { $this._getPaymentHistory();});
+		$(".redeemPin").click(function(e) { $this._redeemPinEvent();});
+		$(".checkPin").click(function(e) { $this._checkPinEvent();});
+		
 	
 	
 		$("#modal-three").find("#closeBtn").click(function(e) { $("#modal-three").removeClass("show").addClass("hideSection"); });
@@ -117,7 +129,7 @@ var AnguishDonationPage = new function AnguishDonationPage()
 	/**
 	 * Redeem Pin
 	 */
-	this.redeemPinEvent = function(){
+	this._redeemPinEvent = function(){
 		
 
 		var $this = this;
@@ -144,13 +156,76 @@ var AnguishDonationPage = new function AnguishDonationPage()
 		}
 	
 	
+	/*
+	 * Check Pin Event
+	 */
+	this._checkPinEvent = function(){
+		
+		vex.dialog.open({
+				  message: 'Please enter the pin you wish to check.',
+				  input: "<input name=\"pin\" type=\"text\" placeholder=\"Pin\" required />",
+				  buttons: [
+				    $.extend({}, vex.dialog.buttons.YES, {
+				      text: 'Check'
+				    }), $.extend({}, vex.dialog.buttons.NO, {
+				      text: 'Cancel'
+				    })
+				  ],
+				  callback: function(data) {
+				  
+				    if (data){
+				    	
+				    		var pin = data.pin;
+										
+								/** Callback for pop up **/	
+					    	var pinCallBack = function(json) {
+						
+										var obj = JSON.parse(json);	
+								
+										var code = obj.Code;
+										var message = obj.Message;
+							
+										var sucessMessage = "The Pin: {pin} <b><font color='green'>{message}</font></b>";
+										var badMessage = "The Pin: {pin} <b><font color='red'>{message}</font></b>";
+										
+										badMessage = badMessage.replace('{pin}', pin);
+										badMessage = badMessage.replace('{message}', message);
+										
+										sucessMessage = sucessMessage.replace('{pin}', pin);
+										sucessMessage = sucessMessage.replace('{message}', message);
+										
+										switch(code){
+											case 200:
+												showNotification("Success", sucessMessage );
+												break;
+											case 480:
+											case 485:
+												showNotification("Error!", badMessage);
+												break;
+											default:
+												showNotification("Unknown Error!", badMessage);
+										
+										};
+									};
+										
+								var params =  {
+															'action' : 'checkPin',
+															'pin' : pin 
+														};
+						
+							$.get(API_ENDPOINT, params, function(e) { pinCallBack(e); });
+				  	
+				  	}
+			 		}
+			 });	
+
+	}
 	/**
 	 * AJAX post to redeem our pin
 	 */
 	this._redeemPin = function(username, pin){
 		
-		
-		
+	
 		var pinCallBack = function(json) {
 			
 							var obj = JSON.parse(json);	
@@ -159,9 +234,14 @@ var AnguishDonationPage = new function AnguishDonationPage()
 							var message = obj.Message;
 							
 							var sucessMessage = "Your ingame account has successfully been credited with the pin: {pin} <br> Happy Gaming!";
-							
+							var badMessage = "The Pin: {pin} <b><font color='red'>{message}</font></b>";
+
 							sucessMessage = sucessMessage.replace('{pin}', pin);
 							
+																	
+							badMessage = badMessage.replace('{pin}', pin);
+							badMessage = badMessage.replace('{message}', message);
+										
 							switch(code){
 								case 200:
 									showNotification("Success", sucessMessage );
@@ -169,16 +249,16 @@ var AnguishDonationPage = new function AnguishDonationPage()
 								
 								case 480:
 								case 485:
-									showNotification("Error!", message);
+									showNotification("Error!", badMessage);
 									break;
 								default:
-									showNotification("Unknown Error!", code + " "+ message);
+									showNotification("Unknown Error!", badMessage);
 							
 						};
 				};
 				
 		var params =  {
-										'action' : 'redeemPIn',
+										'action' : 'redeemPin',
 										'username' : username,
 										'pin' : pin 
 									};
@@ -191,6 +271,7 @@ var AnguishDonationPage = new function AnguishDonationPage()
 	 * purchase callback
 	 */
 	this.purchaseCallback = function($this, json){
+		
 		var data = JSON.parse(json);	
 		
 		var code = data.Code;
@@ -202,7 +283,7 @@ var AnguishDonationPage = new function AnguishDonationPage()
 				$this._updateBuyText(0);
 				$this._reSelectRadios();
 				$this._updateShoppingCart();
-				showNotification("Success", "Your ingame account has successfully been credited. Please ::check ingame with a empty inventory. Happy Gaming!");
+				showNotification("Success", "Your ingame account has successfully been credited. Please ::check ingame with a empty inventory. <br> Happy Gaming!");
 				break;
 			
 			case 440:
@@ -348,13 +429,40 @@ var AnguishDonationPage = new function AnguishDonationPage()
 	/** Render empty notice **/
 	this._renderEmpty = function() {
 		
-	var box = create("div").addClass("box notLoggedIn notice");
+		var box = create("div").addClass("box notLoggedIn notice");
 		box.append(create("h3").append("Notice!"))
 		box.append(create("p").append("Only logged in users may view this section."));
 	
 		return box;
 	}
 	
+
+						
+	/** Render purchase table row **/
+	this._renderPaymentHistoryPurchaseTableRow = function(table, obj){
+		
+				var $this = this;
+			
+				var row = create("tr").addClass("itemHistoryRow").appendTo(table);
+						
+				create("td").addClass("navigation-item").append("Order Id").appendTo(row);
+				create("td").addClass("navigation-item").append("Product").appendTo(row);
+				create("td").addClass("navigation-item").append("Price Paid").appendTo(row);
+
+					
+				var row = create("tr").addClass("itemHistoryRow").appendTo(table);
+				var product = INDEXED_BMT_PRODUCTS[obj.productId][0];
+
+				create("td").append(obj.ordernumber).appendTo(row);
+				create("td").append(create("img").attr("src", product.picture), " ", product.name).appendTo(row);
+				create("td").append('<b>'+obj.total+'</b>').appendTo(row);
+
+		
+				var row = create("tr").addClass("itemHistoryRow").appendTo(table);
+				create("td").attr("colspan", 2).append("Total Paid: ", obj.total).appendTo(row);
+
+	}				
+					
 	/** Render purchase table row **/
 	this._renderPurchaseTableRow = function(table, arr){
 		
@@ -386,8 +494,8 @@ var AnguishDonationPage = new function AnguishDonationPage()
 						
 				create("td").append(transId).appendTo(row);
 				create("td").append(create("img").attr("src", prod.picture), " ", prod.name).appendTo(row);
-				create("td").append(userName).appendTo(row);
-				create("td").append(price).appendTo(row);
+				create("td").append('<b>'+userName+'</b>').appendTo(row);
+				create("td").append('<b>'+price+'</b>').appendTo(row);
 
 		});
 		
@@ -397,9 +505,9 @@ var AnguishDonationPage = new function AnguishDonationPage()
 	}
 
 	/**
-	 *  PreProcess our RedemtionHistory
+	 *  PreProcess our RedemtionHistory _preprocessRedemptionHistory
 	 */
-	this._preprocessRedemptionHistory  = function(arr){
+	this._preprocessHistory  = function(arr, callback){
 
 		var $this = this;
 				
@@ -407,7 +515,11 @@ var AnguishDonationPage = new function AnguishDonationPage()
 		
 		var currentCount = 0;
 		var currentPage = 1;
-
+		
+		/** Reset **/
+		this.paginationItems = {};
+		
+		console.log(arr);
 		/** Loop through indexed data **/
 		for (var key in arr) {
 			
@@ -431,69 +543,107 @@ var AnguishDonationPage = new function AnguishDonationPage()
 					}
 				}
 		}
+			
+		callback();
 
-		/** Render first page **/
-		this._renderPaginatedHistory(1);
-
-      
+ 
 	}
+	
+	
+	this._renderPaginateHistory = function(pageNum, title, drawMethod){
+		
+						
+		$(".box.donation").find(".title").html(title);
+		
+	
+		this.currentPaginationPage = pageNum;
+			
+		var table = $("table.contentArea").empty();
+			
+		table.removeClass().addClass("contentArea historyTable");
+		$(".tab-links").hide();		
+		
+
+		var $this = this;
+			
+			
+		var arr = $this.paginationItems[pageNum];
+		
+		_.each(arr, function(obj){
+
+		  	var tableHeaders = create("tr").addClass("header navigation-item").appendTo(table);
+				tableHeaders.click(function(){
+					$(this).nextUntil('tr.header').css('display', function(i,v){ 
+						if (this.style.display === 'table-row') 
+							return 'none';
+						else 
+							return 'table-row';
+						});
+					table.css({'left' : 0});
+					});
+				
+				drawMethod(table, tableHeaders, obj);
+
+		});
+			
+	}
+	
+	
+	
 	/**
 	 *  Render a Paginated items by PageNumber
 	 */
-	this._renderPaginatedHistory = function(pageNum){
-		
-				
-	
-			this.currentPaginationPage = pageNum;
-			
-			var table = $("table.contentArea");
-			
-			table.removeClass().addClass("contentArea historyTable");
-	
-			
-			$(".box.donation").find(".title").html("Redemption History");
-			
-			$(".tab-links").hide();		
-			table.empty();
+	this._renderRedeemHistory = function($this, pageNum){
 
-			var $this = this;
-			
-			
-			var arr = $this.paginationItems[pageNum];
+		var callback = function(table, tableHeaders, obj){
+							
+					
+					create("td").attr("colspan", 2).append(obj[0].transactionId).appendTo(tableHeaders);
+					create("td").append(obj[0].boughtdate).appendTo(tableHeaders);
+							
+							
+					$this._renderPurchaseTableRow(table, obj);		
 		
-			_.each(arr, function(obj){
-
-		  	var tableHeaders = create("tr").addClass("header navigation-item").appendTo(table);
-		  	
-				tableHeaders.click(function(){
-							    $(this).nextUntil('tr.header').css('display', function(i,v){
-							        if(this.style.display === 'table-row')
-							        		return 'none' 
-							        else
-							        		return 'table-row';
-							    });
-							 		 table.css({'left' : 0});
-							
-				});
-				
-						create("td").attr("colspan", 3).append(obj[0].transactionId).appendTo(tableHeaders);
-						create("td").append(obj[0].boughtdate).appendTo(tableHeaders);
-							
-							
-						$this._renderPurchaseTableRow(table, obj);	
-			});
+		};
+		
+		$this._renderPaginateHistory(pageNum, 'Shopping History', callback);
 	
 	  /** Was not found, so append **/
 		if($(".box.donation").find("#compact-pagination").length == 0)
 				$(".box.donation").append('<div id="compact-pagination" class="compact-theme simple-pagination"><ul class ="pagination"></ul></div>');	
+					
 		
-		$this._renderPaginationItem();
+		$this._renderPaginationItem($this._renderRedeemHistory);
+	}
+	
+	/**
+	 *  Render a Paginated items by PageNumber
+	 */
+	this._renderPaymentHistory = function($this, pageNum){
+		
+		var callback = function(table, tableHeaders, obj){
+							
+					create("td").attr("colspan", 2).append(obj[0].ordernumber).appendTo(tableHeaders);
+					create("td").append(obj[0].orderdate).appendTo(tableHeaders);
+							
+							
+					$this._renderPaymentHistoryPurchaseTableRow(table, obj[0]);		
+		
+		};
+		
+		$this._renderPaginateHistory(pageNum, 'Payment History', callback);
+	
+	  /** Was not found, so append **/
+		if($(".box.donation").find("#compact-pagination").length == 0)
+				$(".box.donation").append('<div id="compact-pagination" class="compact-theme simple-pagination"><ul class ="pagination"></ul></div>');	
+					
+		$this._renderPaginationItem($this._renderPaymentHistory);
 	}
 	
 	/**
 	 * Render Pageination Item
 	 */
-	this._renderPaginationItem = function(){
+	this._renderPaginationItem = function(clickCallBack){
 		
 		var ul = $(".box.donation").find(".pagination");
 		
@@ -517,7 +667,7 @@ var AnguishDonationPage = new function AnguishDonationPage()
 								li.append(create("span").addClass("current").append(pageNum));
 								li.addClass("active");
 						} else {
-								li.append(create("a").addClass("page-link").append(pageNum)).attr("pageNum", pageNum).click(function(e) { $this._renderPaginatedHistory($(this).attr("pageNum")); }) ;							
+								li.append(create("a").addClass("page-link").append(pageNum)).attr("pageNum", pageNum).click(function(e) { clickCallBack($this, $(this).attr("pageNum")); }) ;							
 						}
 							ul.append(li);
 					}
@@ -564,10 +714,9 @@ var AnguishDonationPage = new function AnguishDonationPage()
 	/**
 	 * Buy Points Event
 	 */
-	this.buyPointsEvent = function(){
+	this._buyPointsEvent = function(){
 		this._renderPointsArea();
 		$("#modal-three").removeClass("hideSection").addClass("show");
-
 	}; 
 
   /*
@@ -727,16 +876,49 @@ var AnguishDonationPage = new function AnguishDonationPage()
 				var trans = _.sortBy(data, "boughtdate").reverse(); // sort by boughtdate
 				    trans = _.indexByArray(trans, 'transactionId'); // index it by transaction
 		
-					$this._preprocessRedemptionHistory(trans);
+					$this._preprocessHistory(trans, function(e) {  	$this._renderRedeemHistory($this, 1); } );
 				
 			};
 			
 			$.get(url, callback);
 	
-	};
+	}
 	
 	
+	/*
+	 * Get Payment History
+	 */
+	this._getPaymentHistory = function(){
+
+			var url = API_ENDPOINT+"?action=getPaymentHistory&sessionId="+this.sessionId;
+
+			var $this = this;
+			
+			var callback = function(r){
+				
+				var data = JSON.parse(r);
+				
+					if(data.length == 0){
+						$('.donation').children().hide();
+						$('.donation').append($this._renderEmpty());
+						return;
+					} else {
+						$('.donation').children().show();
+						$('.notLoggedIn').remove(); // remove our notice	
+					}
+
+				var trans = _.sortBy(data, "orderdate").reverse(); // sort by boughtdate
+				    trans = _.indexByArray(trans, 'ordernumber'); // index it by transaction
+		
+				$this._preprocessHistory(trans, function(e) {  	$this._renderPaymentHistory($this, 1); } );
+				
+			};
+			
+			$.get(url, callback);
 	
+	}
+	
+
 	/**
 	* Render the page
 	*/

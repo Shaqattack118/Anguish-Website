@@ -32,4 +32,14 @@ $canViewLogs = array(4,7,6);
 //Staff ids for who can ban users, mute etc.
 $canPerfomActions  = array(4,7,6);
 
+
+function generateStringLen($length){
+	return substr(str_shuffle(md5(time())),0,$length);;
+}
+
+function generateString($prefix, $length){
+	return strtoupper($prefix.generateStringLen($length));
+}
+
+
 ?>

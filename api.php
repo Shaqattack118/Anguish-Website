@@ -1,11 +1,9 @@
 <?php
 
-/** Shitty API object **/
-
-ini_set('display_errors',1);
-ini_set('display_startup_errors',1);
-error_reporting( - 1);
-
+/**
+ * Anguish API 
+ *
+ **/
 
 define("TO_ROOT", "./");
 define("ASSETS", TO_ROOT . "bin/php/");
@@ -22,9 +20,8 @@ $GLOBALS['pinArray'] = array(
 					);
 
 
-
 	 
-/** POSt routes **/
+/** POST routes **/
 if(isset($_POST) && !empty($_POST))
 {
 
@@ -34,7 +31,7 @@ if(isset($_POST) && !empty($_POST))
 	{
 		case 'purchase': purchase($_POST); return;
 		case 'ipn' : ipn($_POST); return;
-		case 'redeemPIn' : redeemPin($_POST); return;
+		case 'redeemPin' : redeemPin($_POST); return;
 	}
 }
 
@@ -47,6 +44,7 @@ if(isset($_GET) && !empty($_GET))
 	switch($action)
 	{
 		case 'getRedemptionHistory': getRedemptionHistory(stripslashes($_GET['sessionId']));
+		case 'getPaymentHistory' : getPaymentHistory(stripslashes($_GET['sessionId']));
 		case 'checkPin': checkPin(stripslashes($_GET['pin'])); break;
 		case 'getAllItems': getAllItems(); break;
 		case 'getItems': getItems(stripslashes($_GET['category'])); break;
@@ -58,134 +56,127 @@ if(isset($_GET) && !empty($_GET))
 
 /** Get Tokens for member Id **/
 function getTokens($memberId){
-
-	$dbname   = "forums";
-	$conn      = new PDO("mysql:host=".servername.";dbname=$dbname", username, password);
-	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-  $select  = "SELECT donator_points_current FROM members WHERE member_id = :memberId";
- 
-
+	global $conn;
+	
+  $select  = "SELECT donator_points_current FROM forums.members WHERE member_id = :memberId";
+  
 	$stmt   = $conn->prepare($select);
 	$stmt->execute(array(':memberId'=> $memberId));
 
 	$rows = $stmt->fetchAll();
 
-	$conn = null;
-	
 	return $rows[0];
 }
 
-function generateString($length){
-	return substr(str_shuffle(md5(time())),0,$length);;
-}
 
-/** Generate Donator Pin **/
-function generateDonatorPin(){
-	$length = 9;
-	return strtoupper("D".generateString($length));
-}
-
-function generateSuperDonatorPin(){
-	$length = 9;
-	return strtoupper("SD".generateString($length));
-	
-}
-
-function generateDropPin(){
-	$length = 9;
-	return strtoupper("DR".generateString($length));
-	
-}
-
-function generateTransactionId(){
-	$length = 10;
-	return strtoupper("TRAN_".generateString($length));
-}
-
+/**
+ * Remove Points from a user
+ */
 function removePoints($memberId, $beforePoints, $points){
+	global $conn;
 	
-	
-	$dbname   = "forums";
-	$conn      = new PDO("mysql:host=".servername.";dbname=$dbname", username, password);
-	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-  $select  = "UPDATE members 
-	       	  SET donator_points_current=?
-	       	  WHERE member_id=?";
+  $select  = "UPDATE forums.members SET donator_points_current=? WHERE member_id=?";
   
   $newPoints = $beforePoints - $points;
   
 	$stmt   = $conn->prepare($select);
-	$stmt->execute(array($newPoints,$memberId));
+	$stmt->execute(array($newPoints, $memberId));
 	
 }
 
 
-function givePlayerItem($json, 	$conn){
-	$dbname     = "testDB";
-	$conn      = new PDO("mysql:host=".servername.";dbname=$dbname", username, password);
-	$select  = "INSERT INTO `donation_claim`(`item_id`, `amount`, `claimed`, `username`)  VALUES (:itemId,:amount,0 ,:username)";
+/**
+ * Give a player an Item
+ */
+function givePlayerItem($json){
+	
+	global $conn;
+	
+	$vals = array(
+					'itemId' => $json['itemId'],
+					'username' => $json['username'],
+					'amount' => $json['amount']
+					);
+					
+	$select  = "INSERT INTO testDB.donation_claim(`item_id`, `amount`, `claimed`, `username`,`createDate`)  VALUES (:itemId, :amount, 0 ,:username, sysdate(3))";
 	$stmt   = $conn->prepare($select);
 
-	$stmt->execute($json);
-
- 	$conn = null;
+	$stmt->execute($vals);
  	
 }
 
+/**
+ * Purchase History 
+ */
 function purchaseItemHistoryInsert($json){
-	$dbname     = "testDB";
-	$conn      = new PDO("mysql:host=".servername.";dbname=$dbname", username, password);
-	$select  = "INSERT INTO `donation_transactions`(`memberId`, `username`, `productId`, `amount`, `price`, `transactionId`, `boughtdate`) VALUES (:memberId,:username,:productId,:amount,:price,:transactionId, sysdate(3))";
+	global $conn;
+	
+	$select  = "INSERT INTO testDB.donation_transactions(`memberId`, `username`, `productId`, `amount`, `price`, `transactionId`, `boughtdate`) VALUES (:memberId,:username,:productId,:amount,:price,:transactionId, sysdate(3))";
 	$stmt   = $conn->prepare($select);
 
 	$stmt->execute($json);
-
- 	$conn = null;
  	
 }
 
+/*
+ * Get Redemption History
+ */
 function getRedemptionHistory($sessionId)
 {
+	global $conn;
 	
 	$memberId = getMemberIdBySessionId($sessionId);
 
-	$dbname     = "testDB";
-	$conn      = new PDO("mysql:host=".servername.";dbname=$dbname", username, password);
-	$select  = "	SELECT username,	productId, 	amount, 	price, 	boughtdate, 	transactionId FROM `donation_transactions` where memberId = :memberId order by boughtdate";
+	$select  = "	SELECT username,	productId, 	amount, 	price, 	boughtdate, 	transactionId FROM testDB.donation_transactions where memberId = :memberId order by boughtdate";
 
 	$stmt     = $conn->prepare($select);
 	$stmt->execute(array(':memberId'=> $memberId));
 
 	$rows = $stmt->fetchAll();
 
- 	$conn = null;
- 	
 	die(json_encode($rows));
 
 }
+
+
+/*
+ * Get Payment History
+ */
+function getPaymentHistory($sessionId)
+{
+	global $conn;
+	
+	$memberId = getMemberIdBySessionId($sessionId);
+
+	$select  = "	select ordernumber, productId, total, orderdate from testDB.donation_point_transactions where memberId = :memberId order by orderdate";
+
+	$stmt     = $conn->prepare($select);
+	$stmt->execute(array(':memberId'=> $memberId));
+
+	$rows = $stmt->fetchAll();
+
+	die(json_encode($rows));
+
+}
+
+
 /**
  * Select memberId by SessionId
  **/
 function getMemberIdBySessionId($sessionId){
-
-	$dbname   = "forums";
-	$conn      = new PDO("mysql:host=".servername.";dbname=$dbname", username, password);
-	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-  $select  = "SELECT member_id FROM `sessions` where id = :sessionId";
- 
+	global $conn;
+	
+  $select  = "SELECT member_id FROM forums.sessions where id = :sessionId";
 
 	$stmt   = $conn->prepare($select);
 	$stmt->execute(array(':sessionId'=> $sessionId));
 
 	$rows = $stmt->fetchAll();
 
-	$conn = null;
-	
 		/** Invalid Session Id **/
 	if(empty($rows))
 				die(returnMessage('Invalid Session Id', 460));
-				
-				
+							
 				
 	return $rows[0]['member_id'];
 }
@@ -199,7 +190,6 @@ function purchase($post)
 	$sessionId = $post['sessionId'];
 	
 	$pinArray = $GLOBALS['pinArray'];
-	
 	
 	$memberId = getMemberIdBySessionId($sessionId);
 	
@@ -219,11 +209,11 @@ function purchase($post)
 	/** They do not have the correct amount of points **/
 	if($currentCost > $currentTokens['donator_points_current'])
 		die(returnMessage('You do not have enough tokens for this purchase!', 440));
-	
-	
+
 	
 	$transId = generateTransactionId();
 	$beforePoints = $currentTokens['donator_points_current'];
+	
 	/** loop through our products **/
 	foreach ($productArr as $product) {
   
@@ -292,6 +282,7 @@ function givePinToPlayer($playerItemObj){
 				sendPM($memberId, $title , $pinMessage);
 								
 		break;
+		
 		case 'Super_Donator_Pin':
 				
 					$pin = generateSuperDonatorPin();
@@ -365,34 +356,29 @@ function givePinToPlayer($playerItemObj){
 }
 
 function insertIntoPinTable($json){
-	$dbname     = "testDB";
-	$conn      = new PDO("mysql:host=".servername.";dbname=$dbname", username, password);
 	
+	global $conn;
 	
-	$select  = "INSERT INTO `donation_pins`(`pin`, `hasRedeemed`, `generateDate`, `type`) VALUES (:pin,:hasRedeemed,sysdate(3),:type)";
+	$select  = "INSERT INTO testDB.donation_pins(`pin`, `hasRedeemed`, `generateDate`, `type`) VALUES (:pin,:hasRedeemed,sysdate(3),:type)";
 	$stmt   = $conn->prepare($select);
 
 
 	$stmt->execute($json);
 
- 	$conn = null;
-	
+ 	
 }
 
 
 function getPinData($pin){
-	$dbname     = "testDB";
-	$conn      = new PDO("mysql:host=".servername.";dbname=$dbname", username, password);
+	global $conn;
 	
-	$select  = "SELECT pin, generateDate, hasRedeemed FROM donation_pins WHERE pin = :pin ";
+	$select  = "SELECT pin, generateDate, hasRedeemed FROM testDB.donation_pins WHERE pin = :pin ";
 	$stmt   = $conn->prepare($select);
 
 	$stmt->execute(array(':pin'=> $pin));
 
 	$rows = $stmt->fetchAll();
 
-	$conn = null;
-	
 	return $rows;
 
 }
@@ -408,10 +394,10 @@ function validatePin($pin){
 	
 		/** Invalid Session Id **/
 	if(empty($pinData))
-		die(returnMessage('Invalid Pin ', 480));
+		die(returnMessage(' is Invalid!', 480));
 				
 	if($pinData[0]['hasRedeemed'] == 1)
-		die(returnMessage('Pin has been redeemed already!', 485));			
+		die(returnMessage(' has been Redeemed Already!', 485));			
 			
 }
 
@@ -437,40 +423,31 @@ function isPinValid($pin){
  */
 function checkPin($pin){
 	validatePin($pin);
-	die(returnMessage("Pin Is Valid", 200));
+	die(returnMessage(" Is Valid", 200));
 }
 
 /**
  * Redeem Pin
  */
 function redeemPin($post){
-
+	global $conn;
+	
 	$username = $post['username'];
 	$pin = $post['pin'];
 	
 	/** GET VALID PIN DATA, if pin is invalid we will die with an error **/
 	validatePin($pin);
 
-
-	$dbname     = "testDB";
-	$conn      = new PDO("mysql:host=".servername.";dbname=$dbname", username, password);
-	
 	/** Set this pin to Redeemed **/
-	$update  = "update donation_pins
-				set hasRedeemed = 1, generateDate =  sysdate(3)
-				where pin = :pin";
+	$update  = "update testDB.donation_pins set hasRedeemed = 1, generateDate =  sysdate(3)	where pin = :pin";
 				
 	$stmt   = $conn->prepare($update);
 
 
-	$stmt->execute(array(
-					'pin' => $pin
-					));
+	$stmt->execute(array( 'pin' => $pin ));
 					
-	$stmt  = null;
-	
 	/** Insert pin for username **/
-	$insert = "INSERT INTO `donators`(`username`, `pin`, `date`) VALUES (:username,:pin, sysdate(3))";
+	$insert = "INSERT INTO testDB.donators(`username`, `pin`, `date`) VALUES (:username,:pin, sysdate(3))";
 	$stmt   = $conn->prepare($insert);
 
 	$stmt->execute(array(
@@ -478,18 +455,15 @@ function redeemPin($post){
 					'pin' => $pin
 					));
 
-	
-	
-	
 
- 	$conn = null;
-	
 	die(returnMessage("success", 200));
 
 }
 
 
-
+/*
+ * Automated PM from Automated Sender 
+ */
 function sendPM($memberId, $title, $body){
 	global $ipbwi;
 	
@@ -501,16 +475,16 @@ function sendPM($memberId, $title, $body){
 */
 function getAllItems()
 {
-	$dbname     = "testDB";
-	$conn      = new PDO("mysql:host=".servername.";dbname=$dbname", username, password);
-	$select  = "SELECT productId, itemId, picture, name, cost, amount FROM donation_items";
+	
+	global $conn;
+		
+	$select  = "SELECT productId, itemId, picture, name, cost, amount FROM testDB.donation_items";
 
 	$stmt     = $conn->prepare($select);
 	$stmt->execute();
 
 	$rows = $stmt->fetchAll();
 
- $conn = null;
 	die(json_encode($rows));
 }
 
@@ -520,40 +494,40 @@ function getAllItems()
 */
 function getItems($json)
 {
-	$dbname     = "testDB";
-	$conn      = new PDO("mysql:host=".servername.";dbname=$dbname", username, password);
-	$select  = "SELECT productId, itemId, picture, name, cost, amount FROM donation_items WHERE category = :category";
+	global $conn;
+	
+	$select  = "SELECT productId, itemId, picture, name, cost, amount FROM testDB.donation_items WHERE category = :category";
 
 	$stmt     = $conn->prepare($select);
 	$stmt->execute(array(':category'=> $json));
 
 	$rows = $stmt->fetchAll();
-
- $conn = null;
 	die(json_encode($rows));
 }
 
+/*
+ * Get Donation Items
+ */
 function getItemsById($productIds)
 {
-	$dbname     = "testDB";
-	$conn      = new PDO("mysql:host=".servername.";dbname=$dbname", username, password);
-
+	global $conn;
 	
-	$select  = "SELECT productId, itemId, picture, name, cost, amount FROM donation_items WHERE productId IN (".str_pad('',count($productIds)*2-1,'?,').");";
+	$select  = "SELECT productId, itemId, picture, name, cost, amount FROM testDB.donation_items WHERE productId IN (".str_pad('',count($productIds)*2-1,'?,').");";
 
-	$stmt     = $conn->prepare($select);
+	$stmt    = $conn->prepare($select);
 	$stmt->execute($productIds);
 
 	$rows = $stmt->fetchAll();
 
- $conn = null;
 
 	return $rows;
 	
 
 }
 
-
+/** 
+ * Return JSON to Front-End
+ */
 function returnMessage($message, $code){
 	return json_encode(array(
 					'Message' => $message,
@@ -561,5 +535,31 @@ function returnMessage($message, $code){
 					));
 	
 }
+
+/** Generate a pin with a $prefix of 9 length **/
+function generatePin($prefix){
+	return generateString($prefix, 9);
+}
+
+/** Generate Donator Pin **/
+function generateDonatorPin(){
+	return generatePin("D");
+}
+
+/** Generate SuperDonator Pin **/
+function generateSuperDonatorPin(){
+	return generatePin("SD");
+}
+
+/** Generate Drop Pin **/
+function generateDropPin(){
+	return generatePin("DR");
+}
+
+/** Generate Transaction ID **/
+function generateTransactionId(){
+	return generateString("TRAN_", 10);
+}
+
 
 ?>

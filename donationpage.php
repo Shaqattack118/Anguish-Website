@@ -73,9 +73,14 @@ $sessionId = $ipbwi->session->session_id;
                 </div>
                 <div class="button-links">
                 	  <a class="purchasePoints">Purchase Points</a>
-                	  <a class="redeemPin">Redeem Pin</a>
-                	 	<a class="redemptionCenter">Shop</a>
+                	  <a class="purchasePointsHistory">Purchase History</a>
+                	  <a class="redemptionCenter">Shop</a>
                     <a class="redemptionHistory">Shopping History</a>
+                	  <a class="redeemPin">Redeem Pin</a>
+                	  <a class="checkPin">Check Pin</a>
+
+                    
+                    
                 </div>
             </aside>
 		</div>

@@ -19,14 +19,13 @@
  - Shop page for spending vote points (Enter in-game name to redeem item on)
  - Final Full Process Test Phase Passed?
 
-## Donator Panel - Tyler
- -  **Done. Ready for Testing 24/04/2015**
+## Donator Panel - Tyler  **Done. 4/26/2015**
  - IPN Testing -  **Done. 4/24/2015**
  - Payment history -  **Done. 4/24/2015**
- - Missing 2 products on Buy points -  **Done. 4/24/2015**
- - Change Redeem Pin on the right side to Pin CP -  **Done. 4/24/2015**
+ - Change Redeem Pin on the right side to Pin CP -  **Done. 4/24/2015**.
+ - Validate Pin on the right side to Pin CP -  **Done. 4/64/2015**
  - Add Page 1 2 3 at bottom of things tht goes outside the theme box thing -  **Done. 4/24/2015**
- - Final Full Process Test Phase Passed?
+ - Final Full Process Test Phase Passed?  **Done. 4/25/2015**
 
 ## Staff CP - Shaq
  - IPBan Player - (Only allow IP Address to be entered)
@@ -54,16 +53,16 @@
  - Lennard
 
 ## Advertisement
- -Server Logo, Banners, Advertisement threads
+ - Server Logo, Banners, Advertisement threads
 
 ## Forums - Shaq, Tyler, Chinos
- -Apply Forum Themes
- -Apply shoutbox to forums
- -Add Staff Application forms -> Goes to Staff Applications section
- -Add Recovery forms -> Goes to Recoveries section for Admin+
- -Add Submit and Appeal form -> Goes to appeals section
- -Forum Rank permissions
- -Add more member groups
+ - Apply Forum Themes
+ - Apply shoutbox to forums
+ - Add Staff Application forms -> Goes to Staff Applications section
+ - Add Recovery forms -> Goes to Recoveries section for Admin+
+ - Add Submit and Appeal form -> Goes to appeals section
+ - Forum Rank permissions
+ - Add more member groups
 
 
 SERVER + CLIENT IS READY. (I have re applied the updates that I did after release).

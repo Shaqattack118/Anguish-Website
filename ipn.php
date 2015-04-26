@@ -162,8 +162,7 @@ class BMTXMLParser {
 	 * Add Points to user
 	 *
 	 */
-	function addPoints($rows, $value){
-
+	function addPoints($data, $rows, $value){
 
 	
 		$dbname  = "forums";
@@ -175,13 +174,13 @@ class BMTXMLParser {
 		$points = $row['donator_points_current'] + $value; // increase our new vlaue 
 		$memberId = $row['member_id'];
 
-		$select  = "UPDATE members 
-				   SET donator_points_current=?, set donator_points_overall = ?
-				   WHERE member_id=?";
+		$select  = 'UPDATE members SET donator_points_current=?, donator_points_overall = ?  WHERE member_id=?';
 	  
 		$stmt  = $conn->prepare($select);
 		$stmt->execute(array($points , $donator_points_overall, $memberId));
 
+			
+		transactionHistory($memberId, $data);
 	}
 
    /*
@@ -193,6 +192,9 @@ class BMTXMLParser {
 			91390007 => '50',
 			91390006 => '10',
 			91390005 => '25',
+			91390009 => '100',
+			91390008 => '75',
+			
 		);
 	   
 	   $sessionId = $data['ccom'];
@@ -207,9 +209,8 @@ class BMTXMLParser {
 		
 		/** get member info by session ID **/
 		$rows = getMemberInfoBySessionId($sessionId);
-		addPoints($rows, $value);
-		
-		transactionHistory($row['member_id'], $data);
+		addPoints($data, $rows, $value);
+
 		
 	}
 	

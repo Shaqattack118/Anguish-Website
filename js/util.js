@@ -18,41 +18,39 @@ Object.size = function(obj) {
 
 
 function showNotification(heading, message){
-	
-	$(".modalNotice").find("#heading").html(heading);
-	$(".modalNotice").find("#message").html(message);
-	
-	$(".modalNotice").find(".close-btn").click(function(e) {  
-		$("#modalNoticeAlert").removeClass("show");
-		$("#modalNoticeAlert").addClass("hideSection");
-	 });
-
-	$("#modalNoticeAlert").removeClass("hideSection").addClass("show");
+	vex.dialog.alert(message);
 }
 
 
 var API_ENDPOINT = "/website/api.php"; // i hate php
 
+
+
 var BMT_PRODUCTS = [{
-					'picture'  : 'http://www.nearreality.com/addons/static/49.png',
-					'name' : '10 Premium Points',
-					'url' : 'https://secure.bmtmicro.com/cart?CID=9139&CLR=0&PRODUCTID=91390006'
+						'id' : '91390006',
+						'picture'  : 'http://www.nearreality.com/addons/static/49.png',
+						'name' : '10 Premium Points',
+						'url' : 'https://secure.bmtmicro.com/cart?CID=9139&CLR=0&PRODUCTID=91390006'
 				   },{
-					'picture'  : 'http://www.nearreality.com/addons/static/49.png',
-					'name' : '25 Premium Points',
-					'url' : 'https://secure.bmtmicro.com/cart?CID=9139&CLR=0&PRODUCTID=91390005'
+				   	'id' : '91390005',
+						'picture'  : 'http://www.nearreality.com/addons/static/49.png',
+						'name' : '25 Premium Points',
+						'url' : 'https://secure.bmtmicro.com/cart?CID=9139&CLR=0&PRODUCTID=91390005'
 				   },{
-					'picture'  : 'http://www.nearreality.com/addons/static/49.png',
-					'name' : '50 Premium Points',
-					'url' : 'https://secure.bmtmicro.com/cart?CID=9139&CLR=0&PRODUCTID=91390007'
+				   	'id' : '91390007',
+				   	'picture'  : 'http://www.nearreality.com/addons/static/49.png',
+						'name' : '50 Premium Points',
+						'url' : 'https://secure.bmtmicro.com/cart?CID=9139&CLR=0&PRODUCTID=91390007'
 				   },{
-					'picture'  : 'http://www.nearreality.com/addons/static/49.png',
-					'name' : '75 Premium Points',
-					'url' : 'https://secure.bmtmicro.com/cart?CID=9139&CLR=0&PRODUCTID=91390007'
+				   	'id' : '91390008',
+						'picture'  : 'http://www.nearreality.com/addons/static/49.png',
+						'name' : '75 Premium Points',
+						'url' : 'https://secure.bmtmicro.com/cart?CID=9139&CLR=0&PRODUCTID=91390008'
 				   },{
-					'picture'  : 'http://www.nearreality.com/addons/static/49.png',
-					'name' : '100 Premium Points',
-					'url' : 'https://secure.bmtmicro.com/cart?CID=9139&CLR=0&PRODUCTID=91390007'
+				   	'id' : '91390009',
+						'picture'  : 'http://www.nearreality.com/addons/static/49.png',
+						'name' : '100 Premium Points',
+						'url' : 'https://secure.bmtmicro.com/cart?CID=9139&CLR=0&PRODUCTID=91390009'
 				   }];
 
 
@@ -168,7 +166,7 @@ function createModal(id, classes, header, body, footer){
 
     // get notified when it's opened/closed
  window.addEventListener('devtoolschange', function (e) {
- 				if(e.detail.open){
+ 				if(e.detail.close){
  					var msg = '';
  				
  					msg += "   ___                    _     _      ______  _____   \n";
@@ -185,3 +183,7 @@ function createModal(id, classes, header, body, footer){
  					console.log(msg);
  				}
  });
+ 
+ 
+ 
+var	INDEXED_BMT_PRODUCTS = _.indexByArray(BMT_PRODUCTS, 'id'); // index it by PRODUCTiD
