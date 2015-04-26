@@ -29,8 +29,7 @@ if(isset($_POST['submitbutton']) || isset($_GET['data'])) {
 	if(isset($_POST['submitbutton'])) {
 		$fdata = $_POST;
 	} else {  
-		$fdata = urldecode(unserialize($_GET['data']));
-		die(urldecode($_GET['data']));
+		$fdata = unserialize(urldecode($_GET['data']));
 	} 
 	
 	if(!isset($_GET['page'])) {
