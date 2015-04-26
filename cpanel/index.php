@@ -150,7 +150,7 @@ $header->displayString();
                 
 	                <div id="banscontainer" style="visibility: hidden;">
 	                	<div class="center">
-	                		<form method="post">
+	                		<form method="post" action="http://anguishps.com/website/cpanel/">
 	                			<?php
 	                			if(in_array($userInfo['member_group_id'], $canViewLogs)) {
 	                				echo '<p>Username: <input name="sban"></p>
@@ -182,7 +182,7 @@ $header->displayString();
 	                </div>
 	                <div id="mutescontainer" style="visibility: hidden;">
 	                	<div class="center">
-	                		<form method="post">
+	                		<form method="post" action="http://anguishps.com/website/cpanel/">
 	                			<?php
 	                			
 	                			if(in_array($userInfo['member_group_id'], $canViewLogs)) {
@@ -209,7 +209,7 @@ $header->displayString();
 	                </div>
 	                <div id="logscontainer" style="visibility: hidden;">
 	                	<div class="center">
-	                		<form method="post">
+	                		<form method="post" action="http://anguishps.com/website/cpanel/">
 	                			<?php
 	                			if(in_array($userInfo['member_group_id'], $canViewLogs)) {
 	                				echo '<p>Giver: <input></p>
