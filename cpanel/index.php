@@ -18,7 +18,7 @@ require_once(TO_ROOT . 'ipbwi/ipbwi.inc.php');
 $isLoggedIn = $ipbwi->member->isLoggedIn();
 $userInfo = $ipbwi->member->info();
 
-if(!isLoggedIn) {
+if(!$isLoggedIn) {
 	header("Location: ../index.php");
 }
 if(!in_array($userInfo['member_group_id'], $staff_ranks)) {
@@ -150,7 +150,7 @@ $header->displayString();
                 
 	                <div id="banscontainer" style="visibility: hidden;">
 	                	<div class="center">
-	                		<form method="post" action="http://anguishps.com/website/cpanel/">
+	                		<form method="post" action="http://anguishps.com/website/cpanel/index.php">
 	                			<?php
 	                			if(in_array($userInfo['member_group_id'], $canViewLogs)) {
 	                				echo '<p>Username: <input name="sban"></p>
@@ -182,7 +182,7 @@ $header->displayString();
 	                </div>
 	                <div id="mutescontainer" style="visibility: hidden;">
 	                	<div class="center">
-	                		<form method="post" action="http://anguishps.com/website/cpanel/">
+	                		<form method="post" action="http://anguishps.com/website/cpanel/index.php">
 	                			<?php
 	                			
 	                			if(in_array($userInfo['member_group_id'], $canViewLogs)) {
@@ -209,7 +209,7 @@ $header->displayString();
 	                </div>
 	                <div id="logscontainer" style="visibility: hidden;">
 	                	<div class="center">
-	                		<form method="post" action="http://anguishps.com/website/cpanel/">
+	                		<form method="post" action="http://anguishps.com/website/cpanel/index.php">
 	                			<?php
 	                			if(in_array($userInfo['member_group_id'], $canViewLogs)) {
 	                				echo '<p>Giver: <input></p>
