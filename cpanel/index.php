@@ -186,7 +186,7 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 			$pre = $conn->prepare($query);
 			$start = ($page-1)*$resultsPerPage;
 			$pre->bindParam(':user', $fdata['stl'], PDO::PARAM_STR);
-			$pre->bindParam(':twith', $fdata['stl1'], PDO::PARAM_STR);
+			$pre->bindParam(':twith', $fdata['stl2'], PDO::PARAM_STR);
 			$pre->execute();
 			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
 			if(count($results) <= 0) {
