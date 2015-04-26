@@ -233,6 +233,7 @@ $header->displayString();
 	                				echo '<p>Username: <input name="sban"></p>
 		                			<p><input type="submit" name="submitbutton" value="Search Ban"></p>
 		                			<p>Ip Address: <input name="siban"></p>
+		                			<p>Username: <input name="siban2"></p>
 		                			<p><input type="submit" name="submitbutton" value="Search IP(Bans)"></p>
 		                			<p>Mac Address: <input name="smban"></p>
 		                			<p>Username: <input name="smban2"></p>
@@ -245,7 +246,6 @@ $header->displayString();
 	                				echo '<p>Username: <input name="uban"></p>
 		                			<p><input type="submit" name="submitbutton" value="Ban User"></p>
 		                			<p>IP Address: <input name="ipban"></p>
-		                			<p>Username: <input name="ipban2"></p>
 		                			<p><input type="submit" name="submitbutton" value="IP Ban User"></p>
 		                			<p>Mac Address: <input name="macban"></p>
 		                			<p><input type="submit" name="submitbutton" value="Mac Ban User"></p>';
