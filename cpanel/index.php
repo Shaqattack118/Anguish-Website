@@ -68,7 +68,7 @@ if(isset($_POST['submitbutton']) || isset($_GET['data'])) {
 			$pre2 = $conn->prepare("SELECT COUNT(*) FROM `ipbans`");
 			$pre2->execute();
 			$max=$pre2->fetchAll(PDO::FETCH_ASSOC);
-			$max= ceil($max['COUNT(*)']/$resultsPerPage);
+			$max= ceil(abs($max['COUNT(*)']/$resultsPerPage));
 			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
 			$serializedData = urlencode(serialize($fdata));
 			if(count($results) <= 0) {
