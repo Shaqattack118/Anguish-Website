@@ -31,7 +31,7 @@ if(isset($_POST['submitbutton']) || isset($_GET['action'])) {
 		$fdata['action'] = $_POST['submitbutton'];
 	} else {
 		$fdata = unserialize($_GET['data']);
-	}
+	} 
 	
 	if(!isset($_GET['page'])) {
 		$page = 1;
