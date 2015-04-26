@@ -65,7 +65,9 @@ if(isset($_POST['submitbutton']) || isset($_GET['data'])) {
 			$pre->bindParam(':end', $resultsPerPage, PDO::PARAM_INT);
 			$pre->bindParam(':ip', $fdata['siban'], PDO::PARAM_STR);
 			$pre->execute();
-			$max = 2;
+			$max = $conn->prepare("SELECT COUNT(*) FROM `ipbans`")->execute()->fetchAll(PDO::FETCH_ASSOC);
+			print_r($max);
+			$max= 2;
 			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
 			$serializedData = urlencode(serialize($fdata));
 			if(count($results) <= 0) {
