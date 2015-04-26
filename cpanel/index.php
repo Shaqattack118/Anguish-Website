@@ -77,7 +77,7 @@ if(isset($_POST['submitbutton']) || isset($_GET['data'])) {
 				}
 				$data .= "</table><p>Current page: {$page}</p>
 				<p>Go to page: <form method=\"get\"><input type=\"number\" name=\"page\" min=\"1\" max=\"{$max}\" value=\"{$page}.\">
-				<input type=\"hidden\" name=\"data\" value=\"".serialize($fdata)."\"><input type=\"submit\" name=\"action\" value=\"go\"></form></p>";
+				<input type=\"hidden\" name=\"data\" value=\"{serialize($fdata)}\"><input type=\"submit\" name=\"action\" value=\"go\"></form></p>";
 			}
 			break;
 		case "Ban User": 
