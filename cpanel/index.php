@@ -24,12 +24,27 @@ if(!isLoggedIn) {
 if(!in_array($userInfo['member_group_id'], $staff_ranks)) {
 	header("Location: ../index.php");
 }
-if(isset($_POST['submitbutton'])) {
-	switch($_POST['submitbutton']) {
+if(isset($_POST['submitbutton']) || isset($_GET['action'])) {
+	
+	if(isset($_POST['submitbutton'])) {
+		$fdata = $_POST;
+		$fdata['action'] = $_POST['submitbutton'];
+	} else {  
+		$fdata = unserialize($_GET['data']);
+	} 
+	
+	if(!isset($_GET['page'])) {
+		$page = 1;
+	} else {
+		$page = $_GET['page'];
+	}
+	switch($fdata['submitbutton']) {
 		case "Search Ban": 
-			$query = "SELECT * FROM `banned` WHERE `username` = ?";
+			$query = "SELECT * FROM `banned` WHERE `username` = ? LIMIT :start, :end";
 			$pre = $conn->prepare($query);
-			$pre->execute(array($_POST['sban']));
+			$pre->bindParam(':start', ($page-1)*$resultsPerPage, PDO::PARAM_INT);
+			$pre->bindParam(':end', $resultsPerPage, PDO::PARAM_INT, 12);
+			$pre->execute(array($fdata['sban']));
 			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
 			if(count($results) <= 0) {
 				$data = 'The username you entered cannot be found!';
@@ -42,14 +57,14 @@ if(isset($_POST['submitbutton'])) {
 			}
 			break;
 		case "Search IP(Bans)": 
-			$query = "SELECT * FROM `ipbans` WHERE `ip` = ?";
+			$query = "SELECT * FROM `ipbans` WHERE `ip` = ? LIMIT ?, ?";
 			$pre = $conn->prepare($query);
-			$pre->execute(array($_POST['siban']));
+			$pre->execute(array($fdata['siban'] ($page-1)*$resultsPerPage, $resultsPerPage));
 			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
 			if(count($results) <= 0) {
 				$data = 'The ip address you entered cannot be found!';
 			} else {
-				$data = "<table><tr><td>Ip Address</td><td>Username</td><td>Banned By</td><td>Date</td></tr>";
+				$data = "<table><tr><td>Ip Address</td><td>Userggname</td><td>Banned By</td><td>Date</td></tr>";
 				for($i = 0; $i < count($results); $i++) {
 					$data .= "<tr><td>{$results[$i]['ip']}</td><td>{$results[$i]['victim']}</td><td>{$results[$i]['bannedBy']}</td><td>{$results[$i]['date']}</td></tr>";
 				}
@@ -71,7 +86,7 @@ if(isset($_POST['submitbutton'])) {
 			
 			
 		case "Search Mute": 
-			$data = "Search Mute clicked";
+			$data = "This function is not working!";
 			break;
 		case "Search IP(Mutes)": 
 			$data = "Search ip Mute clicked";
