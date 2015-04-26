@@ -40,12 +40,12 @@ if(isset($_POST['submitbutton']) || isset($_GET['action'])) {
 	}
 	switch($fdata['submitbutton']) {
 		case "Search Ban": 
-			$query = "SELECT * FROM `banned` WHERE `username` = :ip LIMIT :start, :end";
+			$query = "SELECT * FROM `banned` WHERE `username` = :uname LIMIT :start, :end";
 			$pre = $conn->prepare($query);
 			$start = ($page-1)*$resultsPerPage;
 			$pre->bindParam(':start', $start, PDO::PARAM_INT);
 			$pre->bindParam(':end', $resultsPerPage, PDO::PARAM_INT);
-			$pre->bindParam(':ip', $fdata['sban'], PDO::PARAM_STR);
+			$pre->bindParam(':uname', $fdata['sban'], PDO::PARAM_STR);
 			$pre->execute();
 			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
 			if(count($results) <= 0) {
@@ -59,9 +59,13 @@ if(isset($_POST['submitbutton']) || isset($_GET['action'])) {
 			}
 			break;
 		case "Search IP(Bans)": 
-			$query = "SELECT * FROM `ipbans` WHERE `ip` = ? LIMIT ?, ?";
-			$pre = $conn->prepare($query);
-			$pre->execute(array($fdata['siban'] ($page-1)*$resultsPerPage, $resultsPerPage));
+			$query = "SELECT * FROM `ipbans` WHERE `ip` = :ip LIMIT :start, :end";
+				$pre = $conn->prepare($query);
+			$start = ($page-1)*$resultsPerPage;
+			$pre->bindParam(':start', $start, PDO::PARAM_INT);
+			$pre->bindParam(':end', $resultsPerPage, PDO::PARAM_INT);
+			$pre->bindParam(':ip', $fdata['siban'], PDO::PARAM_STR);
+			$pre->execute();
 			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
 			if(count($results) <= 0) {
 				$data = 'The ip address you entered cannot be found!';
