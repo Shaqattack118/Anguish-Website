@@ -24,11 +24,10 @@ if(!isLoggedIn) {
 if(!in_array($userInfo['member_group_id'], $staff_ranks)) {
 	header("Location: ../index.php");
 }
-if(isset($_POST['submitbutton']) || isset($_GET['action'])) {
+if(isset($_POST['submitbutton']) || isset($_GET['data'])) {
 	
 	if(isset($_POST['submitbutton'])) {
 		$fdata = $_POST;
-		$fdata['action'] = $_POST['submitbutton'];
 	} else {  
 		$fdata = unserialize($_GET['data']);
 	} 
@@ -60,7 +59,7 @@ if(isset($_POST['submitbutton']) || isset($_GET['action'])) {
 			break;
 		case "Search IP(Bans)": 
 			$query = "SELECT * FROM `ipbans` WHERE `ip` = :ip LIMIT :start, :end";
-				$pre = $conn->prepare($query);
+			$pre = $conn->prepare($query);
 			$start = ($page-1)*$resultsPerPage;
 			$pre->bindParam(':start', $start, PDO::PARAM_INT);
 			$pre->bindParam(':end', $resultsPerPage, PDO::PARAM_INT);
@@ -74,7 +73,9 @@ if(isset($_POST['submitbutton']) || isset($_GET['action'])) {
 				for($i = 0; $i < count($results); $i++) {
 					$data .= "<tr><td>{$results[$i]['ip']}</td><td>{$results[$i]['victim']}</td><td>{$results[$i]['bannedBy']}</td><td>{$results[$i]['date']}</td></tr>";
 				}
-				$data .= "</table>";
+				$data .= "</table>
+				Go to page: <form method=\"get\"><input type=\"number\" name=\"page\" max=\"2\" value=\".$page.\">
+				<input type=\"hidden\" value=\"".serialize($fdata)."\"></form>";
 			}
 			break;
 		case "Ban User": 
