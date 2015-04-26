@@ -25,7 +25,7 @@ if(!in_array($userInfo['member_group_id'], $staff_ranks)) {
 	header("Location: ../index.php");
 }
 if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
-	
+	$dontSearch = 'DONTSEARCHUSERNAMES';
 	if(isset($_POST['submitbutton'])) {
 		$fdata = $_POST;
 	} else {  
@@ -72,7 +72,7 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 			if(!empty($fdata['siban2'])) {
 				$pre->bindParam(':usrname', $fdata['siban2'], PDO::PARAM_STR);
 			} else {
-				$pre->bindParam(':usrname', 'DONTSEARCHUSERNAMES', PDO::PARAM_STR);
+				$pre->bindParam(':usrname', $dontSearch, PDO::PARAM_STR);
 			}
 			$pre->execute();
 			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
@@ -124,7 +124,7 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 			if(!empty($fdata['smban2'])) {
 				$pre->bindParam(':usrname', $fdata['smban2'], PDO::PARAM_STR);
 			} else {
-				$pre->bindParam(':usrname', 'DONTSEARCHUSERNAMES', PDO::PARAM_STR);
+				$pre->bindParam(':usrname', $dontSearch, PDO::PARAM_STR);
 			}
 			$pre->execute();
 			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
