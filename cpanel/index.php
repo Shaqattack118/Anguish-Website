@@ -30,6 +30,7 @@ if(isset($_POST['submitbutton']) || isset($_GET['data'])) {
 		$fdata = $_POST;
 	} else {  
 		$fdata = unserialize($_GET['data']);
+		print_r($fdata);
 	} 
 	
 	if(!isset($_GET['page'])) {
