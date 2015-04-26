@@ -245,6 +245,7 @@ $header->displayString();
 	                				echo '<p>Username: <input name="uban"></p>
 		                			<p><input type="submit" name="submitbutton" value="Ban User"></p>
 		                			<p>IP Address: <input name="ipban"></p>
+		                			<p>IP Address: <input name="ipban2"></p>
 		                			<p><input type="submit" name="submitbutton" value="IP Ban User"></p>
 		                			<p>Mac Address: <input name="macban"></p>
 		                			<p><input type="submit" name="submitbutton" value="Mac Ban User"></p>';
