@@ -18,19 +18,18 @@ require_once(TO_ROOT . 'ipbwi/ipbwi.inc.php');
 $isLoggedIn = $ipbwi->member->isLoggedIn();
 $userInfo = $ipbwi->member->info();
 
-if(!isLoggedIn) {
+if(!$isLoggedIn) {
 	header("Location: ../index.php");
 }
 if(!in_array($userInfo['member_group_id'], $staff_ranks)) {
 	header("Location: ../index.php");
 }
-if(isset($_POST['submitbutton']) || isset($_GET['action'])) {
+if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 	
 	if(isset($_POST['submitbutton'])) {
 		$fdata = $_POST;
-		$fdata['action'] = $_POST['submitbutton'];
 	} else {  
-		$fdata = unserialize($_GET['data']);
+		$fdata = unserialize(urldecode($_POST['data']));
 	} 
 	
 	if(!isset($_GET['page'])) {
@@ -38,13 +37,21 @@ if(isset($_POST['submitbutton']) || isset($_GET['action'])) {
 	} else {
 		$page = $_GET['page'];
 	}
+	if(!isset($_POST['page'])) {
+		$page = 1;
+	} else {
+		$page = $_POST['page'];
+	}
 	switch($fdata['submitbutton']) {
 		case "Search Ban": 
-			$query = "SELECT * FROM `banned` WHERE `username` = ? LIMIT :start, :end";
+			$table = 'banned';
+			$query = "SELECT * FROM `{$table}` WHERE `username` = :uname LIMIT :start, :end";
 			$pre = $conn->prepare($query);
-			$pre->bindParam(':start', ($page-1)*$resultsPerPage, PDO::PARAM_INT);
-			$pre->bindParam(':end', $resultsPerPage, PDO::PARAM_INT, 12);
-			$pre->execute(array($fdata['sban']));
+			$start = ($page-1)*$resultsPerPage;
+			$pre->bindParam(':start', $start, PDO::PARAM_INT);
+			$pre->bindParam(':end', $resultsPerPage, PDO::PARAM_INT);
+			$pre->bindParam(':uname', $fdata['sban'], PDO::PARAM_STR);
+			$pre->execute();
 			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
 			if(count($results) <= 0) {
 				$data = 'The username you entered cannot be found!';
@@ -57,9 +64,14 @@ if(isset($_POST['submitbutton']) || isset($_GET['action'])) {
 			}
 			break;
 		case "Search IP(Bans)": 
-			$query = "SELECT * FROM `ipbans` WHERE `ip` = ? LIMIT ?, ?";
+			$table = 'ipbans';
+			$query = "SELECT * FROM `{$table}` WHERE `ip` = :ip LIMIT :start, :end";
 			$pre = $conn->prepare($query);
-			$pre->execute(array($fdata['siban'] ($page-1)*$resultsPerPage, $resultsPerPage));
+			$start = ($page-1)*$resultsPerPage;
+			$pre->bindParam(':start', $start, PDO::PARAM_INT);
+			$pre->bindParam(':end', $resultsPerPage, PDO::PARAM_INT);
+			$pre->bindParam(':ip', $fdata['siban'], PDO::PARAM_STR);
+			$pre->execute();
 			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
 			if(count($results) <= 0) {
 				$data = 'The ip address you entered cannot be found!';
@@ -68,7 +80,7 @@ if(isset($_POST['submitbutton']) || isset($_GET['action'])) {
 				for($i = 0; $i < count($results); $i++) {
 					$data .= "<tr><td>{$results[$i]['ip']}</td><td>{$results[$i]['victim']}</td><td>{$results[$i]['bannedBy']}</td><td>{$results[$i]['date']}</td></tr>";
 				}
-				$data .= "</table>";
+
 			}
 			break;
 		case "Ban User": 
@@ -98,6 +110,14 @@ if(isset($_POST['submitbutton']) || isset($_GET['action'])) {
 			$data = "ip Mute user clicked";
 			break;
 	}
+	$serializedData = urlencode(serialize($fdata));
+	$pre2 = $conn->prepare("SELECT COUNT(*) FROM `{$table}`");
+	$pre2->execute();
+	$max=$pre2->fetchAll(PDO::FETCH_ASSOC);
+	$max= ceil(abs($max[0]['COUNT(*)']/$resultsPerPage));
+	$data .= "</table><p>Current page: {$page}</p>
+	<p>Go to page: <form method=\"post\"><input type=\"number\" name=\"page\" min=\"1\" max=\"{$max}\" value=\"{$page}\">
+	<input type=\"hidden\" name=\"data\" value=\"{$serializedData}\"><input type=\"submit\" name=\"action\" value=\"go\"></form></p>";
 } else {
 	$data = "Nothing to show!";
 }
