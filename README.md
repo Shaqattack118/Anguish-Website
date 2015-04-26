@@ -37,6 +37,7 @@
  - Mods can BAN, IPMUTE -> Can Look at ipmute, ipban, macban, ban, connections, duel, trade, drop logs
  - SS can look at Bans
  - Final Full Process Test Phase Passed?
+
 **COMPLETED**
  - IPBan Player - (Only allow IP Address to be entered) **Completed.**
  - Mute Player - (Not Available atm) **Completed.**
