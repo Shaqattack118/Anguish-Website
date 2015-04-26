@@ -39,7 +39,8 @@ if(isset($_POST['submitbutton']) || isset($_GET['data'])) {
 	}
 	switch($fdata['submitbutton']) {
 		case "Search Ban": 
-			$query = "SELECT * FROM `banned` WHERE `username` = :uname LIMIT :start, :end";
+			$table = 'banned';
+			$query = "SELECT * FROM `{$table}` WHERE `username` = :uname LIMIT :start, :end";
 			$pre = $conn->prepare($query);
 			$start = ($page-1)*$resultsPerPage;
 			$pre->bindParam(':start', $start, PDO::PARAM_INT);
@@ -58,21 +59,15 @@ if(isset($_POST['submitbutton']) || isset($_GET['data'])) {
 			}
 			break;
 		case "Search IP(Bans)": 
-			$query = "SELECT * FROM `ipbans` WHERE `ip` = :ip LIMIT :start, :end";
+			$table = 'ipbans';
+			$query = "SELECT * FROM `{$table}` WHERE `ip` = :ip LIMIT :start, :end";
 			$pre = $conn->prepare($query);
 			$start = ($page-1)*$resultsPerPage;
 			$pre->bindParam(':start', $start, PDO::PARAM_INT);
 			$pre->bindParam(':end', $resultsPerPage, PDO::PARAM_INT);
 			$pre->bindParam(':ip', $fdata['siban'], PDO::PARAM_STR);
 			$pre->execute();
-			$pre2 = $conn->prepare("SELECT COUNT(*) FROM `ipbans`");
-			$pre2->execute();
-			$max=$pre2->fetchAll(PDO::FETCH_ASSOC);
-			
-			$max= ceil(abs($max[0]['COUNT(*)']/$resultsPerPage));
-			die($max);
 			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
-			$serializedData = urlencode(serialize($fdata));
 			if(count($results) <= 0) {
 				$data = 'The ip address you entered cannot be found!';
 			} else {
@@ -80,9 +75,7 @@ if(isset($_POST['submitbutton']) || isset($_GET['data'])) {
 				for($i = 0; $i < count($results); $i++) {
 					$data .= "<tr><td>{$results[$i]['ip']}</td><td>{$results[$i]['victim']}</td><td>{$results[$i]['bannedBy']}</td><td>{$results[$i]['date']}</td></tr>";
 				}
-				$data .= "</table><p>Current page: {$page}</p>
-				<p>Go to page: <form method=\"get\"><input type=\"number\" name=\"page\" min=\"1\" max=\"{$max}\" value=\"{$page}\">
-				<input type=\"hidden\" name=\"data\" value=\"{$serializedData}\"><input type=\"submit\" name=\"action\" value=\"go\"></form></p>";
+
 			}
 			break;
 		case "Ban User": 
@@ -112,6 +105,14 @@ if(isset($_POST['submitbutton']) || isset($_GET['data'])) {
 			$data = "ip Mute user clicked";
 			break;
 	}
+	$serializedData = urlencode(serialize($fdata));
+	$pre2 = $conn->prepare("SELECT COUNT(*) FROM `{$table}`");
+	$pre2->execute();
+	$max=$pre2->fetchAll(PDO::FETCH_ASSOC);
+	$max= ceil(abs($max[0]['COUNT(*)']/$resultsPerPage));
+	$data .= "</table><p>Current page: {$page}</p>
+	<p>Go to page: <form method=\"get\"><input type=\"number\" name=\"page\" min=\"1\" max=\"{$max}\" value=\"{$page}\">
+	<input type=\"hidden\" name=\"data\" value=\"{$serializedData}\"><input type=\"submit\" name=\"action\" value=\"go\"></form></p>";
 } else {
 	$data = "Nothing to show!";
 }
