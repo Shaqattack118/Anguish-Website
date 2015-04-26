@@ -31,6 +31,7 @@ $sessionId = $ipbwi->session->session_id;
                     <header>
                         <h2 class="title">Voting Sites</h2>
                     </header>
+                    <p>Would you like to help us expand Anguish? There is one simple way that will reward everyone including yourself! By voting for us every day not ony helps us become more popular and drive more players into our community, but it allows YOU to benefit from the amazing rewards we have set for you! So take a moment of your time and vote for us!</p>
                </div>
                 <div class="box donation">
                     <header>
