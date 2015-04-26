@@ -43,7 +43,7 @@ if(isset($_POST['submitbutton']) || isset($_GET['action'])) {
 			$query = "SELECT * FROM `banned` WHERE `username` = ? LIMIT :start, :end";
 			$pre = $conn->prepare($query);
 			$pre->bindParam(':start', ($page-1)*$resultsPerPage, PDO::PARAM_INT);
-			$pre->bindParam(':end', $resultsPerPage, PDO::PARAM_INT, 12);
+			$pre->bindParam(':end', $resultsPerPage, PDO::PARAM_INT);
 			$pre->execute(array($fdata['sban']));
 			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
 			if(count($results) <= 0) {
