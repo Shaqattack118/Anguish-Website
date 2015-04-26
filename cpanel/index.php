@@ -147,8 +147,7 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 	if($page > 0) {
 		$serializedData = urlencode(serialize($fdata));
 		$max = count($results);
-		die($max/$resultsPerPage);
-		$max= ceil($max[0]['COUNT(*)']/$resultsPerPage);
+		$max= ceil($max/$resultsPerPage);
 		
 		$data .= "</table><p>Current page: {$page}</p>
 		<p>Go to page: <form method=\"post\"><input type=\"number\" name=\"page\" min=\"1\" max=\"{$max}\" value=\"{$page}\">
