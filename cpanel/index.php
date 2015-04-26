@@ -91,7 +91,7 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 			$today = date("Y-m-d H:i:s");
 			$query = "INSERT INTO `{$table}`(`ip`, `bannedBy`, `date`) VALUES (?,?,?)";
 			$pre = $conn->prepare($query);
-			$pre->execute($fdata['ipban'], $userInfo['name'], $today);
+			$pre->execute(array($fdata['ipban'], $userInfo['name'], $today));
 			$data = $fdata['ipban'] . " ip banned successfully!";
 			break;
 		case "Ban User": 
@@ -100,7 +100,7 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 			$today = date("Y-m-d H:i:s");
 			$query = "INSERT INTO `{$table}`(`username`, `bannedBy`, `date`) VALUES (?,?,?)";
 			$pre = $conn->prepare($query);
-			$pre->execute($fdata['uban'], $userInfo['name'], $today);
+			$pre->execute(array($fdata['uban'], $userInfo['name'], $today));
 			$data = $fdata['uban'] . " banned successfully!";
 			break;
 		case "Mac Ban User": 
@@ -109,7 +109,7 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 			$today = date("Y-m-d H:i:s");
 			$query = "INSERT INTO `{$table}`(`mac`, `bannedBy`, `date`) VALUES (?,?,?)";
 			$pre = $conn->prepare($query);
-			$pre->execute($fdata['macban'], $userInfo['name'], $today);
+			$pre->execute(array($fdata['macban'], $userInfo['name'], $today));
 			$data = $fdata['macban'] . " mac addess banned successfully!";
 			break;
 		case "Search Mac Bans": 
