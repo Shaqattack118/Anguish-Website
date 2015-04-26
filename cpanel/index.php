@@ -40,9 +40,11 @@ if(isset($_POST['submitbutton']) || isset($_GET['action'])) {
 	}
 	switch($fdata['submitbutton']) {
 		case "Search Ban": 
-			$query = "SELECT * FROM `banned` WHERE `username` = ? LIMIT ?, ?";
+			$query = "SELECT * FROM `banned` WHERE `username` = ? LIMIT :start, :end";
 			$pre = $conn->prepare($query);
-			$pre->execute(array($fdata['sban'], ($page-1)*$resultsPerPage, $resultsPerPage));
+			$pre->bindParam(':start', ($page-1)*$resultsPerPage, PDO::PARAM_INT);
+			$pre->bindParam(':end', $resultsPerPage, PDO::PARAM_INT, 12);
+			$pre->execute(array($fdata['sban']));
 			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
 			if(count($results) <= 0) {
 				$data = 'The username you entered cannot be found!';
