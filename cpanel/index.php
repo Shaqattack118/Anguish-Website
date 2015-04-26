@@ -152,9 +152,7 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 	}
 	if($page > 0) {
 		$serializedData = urlencode(serialize($fdata));
-		$pre2 = $conn->prepare(str_replace("*", "COUNT(*)", $query));
-		$pre2->execute();
-		$max=$pre2->fetchAll(PDO::FETCH_ASSOC);
+		$max=count($results);
 		$max= ceil(abs($max[0]['COUNT(*)']/$resultsPerPage));
 		$data .= "</table><p>Current page: {$page}</p>
 		<p>Go to page: <form method=\"post\"><input type=\"number\" name=\"page\" min=\"1\" max=\"{$max}\" value=\"{$page}\">
