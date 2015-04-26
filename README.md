@@ -35,6 +35,7 @@
  - Search Drop Logs - (Search by username)
  - Mods can BAN, IPMUTE -> Can Look at ipmute, ipban, macban, ban, connections, duel, trade, drop logs
  - SS can look at Bans
+ - Check if the ip address or mac address entered is in a valid format
  - Final Full Process Test Phase Passed?
 
 **COMPLETED**
