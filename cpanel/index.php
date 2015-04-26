@@ -65,7 +65,9 @@ if(isset($_POST['submitbutton']) || isset($_GET['data'])) {
 			$pre->bindParam(':end', $resultsPerPage, PDO::PARAM_INT);
 			$pre->bindParam(':ip', $fdata['siban'], PDO::PARAM_STR);
 			$pre->execute();
-			$max = $conn->prepare("SELECT COUNT(*) FROM `ipbans`")->execute()->fetchAll(PDO::FETCH_ASSOC);
+			$pre2 = $conn->prepare("SELECT COUNT(*) FROM `ipbans`");
+			$pre2->execute();
+			$max=$pre2->fetchAll(PDO::FETCH_ASSOC);
 			print_r($max);
 			$max= 2;
 			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
