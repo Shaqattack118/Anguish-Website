@@ -24,7 +24,7 @@ if(!$isLoggedIn) {
 if(!in_array($userInfo['member_group_id'], $staff_ranks)) {
 	header("Location: ../index.php");
 }
-if(isset($_POST['submitbutton']) || isset($_GET['data'])) {
+if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 	
 	if(isset($_POST['submitbutton'])) {
 		$fdata = $_POST;
