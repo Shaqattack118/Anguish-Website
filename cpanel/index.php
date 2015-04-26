@@ -65,6 +65,7 @@ if(isset($_POST['submitbutton']) || isset($_GET['data'])) {
 			$pre->bindParam(':end', $resultsPerPage, PDO::PARAM_INT);
 			$pre->bindParam(':ip', $fdata['siban'], PDO::PARAM_STR);
 			$pre->execute();
+			$max = 2;
 			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
 			if(count($results) <= 0) {
 				$data = 'The ip address you entered cannot be found!';
@@ -73,9 +74,9 @@ if(isset($_POST['submitbutton']) || isset($_GET['data'])) {
 				for($i = 0; $i < count($results); $i++) {
 					$data .= "<tr><td>{$results[$i]['ip']}</td><td>{$results[$i]['victim']}</td><td>{$results[$i]['bannedBy']}</td><td>{$results[$i]['date']}</td></tr>";
 				}
-				$data .= "</table>
-				Go to page: <form method=\"get\"><input type=\"number\" name=\"page\" max=\"2\" value=\".$page.\">
-				<input type=\"hidden\" value=\"".serialize($fdata)."\"></form>";
+				$data .= "</table><p>Current page: {$page}</p>
+				<p>Go to page: <form method=\"get\"><input type=\"number\" name=\"page\" max=\"{$max}\" value=\"{$page}.\">
+				<input type=\"hidden\" value=\"".serialize($fdata)."\"><input type=\"submit\" name=\"action\" value=\"go\"></form></p>";
 			}
 			break;
 		case "Ban User": 
