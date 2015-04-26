@@ -28,23 +28,25 @@
  - Final Full Process Test Phase Passed?  **Done. 4/25/2015**
 
 ## Staff CP - Shaq
- - IPBan Player - (Only allow IP Address to be entered)
+**TODO**
  - IPMute Player - (Only allow IP Address to be entered)
- - Mute Player - (Not Available atm) **Completed.**
- - Ban Player - (Ban by username)
- - Macban Player - (Enter MacAddress to ban player)
- - Search Bans - (Search by username) **Completed.**
- - Search IPBans - (Search by IP Address) **Completed.**
- - Search MacBans - (Search by MacAddress)
- - Search Mutes - (Not available atm) **Completed.**
  - Search Connections Logs - (Search by username and ip aka 2 options)
  - Search Duel Logs - (Search by Winner and Loser aka 2 options)
  - Search Trade Logs - (Search by Giver and Receiver aka 2 options)
  - Search Drop Logs - (Search by username)
- - Admin+ can IPBAN, IPMUTE, BAN, MACBAN -> Can Look at all logs **Completed.**
  - Mods can BAN, IPMUTE -> Can Look at ipmute, ipban, macban, ban, connections, duel, trade, drop logs
  - SS can look at Bans
  - Final Full Process Test Phase Passed?
+**COMPLETED**
+ - IPBan Player - (Only allow IP Address to be entered) **Completed.**
+ - Mute Player - (Not Available atm) **Completed.**
+ - Ban Player - (Ban by username) **Completed.**
+ - Macban Player - (Enter MacAddress to ban player) **Completed.**
+ - Search Bans - (Search by username) **Completed.**
+ - Search IPBans - (Search by IP Address) **Completed.**
+ - Search MacBans - (Search by MacAddress) **Completed.**
+ - Search Mutes - (Not available atm) **Completed.**
+ - Admin+ can IPBAN, IPMUTE, BAN, MACBAN -> Can Look at all logs **Completed.**
 
 ## Client Sprites - Sapro
  - Updated to new server name

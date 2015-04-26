@@ -135,16 +135,40 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 			
 			
 		case "Search Mute": 
+			$page = 0;
 			$data = "This function is not working!";
 			break;
 		case "Search IP(Mutes)": 
-			$data = "Search ip Mute clicked";
+			$table = 'ipmutes';
+			$query = "SELECT * FROM `{$table}` WHERE `ip` = :ip";
+			$pre = $conn->prepare($query);
+			$start = ($page-1)*$resultsPerPage;
+			$pre->bindParam(':ip', $fdata['simute'], PDO::PARAM_STR);
+			$pre->execute();
+			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
+			if(count($results) <= 0) {
+				$data = 'The ip address you entered cannot be found!';
+				$page = 0;
+			} else {
+				$data = "<table><tr><td>Ip Address</td><td>Username</td><td>Banned By</td><td>Date</td></tr>";
+				for($i = 0; $i < $resultsPerPage; $i++) {
+					if(!empty($results[($i+($resultsPerPage*($page-1)))]['ip'])) 
+						$data .= "<tr><td>{$results[($i+($resultsPerPage*($page-1)))]['ip']}</td><td>{$results[($i+($resultsPerPage*($page-1)))]['victim']}</td><td>{$results[($i+($resultsPerPage*($page-1)))]['bannedBy']}</td><td>{$results[($i+($resultsPerPage*($page-1)))]['date']}</td></tr>";
+				}
+
+			}
 			break;
 		case "Mute User": 
 			$data = "This function is not working!";
 			break;
 		case "IP Mute User": 
-			$data = "ip Mute user clicked";
+			$page = 0;
+			$table = 'ipmutes';
+			$today = date("Y-m-d H:i:s");
+			$query = "INSERT INTO `{$table}`(`ip`, `bannedBy`, `date`) VALUES (?,?,?)";
+			$pre = $conn->prepare($query);
+			$pre->execute(array($fdata['ipmute'], $userInfo['name'], $today));
+			$data = $fdata['ipmute'] . " ip muted successfully!";
 			break;
 	}
 	if($page > 0) {
@@ -228,7 +252,7 @@ $header->displayString();
 	                			if(in_array($userInfo['member_group_id'], $canViewLogs)) {
 	                				echo '<p>Username: <input></p>
 		                			<p><input type="submit" name="submitbutton" value="Search Mute"></p>
-		                			<p>Ip Address: <input></p>
+		                			<p>Ip Address: <input name="simute"></p>
 		                			<p><input type="submit" name="submitbutton" value="Search IP(Mutes)"></p>';
 								} else {
 									echo '<p>You don\'t have sufficient permissions to view logs!</p>';
@@ -237,8 +261,7 @@ $header->displayString();
 		                			echo '<p>Username: <input></p>
 		                			<p>Reason: <input></p>
 		                			<p><input type="submit" name="submitbutton" value="Mute User"></p>
-		                			<p>IP Address: <input></p>
-		                			<p>Reason: <input></p>
+		                			<p>IP Address: <input name="ipmute"></p>
 		                			<p><input type="submit" name="submitbutton" value="IP Mute User"></p>';
 		                		} else {
 									echo 'You don\'t have sufficient permissions to perform these set of actions.';
