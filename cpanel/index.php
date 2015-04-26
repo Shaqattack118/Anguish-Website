@@ -24,7 +24,6 @@ if(!isLoggedIn) {
 if(!in_array($userInfo['member_group_id'], $staff_ranks)) {
 	header("Location: ../index.php");
 }
-die("dixed");
 if(isset($_POST['submitbutton']) || isset($_GET['action'])) {
 	
 	if(isset($_POST['submitbutton'])) {
