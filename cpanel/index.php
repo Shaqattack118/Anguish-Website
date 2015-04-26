@@ -45,11 +45,9 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 	switch($fdata['submitbutton']) {
 		case "Search Ban": 
 			$table = 'banned';
-			$query = "SELECT * FROM `{$table}` WHERE `username` = :uname LIMIT :start, :end";
+			$query = "SELECT * FROM `{$table}` WHERE `username` = :uname";
 			$pre = $conn->prepare($query);
 			$start = ($page-1)*$resultsPerPage;
-			$pre->bindParam(':start', $start, PDO::PARAM_INT);
-			$pre->bindParam(':end', $resultsPerPage, PDO::PARAM_INT);
 			$pre->bindParam(':uname', $fdata['sban'], PDO::PARAM_STR);
 			$pre->execute();
 			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
@@ -58,19 +56,17 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 				$page = 0;
 			} else {
 				$data = "<table><tr><td>Username</td><td>Banned By</td><td>Date</td></tr>";
-				for($i = 0; $i < count($results); $i++) {
-					$data .= "<tr><td>{$results[$i]['username']}</td><td>{$results[$i]['bannedBy']}</td><td>{$results[$i]['date']}</td></tr>";
+				for($i = 0; $i < $resultsPerPage; $i++) {
+					$data .= "<tr><td>{$results[($i+($resultsPerPage*($page-1)))]['username']}</td><td>{$results[($i+($resultsPerPage*($page-1)))]['bannedBy']}</td><td>{$results[($i+($resultsPerPage*($page-1)))]['date']}</td></tr>";
 				}
 				$data .= "</table>";
 			}
 			break;
 		case "Search IP(Bans)": 
 			$table = 'ipbans';
-			$query = "SELECT * FROM `{$table}` WHERE `ip` = :ip LIMIT :start, :end";
+			$query = "SELECT * FROM `{$table}` WHERE `ip` = :ip";
 			$pre = $conn->prepare($query);
 			$start = ($page-1)*$resultsPerPage;
-			$pre->bindParam(':start', $start, PDO::PARAM_INT);
-			$pre->bindParam(':end', $resultsPerPage, PDO::PARAM_INT);
 			$pre->bindParam(':ip', $fdata['siban'], PDO::PARAM_STR);
 			$pre->execute();
 			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
@@ -79,8 +75,8 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 				$page = 0;
 			} else {
 				$data = "<table><tr><td>Ip Address</td><td>Username</td><td>Banned By</td><td>Date</td></tr>";
-				for($i = 0; $i < count($results); $i++) {
-					$data .= "<tr><td>{$results[$i]['ip']}</td><td>{$results[$i]['victim']}</td><td>{$results[$i]['bannedBy']}</td><td>{$results[$i]['date']}</td></tr>";
+				for($i = 0; $i < $resultsPerPage; $i++) {
+					$data .= "<tr><td>{$results[($i+($resultsPerPage*($page-1)))]['ip']}</td><td>{$results[($i+($resultsPerPage*($page-1)))]['victim']}</td><td>{$results[($i+($resultsPerPage*($page-1)))]['bannedBy']}</td><td>{$results[($i+($resultsPerPage*($page-1)))]['date']}</td></tr>";
 				}
 
 			}
@@ -114,11 +110,9 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 			break;
 		case "Search Mac Bans": 
 			$table = 'macbans';
-			$query = "SELECT * FROM `{$table}` WHERE `mac` = :mac or `victim`= :usname LIMIT :start, :end";
+			$query = "SELECT * FROM `{$table}` WHERE `mac` = :mac or `victim`= :usname";
 			$pre = $conn->prepare($query);
 			$start = ($page-1)*$resultsPerPage;
-			$pre->bindParam(':start', $start, PDO::PARAM_INT);
-			$pre->bindParam(':end', $resultsPerPage, PDO::PARAM_INT);
 			$pre->bindParam(':mac', $fdata['smban'], PDO::PARAM_STR);
 			$pre->bindParam(':usname', $fdata['smban2'], PDO::PARAM_STR);
 			$pre->execute();
@@ -128,8 +122,8 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 				$page = 0;
 			} else {
 				$data = "<table><tr><td>Mac Address</td><td>Username</td><td>Banned By</td><td>Date</td></tr>";
-				for($i = 0; $i < count($results); $i++) {
-					$data .= "<tr><td>{$results[$i]['mac']}</td><td>{$results[$i]['victim']}</td><td>{$results[$i]['bannedBy']}</td><td>{$results[$i]['date']}</td></tr>";
+				for($i = 0; $i < $resultsPerPage; $i++) {
+					$data .= "<tr><td>{$results[($i+($resultsPerPage*($page-1)))]['mac']}</td><td>{$results[($i+($resultsPerPage*($page-1)))]['victim']}</td><td>{$results[($i+($resultsPerPage*($page-1)))]['bannedBy']}</td><td>{$results[($i+($resultsPerPage*($page-1)))]['date']}</td></tr>";
 				}
 
 			}
@@ -153,7 +147,7 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 	if($page > 0) {
 		$serializedData = urlencode(serialize($fdata));
 		$max=count($results);
-		$max= ceil(abs($max[0]['COUNT(*)']/$resultsPerPage));
+		$max= ceil($max[0]['COUNT(*)']/$resultsPerPage);
 		$data .= "</table><p>Current page: {$page}</p>
 		<p>Go to page: <form method=\"post\"><input type=\"number\" name=\"page\" min=\"1\" max=\"{$max}\" value=\"{$page}\">
 		<input type=\"hidden\" name=\"data\" value=\"{$serializedData}\"><input type=\"submit\" name=\"action\" value=\"go\"></form></p>";
