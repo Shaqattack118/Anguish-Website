@@ -190,7 +190,7 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 			$pre->execute();
 			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
 			if(count($results) <= 0) {
-				$data = 'The ip address you entered cannot be found!';
+				$data = 'The username you entered cannot be found!';
 				$page = 0;
 			} else {
 				$data = "<table><tr><td>Giver</td><td>Item</td><td>Amount</td><td>Receiver</td><td>Date</td><td>Type</td></tr>";
