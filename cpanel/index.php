@@ -195,7 +195,7 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 			} else {
 				$data = "<table><tr><td>Giver</td><td>Item</td><td>Amount</td><td>Receiver</td><td>Date</td><td>Type</td></tr>";
 				for($i = 0; $i < $resultsPerPage; $i++) {
-					if(!empty($results[($i+($resultsPerPage*($page-1)))]['ip'])) 
+					if(!empty($results[($i+($resultsPerPage*($page-1)))]['username'])) 
 						$data .= "<tr><td>{$results[($i+($resultsPerPage*($page-1)))]['username']}</td>
 						<td>{$results[($i+($resultsPerPage*($page-1)))]['itemname']}</td>
 						<td>{$results[($i+($resultsPerPage*($page-1)))]['amountreceive']}</td>
