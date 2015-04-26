@@ -42,7 +42,8 @@ if(isset($_POST['submitbutton']) || isset($_GET['action'])) {
 		case "Search Ban": 
 			$query = "SELECT * FROM `banned` WHERE `username` = ? LIMIT :start, :end";
 			$pre = $conn->prepare($query);
-			$pre->bindParam(':start', ($page-1)*$resultsPerPage, PDO::PARAM_INT);
+			$start = ($page-1)*$resultsPerPage;
+			$pre->bindParam(':start', $start, PDO::PARAM_INT);
 			$pre->bindParam(':end', $resultsPerPage, PDO::PARAM_INT);
 			$pre->execute(array($fdata['sban']));
 			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
