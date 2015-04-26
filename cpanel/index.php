@@ -29,13 +29,18 @@ if(isset($_POST['submitbutton']) || isset($_GET['data'])) {
 	if(isset($_POST['submitbutton'])) {
 		$fdata = $_POST;
 	} else {  
-		$fdata = unserialize(urldecode($_GET['data']));
+		$fdata = unserialize(urldecode($_POST['data']));
 	} 
 	
 	if(!isset($_GET['page'])) {
 		$page = 1;
 	} else {
 		$page = $_GET['page'];
+	}
+	if(!isset($_POST['page'])) {
+		$page = 1;
+	} else {
+		$page = $_POST['page'];
 	}
 	switch($fdata['submitbutton']) {
 		case "Search Ban": 
@@ -111,7 +116,7 @@ if(isset($_POST['submitbutton']) || isset($_GET['data'])) {
 	$max=$pre2->fetchAll(PDO::FETCH_ASSOC);
 	$max= ceil(abs($max[0]['COUNT(*)']/$resultsPerPage));
 	$data .= "</table><p>Current page: {$page}</p>
-	<p>Go to page: <form method=\"get\"><input type=\"number\" name=\"page\" min=\"1\" max=\"{$max}\" value=\"{$page}\">
+	<p>Go to page: <form method=\"post\"><input type=\"number\" name=\"page\" min=\"1\" max=\"{$max}\" value=\"{$page}\">
 	<input type=\"hidden\" name=\"data\" value=\"{$serializedData}\"><input type=\"submit\" name=\"action\" value=\"go\"></form></p>";
 } else {
 	$data = "Nothing to show!";
@@ -150,7 +155,7 @@ $header->displayString();
                 
 	                <div id="banscontainer" style="visibility: hidden;">
 	                	<div class="center">
-	                		<form method="post" action="http://anguishps.com/website/cpanel/index.php">
+	                		<form method="post">
 	                			<?php
 	                			if(in_array($userInfo['member_group_id'], $canViewLogs)) {
 	                				echo '<p>Username: <input name="sban"></p>
@@ -182,7 +187,7 @@ $header->displayString();
 	                </div>
 	                <div id="mutescontainer" style="visibility: hidden;">
 	                	<div class="center">
-	                		<form method="post" action="http://anguishps.com/website/cpanel/index.php">
+	                		<form method="post">
 	                			<?php
 	                			
 	                			if(in_array($userInfo['member_group_id'], $canViewLogs)) {
@@ -209,7 +214,7 @@ $header->displayString();
 	                </div>
 	                <div id="logscontainer" style="visibility: hidden;">
 	                	<div class="center">
-	                		<form method="post" action="http://anguishps.com/website/cpanel/index.php">
+	                		<form method="post">
 	                			<?php
 	                			if(in_array($userInfo['member_group_id'], $canViewLogs)) {
 	                				echo '<p>Giver: <input></p>
