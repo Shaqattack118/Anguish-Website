@@ -43,7 +43,8 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 		$page = $_POST['page'];
 	}
 	switch($fdata['submitbutton']) {
-		case "Search Ban": 
+		case "Search Ban":
+			$load = 1;
 			$table = 'banned';
 			$query = "SELECT * FROM `{$table}` WHERE `username` = :uname";
 			$pre = $conn->prepare($query);
@@ -55,15 +56,16 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 				$data = 'The username you entered cannot be found!';
 				$page = 0;
 			} else {
-				$data = "<table><tr><td>Username</td><td>Banned By</td><td>Date</td></tr>";
+				$data = "<table class=\"contentArea donationTable\"><tr class=\"row\"><td>Username</td><td>Banned By</td><td>Date</td></tr>";
 				for($i = 0; $i < $resultsPerPage; $i++) {
 					if(!empty($results[($i+($resultsPerPage*($page-1)))]['username'])) 
-						$data .= "<tr><td>{$results[($i+($resultsPerPage*($page-1)))]['username']}</td><td>{$results[($i+($resultsPerPage*($page-1)))]['bannedBy']}</td><td>{$results[($i+($resultsPerPage*($page-1)))]['date']}</td></tr>";
+						$data .= "<tr class=\"row\"><td>{$results[($i+($resultsPerPage*($page-1)))]['username']}</td><td>{$results[($i+($resultsPerPage*($page-1)))]['bannedBy']}</td><td>{$results[($i+($resultsPerPage*($page-1)))]['date']}</td></tr>";
 				}
 				$data .= "</table>";
 			}
 			break;
 		case "Search IP(Bans)": 
+			$load = 1;
 			$table = 'ipbans';
 			$query = "SELECT * FROM `{$table}` WHERE `ip` = :ip or `victim` = :usrname";
 			$pre = $conn->prepare($query);
@@ -88,7 +90,8 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 
 			}
 			break;
-		case "IP Ban User": 
+		case "IP Ban User":
+			$load = 1;
 			$page = 0;
 			$table = 'ipbans';
 			$today = date("Y-m-d H:i:s");
@@ -98,6 +101,7 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 			$data = $fdata['ipban'] . " ip banned successfully!";
 			break;
 		case "Ban User": 
+			$load = 1;
 			$page = 0;
 			$table = 'banned';
 			$today = date("Y-m-d H:i:s");
@@ -106,7 +110,8 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 			$pre->execute(array($fdata['uban'], $userInfo['name'], $today));
 			$data = $fdata['uban'] . " banned successfully!";
 			break;
-		case "Mac Ban User": 
+		case "Mac Ban User":
+			$load = 1;
 			$page = 0;
 			$table = 'macbans';
 			$today = date("Y-m-d H:i:s");
@@ -116,6 +121,7 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 			$data = $fdata['macban'] . " mac addess banned successfully!";
 			break;
 		case "Search Mac Bans": 
+			$load = 1;
 			$table = 'macbans';
 			$query = "SELECT * FROM `{$table}` WHERE `mac` = :mac or `victim`= :usname";
 			$pre = $conn->prepare($query);
@@ -132,10 +138,10 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 				$data = 'The mac address you entered cannot be found!';
 				$page = 0;
 			} else {
-				$data = "<table><tr><td>Mac Address</td><td>Username</td><td>Banned By</td><td>Date</td></tr>";
+				$data = "<table class=\"contentArea donationTable\"><tr class=\"row\"><td>Mac Address</td><td>Username</td><td>Banned By</td><td>Date</td></tr>";
 				for($i = 0; $i < $resultsPerPage; $i++) {
 					if(!empty($results[($i+($resultsPerPage*($page-1)))]['mac'])) 
-						$data .= "<tr><td>{$results[($i+($resultsPerPage*($page-1)))]['mac']}</td><td>{$results[($i+($resultsPerPage*($page-1)))]['victim']}</td><td>{$results[($i+($resultsPerPage*($page-1)))]['bannedBy']}</td><td>{$results[($i+($resultsPerPage*($page-1)))]['date']}</td></tr>";
+						$data .= "<tr class=\"row\"><td>{$results[($i+($resultsPerPage*($page-1)))]['mac']}</td><td>{$results[($i+($resultsPerPage*($page-1)))]['victim']}</td><td>{$results[($i+($resultsPerPage*($page-1)))]['bannedBy']}</td><td>{$results[($i+($resultsPerPage*($page-1)))]['date']}</td></tr>";
 				}
 
 			}
@@ -143,11 +149,13 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 			break;
 			
 			
-		case "Search Mute": 
+		case "Search Mute":
+			$load = 2;
 			$page = 0;
 			$data = "This function is not working!";
 			break;
 		case "Search IP(Mutes)": 
+			$load = 2;
 			$table = 'ipmutes';
 			$query = "SELECT * FROM `{$table}` WHERE `ip` = :ip";
 			$pre = $conn->prepare($query);
@@ -159,19 +167,21 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 				$data = 'The ip address you entered cannot be found!';
 				$page = 0;
 			} else {
-				$data = "<table><tr><td>Ip Address</td><td>Username</td><td>Muted By</td><td>Date</td></tr>";
+				$data = "<table class=\"contentArea donationTable\"><tr class=\"row\"><td>Ip Address</td><td>Username</td><td>Muted By</td><td>Date</td></tr>";
 				for($i = 0; $i < $resultsPerPage; $i++) {
 					if(!empty($results[($i+($resultsPerPage*($page-1)))]['ip'])) 
-						$data .= "<tr><td>{$results[($i+($resultsPerPage*($page-1)))]['ip']}</td><td>{$results[($i+($resultsPerPage*($page-1)))]['victim']}</td><td>{$results[($i+($resultsPerPage*($page-1)))]['bannedBy']}</td><td>{$results[($i+($resultsPerPage*($page-1)))]['date']}</td></tr>";
+						$data .= "<tr class=\"row\"><td>{$results[($i+($resultsPerPage*($page-1)))]['ip']}</td><td>{$results[($i+($resultsPerPage*($page-1)))]['victim']}</td><td>{$results[($i+($resultsPerPage*($page-1)))]['bannedBy']}</td><td>{$results[($i+($resultsPerPage*($page-1)))]['date']}</td></tr>";
 				}
 
 			}
 			break;
 		case "Mute User": 
+			$load = 2;
 			$page = 0;
 			$data = "This function is not working!";
 			break;
 		case "IP Mute User": 
+			$load = 2;
 			$page = 0;
 			$table = 'ipmutes';
 			$today = date("Y-m-d H:i:s");
@@ -181,6 +191,7 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 			$data = $fdata['ipmute'] . " ip muted successfully!";
 			break;
 		case "Search Trade Logs":
+			$load = 3;
 			$table = 'tradelogs';
 			$query = "SELECT * FROM `{$table}` WHERE `username` = :user or `tradewith` = :twith";
 			$pre = $conn->prepare($query);
@@ -193,10 +204,10 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 				$data = 'The username you entered cannot be found!';
 				$page = 0;
 			} else {
-				$data = "<table><tr><td>Giver</td><td>Item</td><td>Amount</td><td>Receiver</td><td>Date</td><td>Type</td></tr>";
+				$data = "<table class=\"contentArea donationTable\"><tr class=\"row\"><td>Giver</td><td>Item</td><td>Amount</td><td>Receiver</td><td>Date</td><td>Type</td></tr>";
 				for($i = 0; $i < $resultsPerPage; $i++) {
 					if(!empty($results[($i+($resultsPerPage*($page-1)))]['username'])) 
-						$data .= "<tr><td>{$results[($i+($resultsPerPage*($page-1)))]['username']}</td>
+						$data .= "<tr class=\"row\"><td>{$results[($i+($resultsPerPage*($page-1)))]['username']}</td>
 						<td>{$results[($i+($resultsPerPage*($page-1)))]['itemname']}</td>
 						<td>{$results[($i+($resultsPerPage*($page-1)))]['amountreceive']}</td>
 						<td>{$results[($i+($resultsPerPage*($page-1)))]['tradewith']}</td>
@@ -208,6 +219,7 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 			}
 			break;
 		case "Search Drop Logs":
+			$load = 3;
 			$table = 'droplog';
 			$query = "SELECT * FROM `{$table}` WHERE `playername` = :user";
 			$pre = $conn->prepare($query);
@@ -219,10 +231,10 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 				$data = 'The username you entered cannot be found!';
 				$page = 0;
 			} else {
-				$data = "<table><tr><td>Username</td><td>ItemId</td><td>Amount</td><td>Date</td></tr>";
+				$data = "<table class=\"contentArea donationTable\"><tr class=\"row\"><td>Username</td><td>ItemId</td><td>Amount</td><td>Date</td></tr>";
 				for($i = 0; $i < $resultsPerPage; $i++) {
 					if(!empty($results[($i+($resultsPerPage*($page-1)))]['playername'])) 
-						$data .= "<tr><td>{$results[($i+($resultsPerPage*($page-1)))]['playername']}</td>
+						$data .= "<tr class=\"row\"><td>{$results[($i+($resultsPerPage*($page-1)))]['playername']}</td>
 						<td>{$results[($i+($resultsPerPage*($page-1)))]['itemid']}</td>
 						<td>{$results[($i+($resultsPerPage*($page-1)))]['amount']}</td>
 						<td>{$results[($i+($resultsPerPage*($page-1)))]['time']}</td>
@@ -232,6 +244,7 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 			}
 			break;
 		case "Search Connection Logs":
+			$load = 3;
 			$table = 'connections';
 			$query = "SELECT * FROM `{$table}` WHERE `name` = :user or `ip` = :ip";
 			$pre = $conn->prepare($query);
@@ -248,10 +261,10 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 				$data = 'The username you entered cannot be found!';
 				$page = 0;
 			} else {
-				$data = "<table><tr><td>Username</td><td>ip</td><td>Mac</td><td>Date</td></tr>";
+				$data = "<table class=\"contentArea donationTable\"><tr class=\"row\"><td>Username</td><td>ip</td><td>Mac</td><td>Date</td></tr>";
 				for($i = 0; $i < $resultsPerPage; $i++) {
 					if(!empty($results[($i+($resultsPerPage*($page-1)))]['name'])) 
-						$data .= "<tr><td>{$results[($i+($resultsPerPage*($page-1)))]['name']}</td>
+						$data .= "<tr class=\"row\"><td>{$results[($i+($resultsPerPage*($page-1)))]['name']}</td>
 						<td>{$results[($i+($resultsPerPage*($page-1)))]['ip']}</td>
 						<td>{$results[($i+($resultsPerPage*($page-1)))]['mac']}</td>
 						<td>{$results[($i+($resultsPerPage*($page-1)))]['time']}</td>
@@ -261,6 +274,7 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 			}
 			break;
 		case "Search Duel Logs":
+			$load = 3;
             $table = 'duellogs';
 			$query = "SELECT * FROM `{$table}` WHERE `winner` = :user or `loser` = :user";
 			$pre = $conn->prepare($query);
@@ -272,10 +286,10 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 				$data = 'The username you entered cannot be found!';
 				$page = 0;
 			} else {
-				$data = "<table><tr><td>Winner</td><td>Loser</td><td>Item</td><td>Amount</td><td>Type</td><td>Date</td></tr>";
+				$data = "<table class=\"contentArea donationTable\"><tr class=\"row\"><td>Winner</td><td>Loser</td><td>Item</td><td>Amount</td><td>Type</td><td>Date</td></tr>";
 				for($i = 0; $i < $resultsPerPage; $i++) {
 					if(!empty($results[($i+($resultsPerPage*($page-1)))]['winner']))
-						$data .= "<tr><td>{$results[($i+($resultsPerPage*($page-1)))]['winner']}</td>
+						$data .= "<tr class=\"row\"><td>{$results[($i+($resultsPerPage*($page-1)))]['winner']}</td>
 						<td>{$results[($i+($resultsPerPage*($page-1)))]['loser']}</td>
 						<td>{$results[($i+($resultsPerPage*($page-1)))]['itemname']}</td>
 						<td>{$results[($i+($resultsPerPage*($page-1)))]['amount']}</td>
@@ -292,7 +306,7 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 		$max = count($results);
 		$max= ceil($max/$resultsPerPage);
 		
-		$data .= "</table><p>Current page: {$page}</p>
+		$data .= "</table><br><br><p>Current page: {$page}</p>
 		<p>Go to page: <form method=\"post\"><input type=\"number\" name=\"page\" min=\"1\" max=\"{$max}\" value=\"{$page}\">
 		<input type=\"hidden\" name=\"data\" value=\"{$serializedData}\"><input type=\"submit\" name=\"action\" value=\"go\"></form></p>";
 	}
@@ -428,7 +442,21 @@ $header->displayString();
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 <script>
 	$(document).ready(function() {
-		$("#title").html("Bans");
+		var switchs = "<?php if(!empty($load)) echo $load; else echo 1; ?>";
+		switch(switchs) {
+			case 1:
+				$("#title").html("Bans");
+				$("#centerbody").html($("#banscontainer").html());
+				break;
+			case 2:
+				$("#title").html("Mutes");
+				$("#centerbody").html($("#mutescontainer").html());
+				break;
+			case 3:
+				$("#title").html("Logs");
+				$("#centerbody").html($("#logscontainer").html());
+				break;
+		}
 		$("#centerbody").html($("#banscontainer").html());
 		$("#bans").click(function() {
 			$("#title").html("Bans");
