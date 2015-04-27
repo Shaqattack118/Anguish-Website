@@ -261,7 +261,30 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 			}
 			break;
 		case "Search Duel Logs":
-			
+            $table = 'duellogs';
+			$query = "SELECT * FROM `{$table}` WHERE `winner` = :user or `loser` = :user";
+			$pre = $conn->prepare($query);
+			$start = ($page-1)*$resultsPerPage;
+			$pre->bindParam(':user', $fdata['sdl'], PDO::PARAM_STR);
+			$pre->execute();
+			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
+			if(count($results) <= 0) {
+				$data = 'The username you entered cannot be found!';
+				$page = 0;
+			} else {
+				$data = "<table><tr><td>Winner</td><td>Loser</td><td>Item</td><td>Amount</td><td>Type</td><td>Date</td></tr>";
+				for($i = 0; $i < $resultsPerPage; $i++) {
+					if(!empty($results[($i+($resultsPerPage*($page-1)))]['winner']))
+						$data .= "<tr><td>{$results[($i+($resultsPerPage*($page-1)))]['winner']}</td>
+						<td>{$results[($i+($resultsPerPage*($page-1)))]['loser']}</td>
+						<td>{$results[($i+($resultsPerPage*($page-1)))]['itemname']}</td>
+						<td>{$results[($i+($resultsPerPage*($page-1)))]['amount']}</td>
+						<td>{$results[($i+($resultsPerPage*($page-1)))]['type']}</td>
+						<td>{$results[($i+($resultsPerPage*($page-1)))]['date']}</td>
+						</tr>";
+				}
+
+			}
 			break;
 	}
 	if($page > 0) {
