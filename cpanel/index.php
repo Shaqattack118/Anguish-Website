@@ -208,7 +208,28 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 			}
 			break;
 		case "Search Drop Logs":
-			
+			$table = 'droplog';
+			$query = "SELECT * FROM `{$table}` WHERE `playername` = :user";
+			$pre = $conn->prepare($query);
+			$start = ($page-1)*$resultsPerPage;
+			$pre->bindParam(':user', $fdata['sdl'], PDO::PARAM_STR);
+			$pre->execute();
+			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
+			if(count($results) <= 0) {
+				$data = 'The username you entered cannot be found!';
+				$page = 0;
+			} else {
+				$data = "<table><tr><td>Username</td><td>ItemId</td><td>Amount</td><td>Date</td></tr>";
+				for($i = 0; $i < $resultsPerPage; $i++) {
+					if(!empty($results[($i+($resultsPerPage*($page-1)))]['playername'])) 
+						$data .= "<tr><td>{$results[($i+($resultsPerPage*($page-1)))]['playername']}</td>
+						<td>{$results[($i+($resultsPerPage*($page-1)))]['itemid']}</td>
+						<td>{$results[($i+($resultsPerPage*($page-1)))]['amount']}</td>
+						<td>{$results[($i+($resultsPerPage*($page-1)))]['date']}</td>
+						</tr>";
+				}
+
+			}
 			break;
 		case "Search Connections Logs":
 			
@@ -324,7 +345,7 @@ $header->displayString();
 	                				echo '<p>Giver: <input name="stl"></p>
 	                				<p>Receiver: <input name="stl2"></p>
 	                				<p><input type="submit" name="submitbutton" value="Search Trade Logs"></p>
-	                				<p>Username: <input></p>
+	                				<p>Username: <input name="sdl"></p>
 		                			<p><input type="submit" name="submitbutton" value="Search Drop Logs"></p>
 		                			<p><input type="submit" name="submitbutton" value="Search Duel Logs"></p>
 		                			<p>Username: <input></p>
