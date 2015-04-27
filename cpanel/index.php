@@ -225,14 +225,40 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 						$data .= "<tr><td>{$results[($i+($resultsPerPage*($page-1)))]['playername']}</td>
 						<td>{$results[($i+($resultsPerPage*($page-1)))]['itemid']}</td>
 						<td>{$results[($i+($resultsPerPage*($page-1)))]['amount']}</td>
-						<td>{$results[($i+($resultsPerPage*($page-1)))]['date']}</td>
+						<td>{$results[($i+($resultsPerPage*($page-1)))]['time']}</td>
 						</tr>";
 				}
 
 			}
 			break;
 		case "Search Connections Logs":
-			
+			$table = 'connections';
+			$query = "SELECT * FROM `{$table}` WHERE `name` = :user or `ip` = :ip";
+			$pre = $conn->prepare($query);
+			$start = ($page-1)*$resultsPerPage;
+			$pre->bindParam(':user', $fdata['scl'], PDO::PARAM_STR);
+			if(!empty($fdata['scl2'])) {
+				$pre->bindParam(':ip', $fdata['scl2'], PDO::PARAM_STR);
+			} else {
+				$pre->bindParam(':ip', $dontSearch, PDO::PARAM_STR);
+			}
+			$pre->execute();
+			$results = $pre->fetchAll(PDO::FETCH_ASSOC);
+			if(count($results) <= 0) {
+				$data = 'The username you entered cannot be found!';
+				$page = 0;
+			} else {
+				$data = "<table><tr><td>Username</td><td>ip</td><td>Mac</td><td>Date</td></tr>";
+				for($i = 0; $i < $resultsPerPage; $i++) {
+					if(!empty($results[($i+($resultsPerPage*($page-1)))]['name'])) 
+						$data .= "<tr><td>{$results[($i+($resultsPerPage*($page-1)))]['name']}</td>
+						<td>{$results[($i+($resultsPerPage*($page-1)))]['ip']}</td>
+						<td>{$results[($i+($resultsPerPage*($page-1)))]['mac']}</td>
+						<td>{$results[($i+($resultsPerPage*($page-1)))]['time']}</td>
+						</tr>";
+				}
+
+			}
 			break;
 		case "Search Duel Logs":
 			
@@ -348,8 +374,8 @@ $header->displayString();
 	                				<p>Username: <input name="sdl"></p>
 		                			<p><input type="submit" name="submitbutton" value="Search Drop Logs"></p>
 		                			<p><input type="submit" name="submitbutton" value="Search Duel Logs"></p>
-		                			<p>Username: <input></p>
-		                			<p>Ip Address: <input></p>
+		                			<p>Username: <input name="scl"></p>
+		                			<p>Ip Address: <input name="scl2"></p>
 		                			<p><input type="submit" name="submitbutton" value="Search Connection Logs"></p>';
 								} else {
 									echo '<p>You don\'t have sufficient permissions to view logs!</p>';
