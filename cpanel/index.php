@@ -231,7 +231,7 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 
 			}
 			break;
-		case "Search Connections Logs":
+		case "Search Connection Logs":
 			$table = 'connections';
 			$query = "SELECT * FROM `{$table}` WHERE `name` = :user or `ip` = :ip";
 			$pre = $conn->prepare($query);
