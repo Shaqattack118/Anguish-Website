@@ -1,4 +1,4 @@
-<?php 
+<?php
 ini_set('display_errors',1);
 ini_set('display_startup_errors',1);
 error_reporting(-1);
@@ -28,10 +28,10 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 	$dontSearch = 'DONTSEARCHUSERNAMES';
 	if(isset($_POST['submitbutton'])) {
 		$fdata = $_POST;
-	} else {  
+	} else {
 		$fdata = unserialize(urldecode($_POST['data']));
-	} 
-	
+	}
+
 	if(!isset($_GET['page'])) {
 		$page = 1;
 	} else {
@@ -58,13 +58,13 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 			} else {
 				$data = "<table class=\"contentArea donationTable\"><tr class=\"row\"><td>Username</td><td>Banned By</td><td>Date</td></tr>";
 				for($i = 0; $i < $resultsPerPage; $i++) {
-					if(!empty($results[($i+($resultsPerPage*($page-1)))]['username'])) 
+					if(!empty($results[($i+($resultsPerPage*($page-1)))]['username']))
 						$data .= "<tr class=\"row\"><td>{$results[($i+($resultsPerPage*($page-1)))]['username']}</td><td>{$results[($i+($resultsPerPage*($page-1)))]['bannedBy']}</td><td>{$results[($i+($resultsPerPage*($page-1)))]['date']}</td></tr>";
 				}
 				$data .= "</table>";
 			}
 			break;
-		case "Search IP(Bans)": 
+		case "Search IP(Bans)":
 			$load = 1;
 			$table = 'ipbans';
 			$query = "SELECT * FROM `{$table}` WHERE `ip` = :ip or `victim` = :usrname";
@@ -84,7 +84,7 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 			} else {
 				$data = "<table class=\"contentArea donationTable\"><tr class=\"row\"><td>Ip Address</td><td>Username</td><td>Banned By</td><td>Date</td></tr>";
 				for($i = 0; $i < $resultsPerPage; $i++) {
-					if(!empty($results[($i+($resultsPerPage*($page-1)))]['ip'])) 
+					if(!empty($results[($i+($resultsPerPage*($page-1)))]['ip']))
 						$data .= "<tr class=\"row\"><td>{$results[($i+($resultsPerPage*($page-1)))]['ip']}</td><td>{$results[($i+($resultsPerPage*($page-1)))]['victim']}</td><td>{$results[($i+($resultsPerPage*($page-1)))]['bannedBy']}</td><td>{$results[($i+($resultsPerPage*($page-1)))]['date']}</td></tr>";
 				}
 
@@ -100,7 +100,7 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 			$pre->execute(array($fdata['ipban'], $userInfo['name'], $today));
 			$data = $fdata['ipban'] . " ip banned successfully!";
 			break;
-		case "Ban User": 
+		case "Ban User":
 			$load = 1;
 			$page = 0;
 			$table = 'banned';
@@ -120,7 +120,7 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 			$pre->execute(array($fdata['macban'], $userInfo['name'], $today));
 			$data = $fdata['macban'] . " mac addess banned successfully!";
 			break;
-		case "Search Mac Bans": 
+		case "Search Mac Bans":
 			$load = 1;
 			$table = 'macbans';
 			$query = "SELECT * FROM `{$table}` WHERE `mac` = :mac or `victim`= :usname";
@@ -140,21 +140,21 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 			} else {
 				$data = "<table class=\"contentArea donationTable\"><tr class=\"row\"><td>Mac Address</td><td>Username</td><td>Banned By</td><td>Date</td></tr>";
 				for($i = 0; $i < $resultsPerPage; $i++) {
-					if(!empty($results[($i+($resultsPerPage*($page-1)))]['mac'])) 
+					if(!empty($results[($i+($resultsPerPage*($page-1)))]['mac']))
 						$data .= "<tr class=\"row\"><td>{$results[($i+($resultsPerPage*($page-1)))]['mac']}</td><td>{$results[($i+($resultsPerPage*($page-1)))]['victim']}</td><td>{$results[($i+($resultsPerPage*($page-1)))]['bannedBy']}</td><td>{$results[($i+($resultsPerPage*($page-1)))]['date']}</td></tr>";
 				}
 
 			}
 			break;
 			break;
-			
-			
+
+
 		case "Search Mute":
 			$load = 2;
 			$page = 0;
 			$data = "This function is not working!";
 			break;
-		case "Search IP(Mutes)": 
+		case "Search IP(Mutes)":
 			$load = 2;
 			$table = 'ipmutes';
 			$query = "SELECT * FROM `{$table}` WHERE `ip` = :ip";
@@ -169,18 +169,18 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 			} else {
 				$data = "<table class=\"contentArea donationTable\"><tr class=\"row\"><td>Ip Address</td><td>Username</td><td>Muted By</td><td>Date</td></tr>";
 				for($i = 0; $i < $resultsPerPage; $i++) {
-					if(!empty($results[($i+($resultsPerPage*($page-1)))]['ip'])) 
+					if(!empty($results[($i+($resultsPerPage*($page-1)))]['ip']))
 						$data .= "<tr class=\"row\"><td>{$results[($i+($resultsPerPage*($page-1)))]['ip']}</td><td>{$results[($i+($resultsPerPage*($page-1)))]['victim']}</td><td>{$results[($i+($resultsPerPage*($page-1)))]['bannedBy']}</td><td>{$results[($i+($resultsPerPage*($page-1)))]['date']}</td></tr>";
 				}
 
 			}
 			break;
-		case "Mute User": 
+		case "Mute User":
 			$load = 2;
 			$page = 0;
 			$data = "This function is not working!";
 			break;
-		case "IP Mute User": 
+		case "IP Mute User":
 			$load = 2;
 			$page = 0;
 			$table = 'ipmutes';
@@ -206,7 +206,7 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 			} else {
 				$data = "<table class=\"contentArea donationTable\"><tr class=\"row\"><td>Giver</td><td>Item</td><td>Amount</td><td>Receiver</td><td>Date</td><td>Type</td></tr>";
 				for($i = 0; $i < $resultsPerPage; $i++) {
-					if(!empty($results[($i+($resultsPerPage*($page-1)))]['username'])) 
+					if(!empty($results[($i+($resultsPerPage*($page-1)))]['username']))
 						$data .= "<tr class=\"row\"><td>{$results[($i+($resultsPerPage*($page-1)))]['username']}</td>
 						<td>{$results[($i+($resultsPerPage*($page-1)))]['itemname']}</td>
 						<td>{$results[($i+($resultsPerPage*($page-1)))]['amountreceive']}</td>
@@ -215,6 +215,7 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 						<td>{$results[($i+($resultsPerPage*($page-1)))]['type']}</td>
 						</tr>";
 				}
+
 			}
 			break;
 		case "Search Drop Logs":
@@ -232,7 +233,7 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 			} else {
 				$data = "<table class=\"contentArea donationTable\"><tr class=\"row\"><td>Username</td><td>ItemId</td><td>Amount</td><td>Date</td></tr>";
 				for($i = 0; $i < $resultsPerPage; $i++) {
-					if(!empty($results[($i+($resultsPerPage*($page-1)))]['playername'])) 
+					if(!empty($results[($i+($resultsPerPage*($page-1)))]['playername']))
 						$data .= "<tr class=\"row\"><td>{$results[($i+($resultsPerPage*($page-1)))]['playername']}</td>
 						<td>{$results[($i+($resultsPerPage*($page-1)))]['itemid']}</td>
 						<td>{$results[($i+($resultsPerPage*($page-1)))]['amount']}</td>
@@ -262,7 +263,7 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 			} else {
 				$data = "<table class=\"contentArea donationTable\"><tr class=\"row\"><td>Username</td><td>ip</td><td>Mac</td><td>Date</td></tr>";
 				for($i = 0; $i < $resultsPerPage; $i++) {
-					if(!empty($results[($i+($resultsPerPage*($page-1)))]['name'])) 
+					if(!empty($results[($i+($resultsPerPage*($page-1)))]['name']))
 						$data .= "<tr class=\"row\"><td>{$results[($i+($resultsPerPage*($page-1)))]['name']}</td>
 						<td>{$results[($i+($resultsPerPage*($page-1)))]['ip']}</td>
 						<td>{$results[($i+($resultsPerPage*($page-1)))]['mac']}</td>
@@ -304,7 +305,7 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 		$serializedData = urlencode(serialize($fdata));
 		$max = count($results);
 		$max= ceil($max/$resultsPerPage);
-		
+
 		$data .= "</table><br><br><p>Current page: {$page}</p>
 		<p>Go to page: <form method=\"post\"><input type=\"number\" name=\"page\" min=\"1\" max=\"{$max}\" value=\"{$page}\">
 		<input type=\"hidden\" name=\"data\" value=\"{$serializedData}\"><input type=\"submit\" name=\"action\" value=\"go\"></form></p>";
@@ -331,7 +332,7 @@ $header->displayString();
                         <h2 id="title"></h2>
                     </header>
                     <div id="centerbody">
-                    	
+
                     </div>
 				</div>
 
@@ -343,7 +344,7 @@ $header->displayString();
                     <a id="mutes">Mutes</a>
                     <a id="logs">Logs</a>
                 </div>
-                
+
 	                <div id="banscontainer" style="visibility: hidden;">
 	                	<div class="center">
 	                		<form method="post">
@@ -360,7 +361,7 @@ $header->displayString();
 	                			} else {
 									echo '<p>You don\'t have sufficient permissions to view logs!</p>';
 								}
-	                			
+
 	                			if(in_array($userInfo['member_group_id'], $canPerfomActions)) {
 	                				echo '<p>Username: <input name="uban"></p>
 		                			<p><input type="submit" name="submitbutton" value="Ban User"></p>
@@ -378,7 +379,7 @@ $header->displayString();
 	                	<div class="center">
 	                		<form method="post">
 	                			<?php
-	                			
+
 	                			if(in_array($userInfo['member_group_id'], $canViewLogs)) {
 	                				echo '<p>Username: <input></p>
 		                			<p><input type="submit" name="submitbutton" value="Search Mute"></p>
@@ -395,7 +396,7 @@ $header->displayString();
 		                		} else {
 									echo 'You don\'t have sufficient permissions to perform these set of actions.';
 								}?>
-	                			
+
                 			</form>
 	                	</div>
 	                </div>
@@ -417,7 +418,7 @@ $header->displayString();
 									echo '<p>You don\'t have sufficient permissions to view logs!</p>';
 								}
 	                			?>
-		                		
+
                 			</form>
 	                	</div>
 	                </div>
@@ -437,7 +438,7 @@ $header->displayString();
 
   </div>
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 <script>
 	$(document).ready(function() {
@@ -460,17 +461,17 @@ $header->displayString();
 		$("#bans").click(function() {
 			$("#title").html("Bans");
 			$("#centerbody").html($("#banscontainer").html());
-		});	
+		});
 		$("#mutes").click(function() {
 			$("#title").html("Mutes");
 			$("#centerbody").html($("#mutescontainer").html());
-		});	
+		});
 		$("#logs").click(function() {
 			$("#title").html("Logs");
 			$("#centerbody").html($("#logscontainer").html());
-		});	
+		});
 	});
-	
+
 	function hide() {
 		if($("#hideorshow").html() == "Hide") {
 			$("#resultsbody").css("visibility", "hidden");
@@ -482,7 +483,7 @@ $header->displayString();
 			$("#hideorshow").html("Hide");
 		}
 	}
-	
+
 </script>
 </body>
 </html>
