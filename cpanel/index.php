@@ -320,7 +320,7 @@ $header->displayString();
             <div class="left-container">
             	<div class="box">
                     <header>
-                        <h2>Results</h2><h2 style="float:right; cursor:pointer;" id="hideorshow" onclick="hide();">Hide</h2>
+						<h2>Results<span style="float:right; cursor:pointer;" id="hideorshow" onclick="hide();">Hide</span></h2>
                     </header>
                     <div id="resultsbody">
                     	<?php echo $data; ?>
@@ -456,7 +456,6 @@ $header->displayString();
 				$("#centerbody").html($("#logscontainer").html());
 				break;
 		}
-		$("#centerbody").html($("#banscontainer").html());
 		$("#bans").click(function() {
 			$("#title").html("Bans");
 			$("#centerbody").html($("#banscontainer").html());
