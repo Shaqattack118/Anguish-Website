@@ -441,7 +441,7 @@ $header->displayString();
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 <script>
 	$(document).ready(function() {
-		var switchs = "<?php if(!empty($load)) echo $load; else echo 1; ?>";
+		var switchs = <?php if(!empty($load)) echo $load; else echo 1; ?>;
 		switch(switchs) {
 			case 1:
 				$("#title").html("Bans");
