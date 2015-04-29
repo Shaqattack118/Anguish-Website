@@ -305,7 +305,7 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 		$max = count($results);
 		$max= ceil($max/$resultsPerPage);
 		
-		$data .= "</table><br><br><div class=\"content-container\"><p>Current page: {$page}</p>
+		$data .= "</table><div class=\"content-container\"><p>Current page: {$page}</p>
 		<p>Go to page: <form method=\"post\"><input type=\"number\" name=\"page\" min=\"1\" max=\"{$max}\" value=\"{$page}\">
 		<input type=\"hidden\" name=\"data\" value=\"{$serializedData}\"><input type=\"submit\" name=\"action\" value=\"go\"></form></p></div>";
 	}
