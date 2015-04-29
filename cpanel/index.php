@@ -305,9 +305,9 @@ if(isset($_POST['submitbutton']) || isset($_POST['data'])) {
 		$max = count($results);
 		$max= ceil($max/$resultsPerPage);
 		
-		$data .= "</table><br><br><p>Current page: {$page}</p>
+		$data .= "</table><br><br><div class=\"content-container\"><p>Current page: {$page}</p>
 		<p>Go to page: <form method=\"post\"><input type=\"number\" name=\"page\" min=\"1\" max=\"{$max}\" value=\"{$page}\">
-		<input type=\"hidden\" name=\"data\" value=\"{$serializedData}\"><input type=\"submit\" name=\"action\" value=\"go\"></form></p>";
+		<input type=\"hidden\" name=\"data\" value=\"{$serializedData}\"><input type=\"submit\" name=\"action\" value=\"go\"></form></p></div>";
 	}
 } else {
 	$data = "Nothing to show!";
@@ -394,8 +394,8 @@ $header->displayString();
 		                			<p><input type="submit" name="submitbutton" value="IP Mute User"></p>';
 		                		} else {
 									echo 'You don\'t have sufficient permissions to perform these set of actions.';
-								}?>
-	                			
+								}
+								?>
                 			</form>
 	                	</div>
 	                </div>
