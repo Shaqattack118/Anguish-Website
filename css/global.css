@@ -235,7 +235,10 @@ td.buy{
 	width: 75px;
 }
 
-
+td.tableHeading {
+    font-weight: bold;
+    font-size: 24px;
+}
 td.authcode {
 	width: 125px;
 }
