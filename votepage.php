@@ -49,7 +49,7 @@ $sessionId = $ipbwi->session->session_id;
 							<th class ="date" align="center"><strong>Date</strong></td>
 						</tr>
             <tr>
-              <td colspan=4 class="noAuthDate">No Auth Dates</td>
+              <td colspan=4 class="noAuthDate">No Auth Codes yet! :(</td>
             </tr>
 					</table>
       
