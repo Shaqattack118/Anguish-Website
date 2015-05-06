@@ -45,10 +45,10 @@ $sessionId = $ipbwi->session->session_id;
 							<td colspan=4 class="tableHeading">Your Voting Auth Codes</td>
 						</tr>
 						<tr>
-							<td class ="authcode" align="center"><strong>Auth Code</strong></td>
-							<td class ="blank" align="center"><strong></strong></td>
-							<td class ="status" align="center"><strong>Status</strong></td>
-							<td class ="date" align="center"><strong>Date</strong></td>
+							<th class ="authcode" align="center"><strong>Auth Code</strong></td>
+							<th class ="blank" align="center"><strong></strong></td>
+							<th class ="status" align="center"><strong>Status</strong></td>
+							<th class ="date" align="center"><strong>Date</strong></td>
 						</tr>
             <tr>
               <td colspan=4 class="noAuthDate">No Auth Dates</td>
