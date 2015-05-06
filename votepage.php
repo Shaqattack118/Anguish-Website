@@ -50,7 +50,31 @@ $sessionId = $ipbwi->session->session_id;
 							<td class ="status" align="center"><strong>Status</strong></td>
 							<td class ="date" align="center"><strong>Date</strong></td>
 						</tr>
-            <td colspan=4 class="noAuthDate">No Auth Dates</td>
+            <tr>
+              <td colspan=4 class="noAuthDate">No Auth Dates</td>
+            </tr>
+					</table>
+      
+      
+        <table class ="contentArea votingTable">
+						<tr>
+							<td colspan=4 class="tableHeading">Your Statistics</td>
+						</tr>
+						<tr>
+							<td class ="authcode" align="center"><strong>Total Votes</strong></td>
+							<td class ="blank" align="center"><strong>0</strong></td>
+						</tr>
+					</table>
+          
+          
+          	<table class ="contentArea votingTable">
+						<tr>
+							<td colspan=4 class="tableHeading">Votes By Site</td>
+						</tr>
+						<tr>
+							<td class ="authcode" align="center"><strong>RuneLocus</strong></td>
+							<td class ="blank" align="center"><strong>0</strong></td>
+						</tr>
 					</table>
 				</div>
 
