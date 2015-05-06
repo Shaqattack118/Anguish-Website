@@ -6,7 +6,7 @@ error_reporting(-1);
 define("TO_ROOT", "./");
 define("ASSETS", TO_ROOT . "bin/php/");
 
-$title = "Anguish - Donate";
+$title = "Anguish - Vote Store";
 
 require_once(ASSETS . 'data.php');
 require_once(ASSETS . 'StringBuilder.php');
@@ -42,7 +42,7 @@ $sessionId = $ipbwi->session->session_id;
 					</ul>
 					<table class ="contentArea donationTable">
 						<tr>
-							<td colspan=4>Your Voting Auth Codes</td>
+							<td colspan=4 class="tableHeading">Your Voting Auth Codes</td>
 						</tr>
 						<tr>
 							<td class ="authcode" align="center"><strong>Auth Code</strong></td>
