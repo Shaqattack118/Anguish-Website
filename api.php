@@ -16,7 +16,8 @@ $GLOBALS['pinArray'] = array(
 					1 => 'Donator_Pin',
 					2 => 'Super_Donator_Pin',
 					3 => 'Five_Pack_Donator_Pin',
-					4 => 'Drop_Pin'
+					4 => 'Drop_Pin',
+					5 => 'Voting_Pin'
 					);
 
 
@@ -555,6 +556,12 @@ function generateSuperDonatorPin(){
 function generateDropPin(){
 	return generatePin("DR");
 }
+
+/** Generate VOTING Pin **/
+function generateVotingPin(){
+	return generatePin("V");
+}
+
 
 /** Generate Transaction ID **/
 function generateTransactionId(){
