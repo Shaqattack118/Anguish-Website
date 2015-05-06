@@ -78,7 +78,7 @@ $sessionId = $ipbwi->session->session_id;
                     </form>
                 </div>
                 <div class="button-links">
-                	  <a class="purchasePoints">Purchase Points</a>
+                	  <a class="purchasePoints">Vote History</a>
                 	  <a class="purchasePointsHistory">Purchase History</a>
                 	  <a class="redemptionCenter">Shop</a>
                     <a class="redemptionHistory">Shopping History</a>
