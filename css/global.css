@@ -215,7 +215,7 @@ table.donationTable{
 
 table.votingTable{
 	position: relative;
-	left: 15%;
+	left: 10%;
 	top: 30px;
 }
 
@@ -330,6 +330,14 @@ tr {
 		overflow-y: auto;
 		overflow: none;
 		
+}
+
+.box.voting {
+    position: relative;
+	background: none !important;
+	min-height: 375px;
+    overflow-y: auto;
+	overflow: none;	
 }
 .box header {
     background: url(../img/header.png) no-repeat;
