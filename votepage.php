@@ -103,7 +103,14 @@ $sessionId = $ipbwi->session->session_id;
 						</tr>                                       					
           </table>
 				</div>
-     </div>
+
+            </div>
+			<aside class="right-container">
+                <div class="button-links">
+                    <a class="checkPin">Check Vote Auth</a>  
+                	  <a class="checkPin">Trade Vote Auth</a>                   
+                </div>
+            </aside>
 		</div>
     
 		
