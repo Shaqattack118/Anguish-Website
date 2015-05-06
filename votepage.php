@@ -42,13 +42,13 @@ $sessionId = $ipbwi->session->session_id;
 					</ul>
 					<table class ="contentArea donationTable">
 						<tr>
-							<td colspan=3>Your Voting Auth Codes</td>
+							<td colspan=4>Your Voting Auth Codes</td>
 						</tr>
 						<tr>
-							<td class ="btn" align="center"><strong>Auth Code</strong></td>
+							<td class ="authcode" align="center"><strong>Auth Code</strong></td>
 							<td class ="blank" align="center"><strong></strong></td>
-							<td class ="item" align="center"><strong>Status</strong></td>
-							<td class ="cost" align="center"><strong>Date</strong></td>
+							<td class ="status" align="center"><strong>Status</strong></td>
+							<td class ="date" align="center"><strong>Date</strong></td>
 						</tr>
 					</table>
 				</div>
