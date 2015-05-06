@@ -51,32 +51,6 @@ $sessionId = $ipbwi->session->session_id;
 
             </div>
 			<aside class="right-container">
-                <div class="box">
-                    <header>
-					<?php
-					if($isLoggedIn){  
-						echo "<h2 class= \"storePanel\">Logged in as ".$userInfo['name']."</h2>";
-					} else {
-						echo "<h2 class= \"storePanel\">Logged in as Guest </h2>";
-					}
-					?>
-                    </header>
-						<ul class = "pointUL">  
-						<?php 
-							if($isLoggedIn){
-								echo "<li>Available Points: <strong class=\"apoint\">". $userInfo['donator_points_current'] ."</strong></li>";
-								echo "<li>Total Overall Points: " . $userInfo['donator_points_overall'] . "</li>";
-								echo "<li><a href=\"#modal-one\" class=\"button cartBtn\">View Cart</a></li>";
-							} else {
-								echo "<li>Available Points: <strong class=\"apoint\">0</strong></li>";
-								echo "<li>Total Overall Points: 0</li>";
-							}
-						?>				
-
-						</ul>
-                        <div class="clear-fix"></div>
-                    </form>
-                </div>
                 <div class="button-links">
                 	  <a class="purchasePoints">Vote History</a>
                 	  <a class="purchasePointsHistory">Redeem History</a>
