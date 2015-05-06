@@ -258,6 +258,7 @@ td.noAuthDate {
     font-weight: bold;
 }
 td.name {
+   text-align: left;
    width: 190px;
 }
 
