@@ -50,6 +50,7 @@ $sessionId = $ipbwi->session->session_id;
 							<td class ="status" align="center"><strong>Status</strong></td>
 							<td class ="date" align="center"><strong>Date</strong></td>
 						</tr>
+            <td colspan=4 class="tableHeading">No Auth Dates</td>
 					</table>
 				</div>
 
