@@ -242,6 +242,10 @@ td.buy{
 	width: 75px;
 }
 
+td.noAuthDate {
+    font-weight: bold;
+    font-size: 14px;
+}
 td.tableHeading {
     font-weight: bold;
     font-size: 18px;
