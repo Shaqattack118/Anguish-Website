@@ -81,7 +81,27 @@ $sessionId = $ipbwi->session->session_id;
 							<td class ="name" align="center"><strong>RuneLocus</strong></td>
 							<td class ="val" align="center"><strong>0</strong></td>
 						</tr>
-					</table>
+						<tr>
+							<td class ="name" align="center"><strong>Top100Arena</strong></td>
+							<td class ="val" align="center"><strong>0</strong></td>
+						</tr>
+						<tr>
+							<td class ="name" align="center"><strong>RSPS-List</strong></td>
+							<td class ="val" align="center"><strong>0</strong></td>
+						</tr>
+						<tr>
+							<td class ="name" align="center"><strong>GamingTopList</strong></td>
+							<td class ="val" align="center"><strong>0</strong></td>
+						</tr>
+						<tr>
+							<td class ="name" align="center"><strong>TopG</strong></td>
+							<td class ="val" align="center"><strong>0</strong></td>
+						</tr>
+            <tr>
+							<td class ="name" align="center"><strong>Ultimate RSPS</strong></td>
+							<td class ="val" align="center"><strong>0</strong></td>
+						</tr>                                       					
+          </table>
 				</div>
 
             </div>
