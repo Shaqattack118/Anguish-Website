@@ -221,9 +221,10 @@ table.votingTable{
 
 table.votingTable2{
 	position: relative;
-	left: 15%;
-	top: 30px;
+	left: 10%;
+	top: 55px;
     float: left;
+    margin-left: 40px;
 }
 
 td {
@@ -247,6 +248,11 @@ td.cost{
 
 td.buy{
 	width: 75px;
+}
+
+td.tableHeading {
+    font-weight: bold;
+    font-size: 18px;
 }
 
 td.noAuthDate {
