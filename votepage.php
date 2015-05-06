@@ -40,7 +40,7 @@ $sessionId = $ipbwi->session->session_id;
 					<ul class="tab-links">
 
 					</ul>
-					<table class ="contentArea donationTable">
+					<table class ="contentArea votingTable">
 						<tr>
 							<td colspan=4 class="tableHeading">Your Voting Auth Codes</td>
 						</tr>
