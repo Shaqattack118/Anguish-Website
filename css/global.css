@@ -219,6 +219,13 @@ table.votingTable{
 	top: 30px;
 }
 
+table.votingTable2{
+	position: relative;
+	left: 15%;
+	top: 30px;
+    float: left;
+}
+
 td {
 	border:1px solid #273548;
 	box-shadow: 0.5px 1px 2px rgba(0, 0, 0, 0.5);
@@ -246,10 +253,21 @@ td.noAuthDate {
     font-weight: bold;
     font-size: 14px;
 }
-td.tableHeading {
-    font-weight: bold;
-    font-size: 18px;
+td.name {
+   width: 100px;
 }
+
+td.val {
+	width: 50px;
+}
+
+
+td.authcode {
+    font-weight: bold;
+	width: 125px;
+}
+
+
 td.authcode {
     font-weight: bold;
 	width: 125px;

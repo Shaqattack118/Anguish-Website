@@ -56,24 +56,24 @@ $sessionId = $ipbwi->session->session_id;
 					</table>
       
       
-        <table class ="contentArea votingTable">
+        <table class ="contentArea votingTable2">
 						<tr>
-							<td colspan=4 class="tableHeading">Your Statistics</td>
+							<td colspan=2 class="tableHeading">Your Statistics</td>
 						</tr>
 						<tr>
-							<td class ="authcode" align="center"><strong>Total Votes</strong></td>
-							<td class ="blank" align="center"><strong>0</strong></td>
+							<td class ="name" align="center"><strong>Total Votes</strong></td>
+							<td class ="val" align="center"><strong>0</strong></td>
 						</tr>
 					</table>
           
           
-          	<table class ="contentArea votingTable">
+          	<table class ="contentArea votingTable2">
 						<tr>
-							<td colspan=4 class="tableHeading">Votes By Site</td>
+							<td colspan=2 class="tableHeading">Votes By Site</td>
 						</tr>
 						<tr>
-							<td class ="authcode" align="center"><strong>RuneLocus</strong></td>
-							<td class ="blank" align="center"><strong>0</strong></td>
+							<td class ="name" align="center"><strong>RuneLocus</strong></td>
+							<td class ="val" align="center"><strong>0</strong></td>
 						</tr>
 					</table>
 				</div>
