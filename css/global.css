@@ -266,7 +266,7 @@ td.val {
 }
 
 
-td.authcode  {
+th.authcode  {
     font-weight: bold;
 	width: 125px;
     font-size: 14px;
