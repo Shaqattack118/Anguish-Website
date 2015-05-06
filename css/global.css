@@ -335,7 +335,7 @@ tr {
 .box.voting {
     position: relative;
 	background: none !important;
-	min-height: 375px;
+	min-height: 475px;
     overflow-y: auto;
 	overflow: none;	
 }
