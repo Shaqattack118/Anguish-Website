@@ -235,6 +235,25 @@ td.buy{
 	width: 75px;
 }
 
+
+td.authcode {
+	width: 125px;
+}
+
+td.blank {
+	width: 200px;
+}
+
+td.status{
+	width: 125px;
+}
+
+td.date{
+	width: 75px;
+}
+
+
+
 tr {
 	border:1px solid #273548;
 	box-shadow: 0.5px 1px 1px rgba(0, 0, 0, 0.5);
