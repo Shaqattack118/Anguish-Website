@@ -221,7 +221,6 @@ table.votingTable{
 
 table.votingTable2{
 	position: relative;
-	left: 10%;
 	top: 55px;
     float: left;
     margin-left: 40px;
@@ -260,11 +259,11 @@ td.noAuthDate {
     font-size: 14px;
 }
 td.name {
-   width: 100px;
+   width: 190px;
 }
 
 td.val {
-	width: 50px;
+	width: 35px;
 }
 
 
