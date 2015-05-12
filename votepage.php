@@ -167,9 +167,9 @@ $sessionId = $ipbwi->session->session_id;
 <script>
 	
 	var isLoggedIn = <?=  (empty($isLoggedIn) ? "false" : $isLoggedIn)  ?>;
-	var donatorPoints = <?= (empty($userInfo['donator_points_current']) ? 0 : $userInfo['donator_points_current']) ?>;
+	var currentVotePoints = <?= (empty($userInfo['vote_points_current']) ? 0 : $userInfo['vote_points_current']) ?>;
 	var sessionId = '<?=  (empty($sessionId) ?  -1 : $sessionId) ?>';
-	AnguishVotePage.getInstance().init(isLoggedIn, sessionId, donatorPoints);
+	AnguishVotePage.getInstance().init(isLoggedIn, sessionId, currentVotePoints);
 </script>
 </body>
 </html>
