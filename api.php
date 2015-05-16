@@ -44,11 +44,12 @@ if(isset($_GET) && !empty($_GET))
 
 	switch($action)
 	{
-		case 'getRedemptionHistory': getRedemptionHistory(stripslashes($_GET['sessionId']));
-		case 'getPaymentHistory' : getPaymentHistory(stripslashes($_GET['sessionId']));
+		case 'getRedemptionHistory': getRedemptionHistory(stripslashes($_GET['sessionId'])); break;
+		case 'getPaymentHistory' : getPaymentHistory(stripslashes($_GET['sessionId'])); break;
 		case 'checkPin': checkPin(stripslashes($_GET['pin'])); break;
 		case 'getAllItems': getAllItems(); break;
 		case 'getItems': getItems(stripslashes($_GET['category'])); break;
+		case 'getVoteHistory' : getVoteHistory(stripslashes($_GET['sessionId'])); break;
 	}
 
 }
@@ -137,6 +138,25 @@ function getRedemptionHistory($sessionId)
 
 	die(json_encode($rows));
 
+}
+
+/*
+ * Get Vote History
+ */
+function getVoteHistory($sessionId)
+{
+	global $conn;
+	
+	$memberId = getMemberIdBySessionId($sessionId);
+
+	$select  = "select vh.pin, dp.hasRedeemed, dp.generateDate from testDB.donation_pin dp, forums.vote_history vh  where vh.memberId = :memberId and vh.pin = dp.pin order by generateDate";
+
+	$stmt     = $conn->prepare($select);
+	$stmt->execute(array(':memberId'=> $memberId));
+
+	$rows = $stmt->fetchAll();
+
+	die(json_encode($rows));
 }
 
 
