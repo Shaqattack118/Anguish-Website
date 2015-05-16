@@ -149,7 +149,7 @@ function getVoteHistory($sessionId)
 	
 	$memberId = getMemberIdBySessionId($sessionId);
 
-	$select  = "select vh.pin, dp.hasRedeemed, dp.generateDate from testDB.donation_pin dp, forums.vote_history vh  where vh.memberId = :memberId and vh.pin = dp.pin order by generateDate";
+	$select  = "select vh.pin, dp.hasRedeemed, dp.generateDate from testDB.donation_pins dp, forums.vote_history vh  where vh.memberId = :memberId and vh.pin = dp.pin order by generateDate";
 
 	$stmt     = $conn->prepare($select);
 	$stmt->execute(array(':memberId'=> $memberId));
