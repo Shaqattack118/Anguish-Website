@@ -37,7 +37,7 @@ var activeClients = {};
          if(activeClients[sessionId])
             activeClients[sessionId].emit('alert', body);       
           
-         res.send('');
+         res.send('Thanks for voting!'); // just a blank response
    });
 
  }
