@@ -32,7 +32,8 @@ if(isset($_POST) && !empty($_POST))
 	{
 		case 'purchase': purchase($_POST); return;
 		case 'ipn' : ipn($_POST); return;
-		case 'redeemPin' : redeemPin($_POST); return;
+		case 'createVPin' : createVotePin($_POST); return;
+		case 'redeemPin' :  redeemPin($_POST); return;
 	}
 }
 
@@ -278,6 +279,22 @@ function purchase($post)
 
 }
 
+
+function createVotePin(){
+					
+	$pin = generateVotingPin();
+	
+	$pinData = array(
+						'pin' => $pin,
+						'hasRedeemed' => 0,
+						'type' => 3
+					);
+			
+	insertIntoPinTable($pinData);
+			
+	die(json_encode($pinData));
+}
+
 function givePinToPlayer($playerItemObj){
 	
 	$productId = $playerItemObj['productId'];
@@ -321,6 +338,20 @@ function givePinToPlayer($playerItemObj){
 				sendPM($memberId, $title , $pinMessage);
 								
 		break;			
+		case 'Vote_Pin':
+				
+					$pin = generateVotingPin();
+					
+					$pinData = array(
+						'pin' => $pin,
+						'hasRedeemed' => 0,
+						'type' => 3
+					);
+			
+				insertIntoPinTable($pinData);
+			
+			die(json_encode($pinData));
+		break;		
 		case 'Drop_Pin':
 				
 					$pin = generateDropPin();
