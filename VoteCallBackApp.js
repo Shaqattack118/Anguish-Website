@@ -1,7 +1,7 @@
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-var requestify = require('requestify');
+var $ = require('jquery');
 /** MYSQL */
 var mysql      = require('mysql');
 var connection = initializeConnection({
@@ -28,12 +28,11 @@ var activeClients = {};
  */
  function createVotePin(res, results){
  
-  requestify.post('http://www.anguishps.com/website/api.php', {
-      'action': 'createVPin'
-  })
-  .then(function(response) {
-      res.send('<h1>'+JSON.stringify(response)+'</h1>');
-  });
+    var params =  {
+		            		'action' : 'createVPin'
+							    };
+  $.post("http://www.anguishps.com/website/api.php", params, function(e) {     res.send('<h1>'+JSON.stringify(e)+'</h1>'); });
+
  }
  
 /**
