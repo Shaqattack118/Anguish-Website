@@ -73,6 +73,8 @@ var AnguishVotePage = new function AnguishVotePage() {
 	this.loadEvents = function () {
 		var $this = this;
 		
+		$this.socket.emit('addMe', { 'sessionId': sessionId} );
+		
 		$this.socket.on('alert', function(data){
 			var pin = data.pin;
 			
