@@ -32,11 +32,7 @@ var activeClients = {};
 		            		'action' : 'createVPin'
 	  };
 
-   needle.post('http://www.anguishps.com/website/api.php',params,   function(err, resp, body){       
-         /** Active client */
-         console.log(sessionId);
-         console.log(activeClients);
-         
+   needle.post('http://www.anguishps.com/website/api.php', params,  function(err, resp, body){       
          if(activeClients[sessionId])
             activeClients[sessionId].emit('alert', body);       
           
@@ -64,7 +60,7 @@ var activeClients = {};
 
 /** Socket IO */
 io.on('connection', function(socket){
-  console.log('a user connected');
+  console.log('User connected');
   
   /**
    *
@@ -91,7 +87,7 @@ io.on('connection', function(socket){
 
 
 http.listen(3000, function(){
-  console.log('listening on *:3000');
+  console.log('Vote Server listening on port 3000');
 });
 
 
