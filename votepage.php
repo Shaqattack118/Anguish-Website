@@ -159,7 +159,7 @@ $sessionId = $ipbwi->session->session_id;
  </div>
 
  <?= $footer->displayString(); ?>
-
+<script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
 <script src="js/AnguishVotePage.js"></script>
 <script>vex.defaultOptions.className = 'vex-theme-os';</script>
 <script>
