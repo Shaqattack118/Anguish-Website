@@ -30,7 +30,9 @@ define('password', 'rJCa!#7@mgq82hNS');
 	
     if (isset($_GET['usr'])) {
 		$message = "session: " + $_GET['usr']; 
- 		 error_log($message, 0);
+ 		error_log($message, 0);
+		 
+		 echo  $_GET['usr'];
     }
  
 	
