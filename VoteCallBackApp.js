@@ -33,8 +33,10 @@ var activeClients = {};
 							    };
                   
                 needle.post('http://www.anguishps.com/website/api.php',params,   function(err, resp, body){
-                        console.log(body);
+                       res.send('<h1>'+JSON.stringify(body)+'</h1>')
                 });
+
+
  }
  
 /**
