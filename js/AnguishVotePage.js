@@ -26,7 +26,7 @@ var AnguishVotePage = new function AnguishVotePage() {
 		this.currentPoints = points;
 		this.isLoggedIn = isLoggedIn;
 		this.sessionId = sessionId;
-
+		this.socket =  io.connect('http://localhost');
 		var $this = this;
 		
 		/** Load Dom events **/
@@ -46,6 +46,7 @@ var AnguishVotePage = new function AnguishVotePage() {
 								//<th class ="date" align="center"><strong>Date</strong></td>
 						    //</tr>
 	}
+
 	this._getVoteHistory = function () {
 
 		var url = API_ENDPOINT + "?action=getVoteHistory&sessionId=" + this.sessionId;
@@ -71,6 +72,12 @@ var AnguishVotePage = new function AnguishVotePage() {
 	 */
 	this.loadEvents = function () {
 		var $this = this;
+		
+		$this.socket.on('alert', function(data){
+			var pin = data.pin;
+			
+			alert("You have a vote pin!");
+  		});
 	}
 
 	return AnguishVotePage;

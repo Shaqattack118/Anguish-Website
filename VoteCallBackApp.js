@@ -29,7 +29,7 @@ var activeClients = {};
  function createVotePin(res, results){
  
   requestify.post('http://www.anguishps.com/website/api.php', {
-      action: 'createVPin'
+      'action': 'createVPin'
   })
   .then(function(response) {
       res.send('<h1>'+JSON.stringify(response)+'</h1>');
