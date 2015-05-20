@@ -1,7 +1,7 @@
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-var $ = require('jquery');
+var needle = require('needle');
 /** MYSQL */
 var mysql      = require('mysql');
 var connection = initializeConnection({
@@ -31,8 +31,10 @@ var activeClients = {};
     var params =  {
 		            		'action' : 'createVPin'
 							    };
-  $.post("http://www.anguishps.com/website/api.php", params, function(e) {     res.send('<h1>'+JSON.stringify(e)+'</h1>'); });
-
+                  
+                needle.post('http://www.anguishps.com/website/api.php',params,   function(err, resp, body){
+                        console.log(body);
+                });
  }
  
 /**
