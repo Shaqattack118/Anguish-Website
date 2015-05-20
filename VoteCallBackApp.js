@@ -26,13 +26,13 @@ var activeClients = {};
 /**
  *  Get a valid vote pin from our php API
  */
- function createVotePin(){
+ function createVotePin(res, results){
  
   requestify.post('http://www.anguishps.com/website/api.php', {
       action: 'createVPin'
   })
   .then(function(response) {
-      console.log(response.getBody());
+      res.send('<h1>'+JSON.stringify(response)+'</h1>');
   });
  }
  
@@ -45,8 +45,8 @@ var activeClients = {};
         if (err) throw err;
         
               
-      res.send('<h1>'+JSON.stringify(results)+'</h1>');
-      createVotePin();
+   
+      createVotePin(res, results);
 
     });
     
