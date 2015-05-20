@@ -1013,9 +1013,6 @@ ul.simple-pagination {
   margin-bottom: 20px;
   height: 100px;
 }
-.row:last-child {
-  margin-bottom: 0;
-}
 
 [class*="col-"] {
   padding: 10px;
