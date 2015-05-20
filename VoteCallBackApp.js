@@ -26,16 +26,19 @@ var activeClients = {};
 /**
  *  Get a valid vote pin from our php API
  */
- function createVotePin(res, results){
+ function createVotePin(res, sessionId, results){
  
     var params =  {
 		            		'action' : 'createVPin'
-							    };
-                  
-                needle.post('http://www.anguishps.com/website/api.php',params,   function(err, resp, body){
-                       res.send('<h1>'+JSON.stringify(body)+'</h1>')
-                });
+	  };
 
+   needle.post('http://www.anguishps.com/website/api.php',params,   function(err, resp, body){       
+         /** Active client */
+         if(activeClients[sessionId])
+            activeClients[sessionId].emit('alert', body);       
+          
+         res.send('');
+   });
 
  }
  
@@ -47,9 +50,7 @@ var activeClients = {};
     var query = connection.query('SELECT m.member_id FROM `sessions` s, `members` m where s.id = ? and s.member_id = m.member_id', [sessionId], function(err, results) {
         if (err) throw err;
         
-              
-   
-      createVotePin(res, results);
+       createVotePin(res, sessionId,  results);
 
     });
     
