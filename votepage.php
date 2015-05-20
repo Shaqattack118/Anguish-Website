@@ -40,6 +40,15 @@ $sessionId = $ipbwi->session->session_id;
 						  <div class="col-1-3">
 					        <h2>Rune Server</h2>
 					      </div>
+						  <div class="col-1-3">
+					        <h2>TBD</h2>
+					      </div>
+						  <div class="col-1-3">
+					        <h2>TBD</h2>
+					      </div>
+						  <div class="col-1-3">
+					        <h2>TBD</h2>
+					      </div>
 					</div>
                </div>
                 <div class="box voting">
