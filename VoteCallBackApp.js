@@ -73,18 +73,16 @@ io.on('connection', function(socket){
  
     var sessionId = data.sessionId;
     
-    socket.set('sessionId', sessionId, function() {
-      activeClients[sessionId] = socket;
-    });
-  
+    socket.sessionId =  sessionId;
+    activeClients[sessionId] = socket;
+      
 
   });
    
   // disconnect from us 
   socket.on('disconnect', function(){
-    socket.get('sessionId', function(err, sessionId) {
-        delete activeClients[sessionId];
-      });
+    var sessionId = socket.sessionId;
+    delete activeClients[sessionId];
   });
   
 });
