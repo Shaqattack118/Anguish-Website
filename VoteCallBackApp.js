@@ -34,6 +34,9 @@ var activeClients = {};
 
    needle.post('http://www.anguishps.com/website/api.php',params,   function(err, resp, body){       
          /** Active client */
+         console.log(sessionId);
+         console.log(activeClients);
+         
          if(activeClients[sessionId])
             activeClients[sessionId].emit('alert', body);       
           
@@ -75,7 +78,8 @@ io.on('connection', function(socket){
     
     socket.sessionId =  sessionId;
     activeClients[sessionId] = socket;
-      
+     
+     console.log("added " + sessionId);
 
   });
    
