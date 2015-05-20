@@ -32,6 +32,15 @@ $sessionId = $ipbwi->session->session_id;
                         <h2 class="title">Voting Sites</h2>
                     </header>
                     <p>Would you like to help us expand Anguish? There is one simple way that will reward everyone including yourself! By voting for us every day not ony helps us become more popular and drive more players into our community, but it allows YOU to benefit from the amazing rewards we have set for you! So take a moment of your time and vote for us!</p>
+					
+					<div class ="row">
+						 <div class="col-1-4">
+					        <h2>Rune Locus</h2>
+					      </div>
+						  <div class="col-1-4">
+					        <h2>Rune Server</h2>
+					      </div>
+					</div>
                </div>
                 <div class="box voting">
                     <header>
@@ -48,7 +57,7 @@ $sessionId = $ipbwi->session->session_id;
 							<th class ="status" align="center"><strong>Status</strong></td>
 							<th class ="date" align="center"><strong>Date</strong></td>
 						</tr>
-            <tr>
+            <tr class="noAuthRow">
               <td colspan=4 class="noAuthDate">No Auth Codes yet! :(</td>
             </tr>
 					</table>
@@ -139,26 +148,6 @@ $sessionId = $ipbwi->session->session_id;
     </div>
    </div>
  </div>
-
-<div class="modal" id="modal-one" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-header">
-      <h2>Your Shopping Cart <a href="#close" style="float: right" class="btn-close" aria-hidden="true">×</a> <!--CHANGED TO "#close"--></h2>
-    </div>
-    <div class="modal-body shoppingCart">
-			<ul class="shoppingList">
-				<h2 class="emptyTxt">Your Shopping Cart is empty :( </h2>
-	    	</ul>
-			 <p style="float: right;"><strong>Total Points:</strong> <span class="totalAmt"> </span></p>
-	   </div>
-	    <div class="modal-footer">
-	      <a href="#purchase" id="purchase" style="display: none;" class="button">Check Out</a>  <!--CHANGED TO "#close"-->
-	    </div>
-    </div>
-</div>
-
-
-
 
  <?= $footer->displayString(); ?>
 

@@ -10,7 +10,7 @@ var AnguishVotePage = new function AnguishVotePage() {
 	this.isLoggedIn = false;
 	
 	/** Session Id to be passed **/
-	this.sessionId = -1;
+	this.sessionId = -2;
 
 	var instance = this;
 
@@ -36,7 +36,16 @@ var AnguishVotePage = new function AnguishVotePage() {
 
 	}
 
-
+	this._renderVoteAuths = function(data){
+							
+		var row =  create("tr");							
+							//<tr>
+								//<th class ="authcode" align="center"><strong>Auth Code</strong></td>
+								//<th class ="blank" align="center"><strong></strong></td>
+								//<th class ="status" align="center"><strong>Status</strong></td>
+								//<th class ="date" align="center"><strong>Date</strong></td>
+						    //</tr>
+	}
 	this._getVoteHistory = function () {
 
 		var url = API_ENDPOINT + "?action=getVoteHistory&sessionId=" + this.sessionId;
