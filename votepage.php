@@ -34,19 +34,19 @@ $sessionId = $ipbwi->session->session_id;
                     <p>Would you like to help us expand Anguish? There is one simple way that will reward everyone including yourself! By voting for us every day not ony helps us become more popular and drive more players into our community, but it allows YOU to benefit from the amazing rewards we have set for you! So take a moment of your time and vote for us!</p>
 					
 					<div class ="row">
-						 <div class="col-1-3">
+						 <div class="col-1-4">
 					        <h2>Rune Locus</h2>
 					      </div>
-						  <div class="col-1-3">
+						  <div class="col-1-4">
 					        <h2>Rune Server</h2>
 					      </div>
-						  <div class="col-1-3">
+						  <div class="col-1-4">
 					        <h2>TBD</h2>
 					      </div>
-						  <div class="col-1-3">
+						  <div class="col-1-4">
 					        <h2>TBD</h2>
 					      </div>
-						  <div class="col-1-3">
+						  <div class="col-1-4">
 					        <h2>TBD</h2>
 					      </div>
 					</div>
