@@ -69,8 +69,6 @@ var activeClients = {};
 
  function getMemeberId(res, sessionId){
    
-   connection.connect();
-   
     var query = connection.query('SELECT m.member_id FROM `sessions` s, `members` m where s.id = ? and s.member_id = m.member_id', [sessionId], function(err, results) {
         if (err) throw err;
         
