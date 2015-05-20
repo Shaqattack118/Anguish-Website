@@ -26,7 +26,7 @@ var AnguishVotePage = new function AnguishVotePage() {
 		this.currentPoints = points;
 		this.isLoggedIn = isLoggedIn;
 		this.sessionId = sessionId;
-		this.socket =  io.connect('http://localhost:3000');
+		this.socket =  io.connect('http://www.anguishps.com:3000');
 		var $this = this;
 		
 		/** Load Dom events **/
