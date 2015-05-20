@@ -1023,7 +1023,7 @@ ul.simple-pagination {
     
 [class*="col-"] {
   box-sizing: border-box;
-  padding: 10px;
+  padding: 5px;
   text-align: center;
   font-family: 'Trajan Pro', serif;
   font-size: 24px;
@@ -1061,5 +1061,5 @@ ul.simple-pagination {
 }
 
 .votingSites {
-    height: 175px;
+    height: 225px;
 }
