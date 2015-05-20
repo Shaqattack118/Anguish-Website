@@ -184,6 +184,14 @@ function createModal(id, classes, header, body, footer){
  				}
  });
  
- 
+ function guid() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+    s4() + '-' + s4() + s4() + s4();
+}
  
 var	INDEXED_BMT_PRODUCTS = _.indexByArray(BMT_PRODUCTS, 'id'); // index it by PRODUCTiD

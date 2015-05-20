@@ -20,13 +20,14 @@ var activeClients = {};
  */
  app.get('/', function(req, res){
     var sessionId = req.query.usr;
-    getMemeberId(res, sessionId);
+   // getMemeberId(res, sessionId);
+   createVotePin(res, sessionId);
  });
 
 /**
  *  Get a valid vote pin from our php API
  */
- function createVotePin(res, sessionId, results){
+ function createVotePin(res, sessionId){
  
     var params =  {
 		            		'action' : 'createVPin'
@@ -46,14 +47,14 @@ var activeClients = {};
  */
  function getMemeberId(res, sessionId){
    
-    var query = connection.query('SELECT m.member_id FROM `sessions` s, `members` m where s.id = ? and s.member_id = m.member_id', [sessionId], function(err, results) {
-        if (err) throw err;
+  //  var query = connection.query('SELECT m.member_id FROM `sessions` s, `members` m where s.id = ? and s.member_id = m.member_id', [sessionId], function(err, results) {
+   //     if (err) throw err;
         
-       createVotePin(res, sessionId,  results);
+     // createVotePin(res, sessionId);
 
-    });
+  //  });
     
-    handleDisconnect(connection);
+   // handleDisconnect(connection);
 
  }
 
