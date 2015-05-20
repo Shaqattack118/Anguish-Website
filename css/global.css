@@ -1009,6 +1009,7 @@ ul.simple-pagination {
 }
 /* grid */
 .row {
+      box-sizing: border-box;
   margin: 20px 20px;
   height: 100px;
 }
