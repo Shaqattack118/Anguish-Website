@@ -46,7 +46,7 @@ var activeClients = {};
  }
  
 /**
- * Get Member Id 
+ * Get Member Id so we insert for them
  */
  function getMemeberId(res, sessionId){
    
@@ -78,9 +78,7 @@ io.on('connection', function(socket){
     
     socket.sessionId =  sessionId;
     activeClients[sessionId] = socket;
-     
-     console.log("added " + sessionId);
-
+  
   });
    
   // disconnect from us 

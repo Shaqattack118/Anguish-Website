@@ -74,13 +74,25 @@ var AnguishVotePage = new function AnguishVotePage() {
 		var $this = this;
 		
 		$this.socket.emit('addMe', { 'sessionId': sessionId} );
-		
 		$this.socket.on('alert', function(data){
 			var pin = data.pin;
 			
-			alert("You have a vote pin!");
+			alert("You have received a vote pin!");
   		});
+		  
+		  $('.rl').click(function(e) { $this._handleVoteClick('rl'); });
 	}
 
+	this._handleVoteClick = function(site){
+		var $this = this;
+		
+		switch(site){
+		 case 'rl':
+			var link = 'http://www.runelocus.com/toplist/index.php?action=vote&id=41625&id2='+$this.sessionId
+			window.open(link, '_blank');
+			break;
+		}
+	}
+	
 	return AnguishVotePage;
 }
