@@ -36,7 +36,6 @@ var activeClients = {};
  *  Get a valid vote pin from our php API
  */
  function createVotePin(res, sessionId){
- 
     var params =  {
 		      	     		'action' : 'createVPin'
 	  							};
@@ -61,16 +60,15 @@ var activeClients = {};
 /**
  * Get Member Id so we insert for them
  */
- function getMemeberId(res, sessionId){
+ function getMemeberId(sessionId){
    
-  //  var query = connection.query('SELECT m.member_id FROM `sessions` s, `members` m where s.id = ? and s.member_id = m.member_id', [sessionId], function(err, results) {
-   //     if (err) throw err;
+  var query = connection.query('SELECT m.member_id FROM `sessions` s, `members` m where s.id = ? and s.member_id = m.member_id', [sessionId], function(err, results) {
+      if (err) throw err;
         
-     // createVotePin(res, sessionId);
-
-  //  });
+      console.log(JSON.stringify(results));
+    });
     
-   // handleDisconnect(connection);
+    handleDisconnect(connection);
 
  }
 
@@ -92,6 +90,14 @@ io.on('connection', function(socket){
     socket.sessionId =  sessionId;
     activeClients[sessionId] = socket;
   
+  });
+  
+  
+   socket.on('getMyData', function (data) {
+ 
+     var sessionId = socket.sessionId;
+     getMemeberId(sessionId);
+     
   });
    
   // disconnect from us 
