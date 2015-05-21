@@ -76,7 +76,9 @@ var AnguishVotePage = new function AnguishVotePage() {
 		var $this = this;
 		
 		$this.socket.emit('addMe', { 'sessionId': sessionId } );
-		$this.socket.on('alert', function(data){
+		$this.socket.on('alert', function(dataIn){
+			var data = JSON.parse(dataIn);
+			
 			var pin = data.pin;
 			
 			console.log(data);
