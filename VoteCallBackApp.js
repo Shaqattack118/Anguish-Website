@@ -33,7 +33,7 @@ var activeClients = {};
  
  app.get('*', function(req, res){
  	console.log(req.originalUrl);
-  res.redirect('https://www.anguishps.com/'+req.originalUrl);
+  res.redirect('https://www.anguishps.com'+req.originalUrl);
 });
 
 /**
