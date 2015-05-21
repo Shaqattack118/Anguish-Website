@@ -35,19 +35,31 @@ var AnguishVotePage = new function AnguishVotePage() {
 		/** Load Dom events **/
 		this.loadEvents();
 		
+		/** Get Vote  */
 		this._getVoteHistory();
 
 	}
 
+    /**
+	 * Render vote auth
+	 */
 	this._renderVoteAuths = function(data){
+		
+		var hasRedeemed = data.hasRedeemed;
+		var pin = data.pin;
+		
+		$(".votingTable").find(".noAuthRow").remove();
+		
+		var row =  create("tr");	
+		
+		row.append(create("td").attr("colspan", "2").addClass("authcode").append(pin));		
 							
-		var row =  create("tr");							
-							//<tr>
-								//<th class ="authcode" align="center"><strong>Auth Code</strong></td>
-								//<th class ="blank" align="center"><strong></strong></td>
-								//<th class ="status" align="center"><strong>Status</strong></td>
-								//<th class ="date" align="center"><strong>Date</strong></td>
-						    //</tr>
+		row.append(create("td").addClass("status").append((hasRedeemed == 0 ? 'Not Redeemed' : "Redeemed")));
+		
+		row.append(create("td").addClass("date").append(new Date().toDateString));
+		
+		$(".votingTable").append(row);
+		
 	}
 
 	this._getVoteHistory = function () {
@@ -76,14 +88,16 @@ var AnguishVotePage = new function AnguishVotePage() {
 		var $this = this;
 		
 		$this.socket.emit('addMe', { 'sessionId': sessionId } );
+		
 		$this.socket.on('alert', function(dataIn){
+			
 			var data = JSON.parse(dataIn);
-			
 			var pin = data.pin;
-			
-			console.log(data);
+
 			alert("Thank you for voting! Please \"Okay\" to continue");
-			showNotification("Success", "Your Vote Auth is <b> " + pin + "</b><br><br>If you are logged in on a forum account, you will see the vote pin under \"Your Voting Auth Codes\" <br>Happy Gaming!");
+			showNotification("Success", "Your Vote Auth is <b> " + pin + "</b><br><br>If you are logged in on a forum account, you will see the vote pin under \"Your Voting Auth Codes\" <br><br>Happy Gaming!");
+			
+			$this._renderVoteAuths(data);
 				
   		});
 		  
@@ -97,7 +111,7 @@ var AnguishVotePage = new function AnguishVotePage() {
 		var $this = this;
 		var link = "";
 		switch(site){
-			case 'rl':
+			case 'rl': // rune locus
 				 link = 'http://www.runelocus.com/toplist/index.php?action=vote&id=41625&id2='+$this.sessionId
 			break;
 		}
