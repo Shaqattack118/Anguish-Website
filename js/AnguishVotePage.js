@@ -79,6 +79,7 @@ var AnguishVotePage = new function AnguishVotePage() {
 		$this.socket.on('alert', function(data){
 			var pin = data.pin;
 			
+			console.log(data);
 			alert("Thank you for voting! Please \"Okay\" to continue");
 			showNotification("Success", "Your Vote Auth is " + pin + " <br> If you are logged in on a forum account, you will see the vote pin under your \"Vote Auths\" <br> Happy Gaming!");
 				
