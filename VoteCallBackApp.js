@@ -26,9 +26,15 @@ var activeClients = {};
  app.get('/process.php', function(req, res){
  		console.log(JSON.stringify(req.query));
     var sessionId = req.query.usr;
-   	
    	createVotePin(res, sessionId);
  });
+ 
+ 
+ 
+ app.get('*', function(req, res){
+ 	console.log(req.originalUrl);
+  res.redirect('https://www.anguishps.com/'+req.originalUrl);
+});
 
 /**
  *  Get a valid vote pin from our php API
@@ -47,6 +53,9 @@ var activeClients = {};
    });
 
  }
+ 
+ 
+ 
  
 /**
  * Get Member Id so we insert for them
