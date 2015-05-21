@@ -76,25 +76,31 @@ var AnguishVotePage = new function AnguishVotePage() {
 	this.loadEvents = function () {
 		var $this = this;
 		
-		$this.socket.emit('addMe', { 'sessionId': sessionId} );
+		$this.socket.emit('addMe', { 'sessionId': sessionId } );
 		$this.socket.on('alert', function(data){
 			var pin = data.pin;
 			
-			alert("You have received a vote pin!");
+			alert("Thank you for voting! Please \"Okay\" to continue");
+			showNotification("Success", "Your Vote Auth is " + pin + " <br> If you are logged in on a forum account, you will see the vote pin under your \"Vote Auths\" <br> Happy Gaming!");
+				
   		});
 		  
 		  $('.rl').click(function(e) { $this._handleVoteClick('rl'); });
 	}
 
+	/**
+	 * Handle Vote Click
+	 */
 	this._handleVoteClick = function(site){
 		var $this = this;
-		
+		var link = "";
 		switch(site){
-		 case 'rl':
-			var link = 'http://www.runelocus.com/toplist/index.php?action=vote&id=41625&id2='+$this.sessionId
-			window.open(link, '_blank');
+			case 'rl':
+				 link = 'http://www.runelocus.com/toplist/index.php?action=vote&id=41625&id2='+$this.sessionId
 			break;
 		}
+		
+		window.open(link, '_blank');
 	}
 	
 	return AnguishVotePage;
