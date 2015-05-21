@@ -18,7 +18,8 @@ var activeClients = {};
 /**
  *  Default route for Callback
  */
- app.get('/', function(req, res){
+ app.get('/process.php', function(req, res){
+ 		console.log(JSON.stringify(req));
     var sessionId = req.query.usr;
    // getMemeberId(res, sessionId);
    createVotePin(res, sessionId);
