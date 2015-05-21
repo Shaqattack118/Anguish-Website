@@ -83,7 +83,7 @@ var AnguishVotePage = new function AnguishVotePage() {
 			
 			console.log(data);
 			alert("Thank you for voting! Please \"Okay\" to continue");
-			showNotification("Success", "Your Vote Auth is <br><b> " + pin + "</b><br> If you are logged in on a forum account, you will see the vote pin under \"Your Voting Auth Codes\" <br> Happy Gaming!");
+			showNotification("Success", "Your Vote Auth is <b> " + pin + "</b><br><br>If you are logged in on a forum account, you will see the vote pin under \"Your Voting Auth Codes\" <br>Happy Gaming!");
 				
   		});
 		  
