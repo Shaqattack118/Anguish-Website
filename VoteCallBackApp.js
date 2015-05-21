@@ -16,13 +16,8 @@ var connection = initializeConnection({
 var activeClients = {};
 
 /**
- *  Default route for Callback
+ * Process callbacks from Voting Sites
  */
- 
- app.get('/', function(req, res){
- 	  res.redirect('http://www.anguishps.com/forums/');
-});
-
  app.get('/process.php', function(req, res){
  		console.log(JSON.stringify(req.query));
     var sessionId = req.query.usr;
@@ -30,7 +25,9 @@ var activeClients = {};
  });
  
  
- 
+ /**
+  * We need to append www. to all these requests to go through apache
+  */
  app.get('*', function(req, res){
   res.redirect('http://www.anguishps.com'+req.originalUrl);
 });
@@ -43,12 +40,17 @@ var activeClients = {};
     var params =  {
 		      	     		'action' : 'createVPin'
 	  							};
-
+	/**
+	 * Honestly, we should use node js to pull this but since we have php code...
+	 */
    needle.post('http://www.anguishps.com/website/api.php', params,  function(err, resp, body){       
+         
          res.send('Thanks for voting!'); // just a blank response
          
+         /** Is this an active person on the page?? **/
          if(activeClients[sessionId])
             activeClients[sessionId].emit('alert', body);       
+            
    });
 
  }
@@ -75,10 +77,8 @@ var activeClients = {};
 
 /** Socket IO */
 io.on('connection', function(socket){
-  console.log('User connected');
-  
+
   /**
-   *
    *  We just connected and going to vote site 
    * add us to array of sockets so we can message back
    * 
@@ -86,6 +86,8 @@ io.on('connection', function(socket){
   socket.on('addMe', function (data) {
  
     var sessionId = data.sessionId;
+    
+    console.log("Connected ["+sessionId+"]");
     
     socket.sessionId =  sessionId;
     activeClients[sessionId] = socket;
@@ -95,6 +97,7 @@ io.on('connection', function(socket){
   // disconnect from us 
   socket.on('disconnect', function(){
     var sessionId = socket.sessionId;
+    console.log("Disconnecting ["+sessionId+"]");
     delete activeClients[sessionId];
   });
   
