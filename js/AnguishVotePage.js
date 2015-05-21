@@ -68,8 +68,7 @@ var AnguishVotePage = new function AnguishVotePage() {
 
 	}
 	
-	
-	
+
 	/**
 	 * load events 
 	 */
