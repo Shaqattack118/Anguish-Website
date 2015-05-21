@@ -35,10 +35,9 @@ var activeClients = {};
 	  };
 
    needle.post('http://www.anguishps.com/website/api.php', params,  function(err, resp, body){       
+         res.send('Thanks for voting!'); // just a blank response
          if(activeClients[sessionId])
             activeClients[sessionId].emit('alert', body);       
-          
-         res.send('Thanks for voting!'); // just a blank response
    });
 
  }
