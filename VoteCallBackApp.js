@@ -20,8 +20,9 @@ var activeClients = {};
  */
  
  app.get('/', function(req, res){
- 	  res.redirect('/forums');
+ 	  res.redirect('http://www.anguishps.com/forums/');
 });
+
  app.get('/process.php', function(req, res){
  		console.log(JSON.stringify(req.query));
     var sessionId = req.query.usr;
