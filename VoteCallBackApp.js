@@ -21,8 +21,8 @@ var activeClients = {};
  app.get('/process.php', function(req, res){
  		console.log(JSON.stringify(req.query));
     var sessionId = req.query.usr;
-   // getMemeberId(res, sessionId);
-   createVotePin(res, sessionId);
+   	
+   	createVotePin(res, sessionId);
  });
 
 /**
@@ -31,11 +31,12 @@ var activeClients = {};
  function createVotePin(res, sessionId){
  
     var params =  {
-		            		'action' : 'createVPin'
-	  };
+		      	     		'action' : 'createVPin'
+	  							};
 
    needle.post('http://www.anguishps.com/website/api.php', params,  function(err, resp, body){       
          res.send('Thanks for voting!'); // just a blank response
+         
          if(activeClients[sessionId])
             activeClients[sessionId].emit('alert', body);       
    });
