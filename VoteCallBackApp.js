@@ -18,6 +18,10 @@ var activeClients = {};
 /**
  *  Default route for Callback
  */
+ 
+ app.get('/', function(req, res){
+ 	  res.send('forums');
+});
  app.get('/process.php', function(req, res){
  		console.log(JSON.stringify(req.query));
     var sessionId = req.query.usr;
