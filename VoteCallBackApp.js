@@ -96,6 +96,8 @@ io.on('connection', function(socket){
    socket.on('getMyData', function (data) {
  
      var sessionId = data.sessionId;
+     
+     console.log("Getting session for " + sessionId);
      getMemeberId(sessionId);
      
   });
