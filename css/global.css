@@ -1060,3 +1060,7 @@ ul.simple-pagination {
 .votingSites {
     height: 225px;
 }
+
+td.authcode {
+    text-align: left;
+}
