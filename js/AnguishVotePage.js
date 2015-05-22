@@ -77,7 +77,8 @@ var AnguishVotePage = new function AnguishVotePage() {
 
 			var data = JSON.parse(r);
 			var trans = _.sortBy(data, "generateDate").reverse(); // sort by boughtdate
-
+			
+			console.log(trans);
 		};
 
 		$.get(url, callback);
@@ -95,8 +96,7 @@ var AnguishVotePage = new function AnguishVotePage() {
 		$this.socket.emit('getMyData', { 'sessionId': sessionId } );
 		
 		$this.socket.on('myDataReturn',  function(dataIn){
-			console.log(dataIn);
-			$this._renderVoteAuths(dataIn);
+			$this._renderVoteAuths(JSON.parse(dataIn));
 		});
 		
 		$this.socket.on('alert', function(dataIn){
