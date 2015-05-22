@@ -99,6 +99,7 @@ var AnguishVotePage = new function AnguishVotePage() {
 		$this.socket.emit('getMyData', { 'sessionId': sessionId } );
 		
 		$this.socket.on('myDataReturn',  function(dataIn){
+			console.log(dataIn);
 			var data = JSON.parse(dataIn);
 			
 		});
