@@ -216,6 +216,7 @@ table.donationTable{
 table.votingTable{
 	position: relative;
 	left: 10%;
+    margin-bottom: 5%;
 	top: 30px;
 }
 
