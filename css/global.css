@@ -221,9 +221,6 @@ table.votingTable{
 
 table.votingTable2{
 	position: relative;
-	top: 55px;
-    float: left;
-    margin-left: 40px;
 }
 
 td, th {
