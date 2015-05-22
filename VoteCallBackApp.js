@@ -12,6 +12,18 @@ var connection = initializeConnection({
 });
 
 
+connection.config.queryFormat = function (query, values) {
+  if (!values) return query;
+  return query.replace(/\:(\w+)/g, function (txt, key) {
+    if (values.hasOwnProperty(key)) {
+      return this.escape(values[key]);
+    }
+    return txt;
+  }.bind(this));
+};
+
+
+
 /** Current clients **/
 var activeClients = {};
 
@@ -54,17 +66,30 @@ var activeClients = {};
 
  }
  
+ function savePinToUser(pin, site, memberId){
+    connection.query("INSERT INTO forums.vote_history(`memberId`, `site`, `pin`) VALUES (:memberId, :site, :pin)", { "memberId" : memberId,  "site" : site, "pin": pin} );
+ }
  
- 
+ /**
+  * Insert Pin
+  */
+  function insertPin(pin){
+     connection.query("INSERT INTO testDB.donation_pins(`pin`, `hasRedeemed`, `generateDate`, `type`)  VALUES (:pin,0,sysdate(3), 3)", { "pin": pin });
+  }
  
 /**
  * Get Member Id so we insert for them
  */
  function getMemeberId(sessionId){
    
-  var query = connection.query('SELECT m.member_id FROM `sessions` s, `members` m where s.id = ? and s.member_id = m.member_id', [sessionId], function(err, results) {
+    connection.query('SELECT m.member_id FROM `sessions` s, `members` m where s.id = ? and s.member_id = m.member_id', [sessionId], function(err, results) {
+     
       if (err) throw err;
         
+        /** TODO: 
+         * CHECK IF RESULTS IS EMPTY, IF IT IS THEN THIS USER IS NOT LOGGED IN SO WE CAN JUST
+         * STATE THAT IN OUR RETURN DATA 
+         */
       console.log(JSON.stringify(results));
     });
     
