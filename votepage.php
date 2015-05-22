@@ -71,9 +71,8 @@ $sessionId = $ipbwi->session->session_id;
             </tr>
 					</table>
 
-          
-          
-          	<table class ="contentArea votingTable2">
+      
+          	<table class ="contentArea votingTable">
 						<tr>
 							<td colspan=2 class="tableHeading">Votes By Site</td>
 						</tr>
