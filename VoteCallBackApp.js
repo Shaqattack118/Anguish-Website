@@ -66,6 +66,16 @@ var activeClients = {};
 
  }
  
+ function getMyData(memberId, callback){
+ 
+    connection.query('SELECT dp.pin, site, hasRedeemed, generateDate FROM forums.vote_history vh, testDB.donation_pins dp WHERE vh.pin = dp.pin and vh.memberId = :memberId ', { "memberId" : memberId }, function(err, results) {
+
+      if (err) throw err;    
+       callback(results);
+    });
+    
+ }
+ 
  function savePinToUser(pin, site, memberId){
     connection.query("INSERT INTO forums.vote_history(`memberId`, `site`, `pin`) VALUES (:memberId, :site, :pin)", { "memberId" : memberId,  "site" : site, "pin": pin} );
  }
@@ -80,17 +90,12 @@ var activeClients = {};
 /**
  * Get Member Id so we insert for them
  */
- function getMemeberId(sessionId){
+ function getMemeberId(sessionId, callback){
    
-    connection.query('SELECT m.member_id FROM `sessions` s, `members` m where s.id = ? and s.member_id = m.member_id', [sessionId], function(err, results) {
+    connection.query('SELECT m.member_id FROM `sessions` s, `members` m where s.id = :sessionId and s.member_id = m.member_id', { "sessionId" : sessionId}, function(err, results) {
      
-      if (err) throw err;
-        
-        /** TODO: 
-         * CHECK IF RESULTS IS EMPTY, IF IT IS THEN THIS USER IS NOT LOGGED IN SO WE CAN JUST
-         * STATE THAT IN OUR RETURN DATA 
-         */
-      console.log(JSON.stringify(results));
+      if (err) throw err;    
+       callback(results);
     });
     
     handleDisconnect(connection);
@@ -123,7 +128,21 @@ io.on('connection', function(socket){
      var sessionId = data.sessionId;
      
      console.log("Getting session for " + sessionId);
-     getMemeberId(sessionId);
+      
+      getMemeberId(sessionId, function(results){
+        
+        /** User was logged in, lets  add  */
+        if(results.length != 0){
+      
+          var memberId = results[0]["member_id"];
+          
+          getMyData(memberId, function(data){
+                   console.log(JSON.stringify(data));
+          });
+      
+        } 
+       console.log(JSON.stringify(results));
+     });
      
   });
    
