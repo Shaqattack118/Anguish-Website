@@ -1064,3 +1064,8 @@ ul.simple-pagination {
 td.authcode {
     text-align: left;
 }
+
+
+.voteBox {
+   width: 275px;    
+}
