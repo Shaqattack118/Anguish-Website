@@ -92,7 +92,11 @@ var activeClients = {};
  }
  
  function savePinToUser(pin, site, memberId){
-    connection.query("INSERT INTO forums.vote_history(`memberId`, `site`, `pin`) VALUES (:memberId, :site, :pin)", { "memberId" : memberId,  "site" : site, "pin": pin} );
+    connection.query("INSERT INTO forums.vote_history(`memberId`, `site`, `pin`) VALUES (:memberId, :site, :pin)", { "memberId" : memberId,  "site" : site, "pin": pin},function(err, results) {
+
+      if (err) throw err;    
+    );
+    console.log("saved");
  }
  
  /**
