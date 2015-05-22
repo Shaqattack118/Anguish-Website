@@ -56,7 +56,7 @@ $sessionId = $ipbwi->session->session_id;
                         <h2 class="title">Voting Prizes</h2>
                     </header>
 	         <p>Any time you vote for us, you will gain an auth code that can be redeemed in-game . Any codes you have recieved will be listed here, along with the current status and available ingame points.</p>
-					<table class ="contentArea votingTable">
+					<table class ="contentArea votingTable auths">
 						<tr>
 							<td colspan=4 class="tableHeading">Your Voting Auth Codes</td>
 						</tr>

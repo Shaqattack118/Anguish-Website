@@ -42,7 +42,7 @@ var AnguishVotePage = new function AnguishVotePage() {
 	 */
 	this._renderVoteAuths = function(data){
 		
-		$(".votingTable").find(".noAuthRow").remove();
+		$(".votingTable.auths").find(".noAuthRow").remove();
 		
 		_.each(data, function(obj){
 			
@@ -58,7 +58,7 @@ var AnguishVotePage = new function AnguishVotePage() {
 				
 			row.append(create("td").addClass("date").append(date));
 				
-			$(".votingTable").append(row);
+			$(".votingTable.auths").append(row);
 		});
 
 		
