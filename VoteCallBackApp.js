@@ -68,7 +68,7 @@ var activeClients = {};
  
  function getMyData(memberId, callback){
  
-    connection.query('SELECT dp.pin, site, hasRedeemed, date_format(generateDate,\'%Y-%m-%dT%T\') FROM forums.vote_history vh, testDB.donation_pins dp WHERE vh.pin = dp.pin and vh.memberId = :memberId ', { "memberId" : memberId }, function(err, results) {
+    connection.query('SELECT dp.pin, site, hasRedeemed, dp.generateDate FROM forums.vote_history vh, testDB.donation_pins dp WHERE vh.pin = dp.pin and vh.memberId = :memberId ', { "memberId" : memberId }, function(err, results) {
 
       if (err) throw err;    
        callback(results);

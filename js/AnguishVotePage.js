@@ -77,8 +77,7 @@ var AnguishVotePage = new function AnguishVotePage() {
 
 			var data = JSON.parse(r);
 			var trans = _.sortBy(data, "generateDate").reverse(); // sort by boughtdate
-			
-			console.log(trans);
+
 		};
 
 		$.get(url, callback);
