@@ -124,7 +124,7 @@ $sessionId = $ipbwi->session->session_id;
 
             </div>
 			<aside class="right-container">
-				  <div class="box">
+				  <div class="box voteBox">
                     <header>
 					<?php
 					if($isLoggedIn){  
