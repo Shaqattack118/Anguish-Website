@@ -64,6 +64,7 @@ var activeClients = {};
       
             var memberId = results[0]["member_id"];
             
+            console.log(JSON.stringify(body));
               savePinToUser(body.pin, 'runelocus', memberId);
           
            }
