@@ -25,7 +25,7 @@ var AnguishVotePage = new function AnguishVotePage() {
 
 		this.currentPoints = points;
 		this.isLoggedIn = isLoggedIn;
-		if(!isLoggedIn)
+		if(!this.isLoggedIn)
 			sessionId = guid();
 			
 		this.sessionId = sessionId;
@@ -50,15 +50,23 @@ var AnguishVotePage = new function AnguishVotePage() {
 		
 		$(".votingTable").find(".noAuthRow").remove();
 		
-		var row =  create("tr");	
+		_.each(data, function(obj){
+			
+			var pin = obj.pin;
+			var hasRedeemed = obj.hasRedeemed;
+			var date = obj.generateDate;
+			
+			var row =  create("tr");	
 		
-		row.append(create("td").attr("colspan", "2").addClass("authcode").append(pin));		
-							
-		row.append(create("td").addClass("status").append((hasRedeemed == 0 ? 'Not Redeemed' : "Redeemed")));
-		
-		row.append(create("td").addClass("date").append(new Date().getTime()));
-		
-		$(".votingTable").append(row);
+			row.append(create("td").attr("colspan", "2").addClass("authcode").append(pin));		
+									
+			row.append(create("td").addClass("status").append((hasRedeemed == 0 ? 'Not Redeemed' : "Redeemed")));
+				
+			row.append(create("td").addClass("date").append(new Date(date).getTime()));
+				
+			$(".votingTable").append(row);
+		});
+
 		
 	}
 
@@ -89,6 +97,11 @@ var AnguishVotePage = new function AnguishVotePage() {
 		
 		$this.socket.emit('addMe', { 'sessionId': sessionId } );
 		$this.socket.emit('getMyData', { 'sessionId': sessionId } );
+		
+		$this.socket.on('myDataReturn',  function(dataIn){
+			var data = JSON.parse(dataIn);
+			
+		});
 		
 		$this.socket.on('alert', function(dataIn){
 			
