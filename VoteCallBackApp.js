@@ -59,7 +59,8 @@ var activeClients = {};
          res.send('Thanks for voting!'); // just a blank response
          
           getMemeberId(sessionId, function(results){
-        
+        		
+        		console.log(results);
         /** User was logged in, lets get out data  */
         if(results.length != 0){
       
