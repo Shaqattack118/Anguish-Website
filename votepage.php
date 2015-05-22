@@ -124,10 +124,21 @@ $sessionId = $ipbwi->session->session_id;
 
             </div>
 			<aside class="right-container">
-                <div class="button-links">
-                    <a class="checkPin">Check Vote Auth</a>  
-                	  <a class="checkPin">Trade Vote Auth</a>                   
-                </div>
+				  <div class="box">
+                    <header>
+					<?php
+					if($isLoggedIn){  
+						echo "<h2 class= \"storePanel\">Logged in as ".$userInfo['name']."</h2>";
+					} else {
+						echo "<h2 class= \"storePanel\">Logged in as Guest </h2>";
+						}
+						?>
+					</header>
+	                <div class="button-links">
+	                    <a class="checkPin">Check Vote Auth</a>  
+	                	<a class="checkPin">Trade Vote Auth</a>                   
+	                </div>
+				</div>
             </aside>
 		</div>
     
