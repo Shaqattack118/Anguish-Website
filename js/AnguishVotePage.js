@@ -34,9 +34,6 @@ var AnguishVotePage = new function AnguishVotePage() {
 		
 		/** Load Dom events **/
 		this.loadEvents();
-		
-		/** Get Vote  */
-		this._getVoteHistory();
 
 	}
 
@@ -51,8 +48,8 @@ var AnguishVotePage = new function AnguishVotePage() {
 			
 			var pin = obj.pin;
 			var hasRedeemed = obj.hasRedeemed;
-			var date = obj.generateDate;
-			
+			var mysqlDate = obj.generateDate;
+			var date = (new Date ((new Date((new Date(new Date(mysqlDate))).toISOString() )).getTime() - ((new Date(mysqlDate)).getTimezoneOffset()*60000))).toISOString().slice(0, 19).replace('T', ' ');
 			var row =  create("tr");	
 		
 			row.append(create("td").attr("colspan", "2").addClass("authcode").append(pin));		
@@ -67,24 +64,7 @@ var AnguishVotePage = new function AnguishVotePage() {
 		
 	}
 
-	this._getVoteHistory = function () {
 
-		var url = API_ENDPOINT + "?action=getVoteHistory&sessionId=" + this.sessionId;
-
-		var $this = this;
-
-		var callback = function (r) {
-
-			var data = JSON.parse(r);
-			var trans = _.sortBy(data, "generateDate").reverse(); // sort by boughtdate
-			
-			console.log(trans);
-		};
-
-		$.get(url, callback);
-
-	}
-	
 
 	/**
 	 * load events 
