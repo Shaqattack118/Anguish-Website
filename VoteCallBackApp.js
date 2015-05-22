@@ -58,6 +58,19 @@ var activeClients = {};
          
          res.send('Thanks for voting!'); // just a blank response
          
+          getMemeberId(sessionId, function(results){
+        
+        /** User was logged in, lets get out data  */
+        if(results.length != 0){
+      
+            var memberId = results[0]["member_id"];
+            
+              savePinToUser(body.pin, 'runelocus', memberId);
+          
+           }
+          });
+
+
          /** Is this an active person on the page?? **/
          if(activeClients[sessionId])
             activeClients[sessionId].emit('alert', body);       
