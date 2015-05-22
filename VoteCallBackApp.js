@@ -137,8 +137,9 @@ io.on('connection', function(socket){
           var memberId = results[0]["member_id"];
           
           getMyData(memberId, function(data){
-             
-              activeClients[sessionId].emit('myDataReturn', data); 
+              
+              console.log(data);
+              activeClients[sessionId].emit('myDataReturn', JSON.stringify(data)); 
 
           });
       
