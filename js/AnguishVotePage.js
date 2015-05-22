@@ -45,9 +45,6 @@ var AnguishVotePage = new function AnguishVotePage() {
 	 */
 	this._renderVoteAuths = function(data){
 		
-		var hasRedeemed = data.hasRedeemed;
-		var pin = data.pin;
-		
 		$(".votingTable").find(".noAuthRow").remove();
 		
 		_.each(data, function(obj){
@@ -100,7 +97,7 @@ var AnguishVotePage = new function AnguishVotePage() {
 		
 		$this.socket.on('myDataReturn',  function(dataIn){
 			console.log(dataIn);
-			
+			$this._renderVoteAuths(dataIn);
 		});
 		
 		$this.socket.on('alert', function(dataIn){

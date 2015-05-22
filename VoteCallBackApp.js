@@ -131,16 +131,14 @@ io.on('connection', function(socket){
       
       getMemeberId(sessionId, function(results){
         
-        /** User was logged in, lets  add  */
+        /** User was logged in, lets get out data  */
         if(results.length != 0){
       
           var memberId = results[0]["member_id"];
           
           getMyData(memberId, function(data){
-              
-              console.log(data);
+              /** Return voting data to Client  */
               activeClients[sessionId].emit('myDataReturn', JSON.stringify(data)); 
-
           });
       
         } 
