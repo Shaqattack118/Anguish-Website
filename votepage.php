@@ -109,16 +109,14 @@ $sessionId = $ipbwi->session->session_id;
 				  <div class="box voteBox">
                     <header>
 					<?php
-					if($isLoggedIn){  
-						echo "<h2 class= \"storePanel\">Logged in as ".$userInfo['name']."</h2>";
-					} else {
-						echo "<h2 class= \"storePanel\">Logged in as Guest </h2>";
+						if($isLoggedIn){  
+							echo "<h2 class= \"storePanel\">Logged in as ".$userInfo['name']."</h2>";
+						} else {
+							echo "<h2 class= \"storePanel\">Logged in as Guest </h2>";
 						}
-						?>
+					?>
 					</header>
-					      
-      
-        <table class ="contentArea votingTable2">
+      				 <table class ="contentArea votingTable2">
 						<tr>
 							<td colspan=2 class="tableHeading">Your Statistics</td>
 						</tr>
@@ -126,11 +124,11 @@ $sessionId = $ipbwi->session->session_id;
 							<td class ="name" align="center"><strong>Total Votes</strong></td>
 							<td class ="val" align="center"><strong>0</strong></td>
 						</tr>
-            <tr>
+				         <tr>
 							<td class ="name" align="center"><strong>Vote Points</strong></td>
 							<td class ="val" align="center"><strong>0</strong></td>
 						</tr>
-            <tr>
+        			    <tr>
 							<td class ="name" align="center"><strong>Overall Voting Rank</strong></td>
 							<td class ="val" align="center"><strong>0</strong></td>
 						</tr>
@@ -174,7 +172,7 @@ $sessionId = $ipbwi->session->session_id;
 	
 	var isLoggedIn = <?=  (empty($isLoggedIn) ? "false" : $isLoggedIn)  ?>;
 	var currentVotePoints = <?= (empty($userInfo['vote_points_current']) ? 0 : $userInfo['vote_points_current']) ?>;
-	var sessionId = '<?=  (empty($sessionId) ?  -1 : $sessionId) ?>';
+	var sessionId = '<?=  (empty($isLoggedIn) ?  -1 : $sessionId) ?>';
 	AnguishVotePage.getInstance().init(isLoggedIn, sessionId, currentVotePoints);
 </script>
 </body>
