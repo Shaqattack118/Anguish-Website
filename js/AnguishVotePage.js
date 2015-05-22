@@ -56,7 +56,7 @@ var AnguishVotePage = new function AnguishVotePage() {
 									
 			row.append(create("td").addClass("status").append((hasRedeemed == 0 ? 'Not Redeemed' : "Redeemed")));
 				
-			row.append(create("td").addClass("date").append(new Date(date)));
+			row.append(create("td").addClass("date").append(date));
 				
 			$(".votingTable").append(row);
 		});
