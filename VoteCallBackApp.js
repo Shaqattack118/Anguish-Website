@@ -55,12 +55,10 @@ var activeClients = {};
 	 * Honestly, we should use node js to pull this but since we have php code...
 	 */
    needle.post('http://www.anguishps.com/website/api.php', params,  function(err, resp, body){       
-         
-         res.send('Thanks for voting!'); // just a blank response
+
          
           getMemeberId(sessionId, function(results){
-        		
-        		console.log(results);
+        		console.log(JSON.stringify(results));
         /** User was logged in, lets get out data  */
         if(results.length != 0){
       
@@ -71,10 +69,13 @@ var activeClients = {};
            }
           });
 
-
+         
+         res.send('Thanks for voting!'); // just a blank response
+         
          /** Is this an active person on the page?? **/
          if(activeClients[sessionId])
             activeClients[sessionId].emit('alert', body);       
+            
             
    });
 
