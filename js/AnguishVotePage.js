@@ -25,7 +25,7 @@ var AnguishVotePage = new function AnguishVotePage() {
 
 		this.currentPoints = points;
 		this.isLoggedIn = isLoggedIn;
-		if(sessionId == -1)
+		if(!isLoggedIn)
 			sessionId = guid();
 			
 		this.sessionId = sessionId;
