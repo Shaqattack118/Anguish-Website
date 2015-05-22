@@ -70,25 +70,7 @@ $sessionId = $ipbwi->session->session_id;
               <td colspan=4 class="noAuthDate">No Auth Codes yet! :(</td>
             </tr>
 					</table>
-      
-      
-        <table class ="contentArea votingTable2">
-						<tr>
-							<td colspan=2 class="tableHeading">Your Statistics</td>
-						</tr>
-						<tr>
-							<td class ="name" align="center"><strong>Total Votes</strong></td>
-							<td class ="val" align="center"><strong>0</strong></td>
-						</tr>
-            <tr>
-							<td class ="name" align="center"><strong>Vote Points</strong></td>
-							<td class ="val" align="center"><strong>0</strong></td>
-						</tr>
-            <tr>
-							<td class ="name" align="center"><strong>Overall Voting Rank</strong></td>
-							<td class ="val" align="center"><strong>0</strong></td>
-						</tr>
-					</table>
+
           
           
           	<table class ="contentArea votingTable2">
@@ -134,10 +116,25 @@ $sessionId = $ipbwi->session->session_id;
 						}
 						?>
 					</header>
-	                <div class="button-links">
-	                    <a class="checkPin">Check Vote Auth</a>  
-	                	<a class="checkPin">Trade Vote Auth</a>                   
-	                </div>
+					      
+      
+        <table class ="contentArea votingTable2">
+						<tr>
+							<td colspan=2 class="tableHeading">Your Statistics</td>
+						</tr>
+						<tr>
+							<td class ="name" align="center"><strong>Total Votes</strong></td>
+							<td class ="val" align="center"><strong>0</strong></td>
+						</tr>
+            <tr>
+							<td class ="name" align="center"><strong>Vote Points</strong></td>
+							<td class ="val" align="center"><strong>0</strong></td>
+						</tr>
+            <tr>
+							<td class ="name" align="center"><strong>Overall Voting Rank</strong></td>
+							<td class ="val" align="center"><strong>0</strong></td>
+						</tr>
+					</table>
 				</div>
             </aside>
 		</div>
